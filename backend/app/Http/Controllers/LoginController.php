@@ -21,14 +21,14 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome_completo' => 'required|string|max:200',
-            'data_de_nascimento' => 'required|date',
+            'name' => 'required|string|max:200',
+            'dateOfBirth' => 'required|date',
             'cpf' => 'required|string|max:14|unique:login,cpf',
             'email' => 'required|string|email|max:200|unique:login,email',
         ]);
 
         Login::create($request->all());
-        return redirect()->route('logins.index');
+        return response()->json("LOgin feito", 201);
     }
 
     public function show($id)

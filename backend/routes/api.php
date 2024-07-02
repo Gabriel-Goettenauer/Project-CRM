@@ -23,8 +23,8 @@ use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\LoginController;
 
 Route::get('/logins', [LoginController::class, 'index'])->name('logins.index');
-Route::get('/logins/create', [LoginController::class, 'create'])->name('logins.create');
-Route::post('/logins', [LoginController::class, 'store'])->name('logins.store');
+Route::post('/logins/create', [LoginController::class, 'create'])->name('logins.create');
+Route::post('/register', [LoginController::class, 'store'])->name('logins.store');
 Route::get('/logins/{id}', [LoginController::class, 'show'])->name('logins.show');
 Route::get('/logins/{id}/edit', [LoginController::class, 'edit'])->name('logins.edit');
 Route::put('/logins/{id}', [LoginController::class, 'update'])->name('logins.update');
