@@ -29,3 +29,8 @@ Route::get('/logins/{id}', [LoginController::class, 'show'])->name('logins.show'
 Route::get('/logins/{id}/edit', [LoginController::class, 'edit'])->name('logins.edit');
 Route::put('/logins/{id}', [LoginController::class, 'update'])->name('logins.update');
 Route::delete('/logins/{id}', [LoginController::class, 'destroy'])->name('logins.destroy');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

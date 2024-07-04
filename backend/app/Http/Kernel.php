@@ -22,7 +22,14 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
+    use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
+    'api' => [
+        EnsureFrontendRequestsAreStateful::class,
+        'throttle:api',
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
+    
     /**
      * The application's route middleware groups.
      *
