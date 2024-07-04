@@ -28,7 +28,7 @@ class LoginController extends Controller
         ]);
 
         Login::create($request->all());
-        return response()->json("LOgin feito", 201);
+        return response()->json("Login feito com sucesso", 201);
     }
 
     public function show($id)
