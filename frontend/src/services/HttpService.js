@@ -6,5 +6,9 @@ const HttpService = axios.create({
     "Content-type": "application/json",
   },
 });
-
+// export const getMostPopular = async () => {
+//   return await HttpService.get('top/anime?limit=5&filter=bypopularity')
+export const postUser = async(user) =>{
+  return await HttpService.post('/logins/create',user)
+}
 export default HttpService;

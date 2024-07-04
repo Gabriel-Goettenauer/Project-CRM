@@ -18,10 +18,9 @@ export default{
 
 <style scoped>
 .main{
-  background: url(@/assets/images/background-image.webp) no-repeat;
+  background: url(@/assets/images/Background-image.webp) no-repeat;
   background-size: cover;
   background-position: center center;
   height: 100vh;
-  /* width: 100%; */
 }
 </style>

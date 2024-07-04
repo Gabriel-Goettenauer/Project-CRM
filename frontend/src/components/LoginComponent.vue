@@ -1,9 +1,9 @@
 <template>
     <div class="Card">
-        <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Acessar</h1>
+        <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Login</h1>
         <div class="Formulario">
-            <label class="pt-3 pb-2">Nome Completo</label>
-            <input class="form-control" type="text" placeholder="Digite seu nome completo">
+            <label class="pt-3 pb-2">E-mail</label>
+            <input class="form-control" type="email" placeholder="Digite seu e-mail">
             <label class="pt-3 pb-2">Senha</label>
             <input class="form-control" type="password" placeholder="Digite sua senha">
         </div>
