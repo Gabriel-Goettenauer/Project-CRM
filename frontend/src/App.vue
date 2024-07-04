@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view/>:
+    <router-view/>
   </div>
 </template>
 
@@ -21,6 +21,7 @@
   font-family: 'CerebriSansProBold';
   src: url('@/assets/fonts/CerebriSansPro-Bold.ttf');
 }
+
 /* ==================================================== */
 @font-face{
   font-family: 'RandomGrotesqueSpaciousBold';
@@ -33,5 +34,13 @@
 @font-face{
   font-family: 'RandomGrotesqueSpaciousMedium';
   src: url('@/assets/fonts/RG-SpaciousMedium.ttf');
+}
+@font-face{
+  font-family: 'RandomGrotesqueStandardLight';
+  src: url('@/assets/fonts/RG-StandardLight.ttf');
+}
+@font-face{
+  font-family: 'RandomGrotesqueStandardMedium';
+  src: url('@/assets/fonts/RG-StandardMedium.ttf');
 }
 </style>

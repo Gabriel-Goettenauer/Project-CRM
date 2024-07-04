@@ -16,7 +16,7 @@
             <input class="form-control" type="password" placeholder="Digite sua senha novamente">
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button class="btn" type="button" >Registrar</button>
+            <button class="btn" type="button">Registrar</button>
         </div>
         <div class="d-flex justify-content-center p-4">
             <p>Já tem uma conta ?</p>
@@ -33,6 +33,7 @@
 
 <style scoped>
 .Card{
+    margin: 46px;
     background-color: #F9FAFC;
     width:540px;
     height: 853px;
@@ -75,16 +76,16 @@ button:hover{
     color: #FFFFFF;
 }
 p{
-    font-family: 'RandomGrotesqueSpaciousLight';
+    font-family: 'RandomGrotesqueStandardLight';
     color: #000000;
-    font-size:16px
+    font-size: 20px;
 }
 .Login{
-    font-family: 'RandomGrotesqueSpaciousMedium';
+    font-family: 'RandomGrotesqueStandardMedium';
     color: #000000;
 }
 .Login:hover{
     transition: 0.5s;
-    font-size:18px;
+    font-size:25px;
 }
 </style>

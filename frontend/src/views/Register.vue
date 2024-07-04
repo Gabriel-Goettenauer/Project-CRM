@@ -1,7 +1,9 @@
 <template>
-  <div class="main d-flex justify-content-center">
-    <RegisterComponent/>
+<div>
+  <div class="main z-0 d-flex align-items-center justify-content-center">
+  <RegisterComponent/>
   </div>
+</div>
 </template>
 
 <script>
@@ -15,5 +17,11 @@ export default{
 </script>
 
 <style scoped>
-
+.main{
+  background: url(@/assets/images/background-image.webp) no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100vh;
+  /* width: 100%; */
+}
 </style>
