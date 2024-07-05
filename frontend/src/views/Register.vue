@@ -1,13 +1,13 @@
 <template>
-<div>
-  <div class="main z-0 d-flex align-items-center justify-content-center">
-  <RegisterComponent/>
+  <div>
+    <div class="main z-0 d-flex align-items-center justify-content-center">
+      <RegisterComponent/>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
-import RegisterComponent from '../components/RegisterComponent.vue';
+import RegisterComponent from '@/components/RegisterComponent.vue';
 export default{
   name:"RegisterView",
   components:{
@@ -22,6 +22,5 @@ export default{
   background-size: cover;
   background-position: center center;
   height: 100vh;
-  /* width: 100%; */
 }
 </style>

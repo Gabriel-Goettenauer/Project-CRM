@@ -15,6 +15,18 @@ const router = createRouter({
       component: () => import("@/views/Login.vue"),
       meta: { title: "Acesso" },
     },
+    {
+      path: '/reset_password',
+      name: 'Recuperar Senha',
+      component: () => import("@/views/ResetPassword.vue"),
+      meta: { title: "Recuperar Senha" },
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: () => import("@/views/Dashboard.vue"),
+      meta: { title: "Dashboard" },
+    },
   ]
 })
 

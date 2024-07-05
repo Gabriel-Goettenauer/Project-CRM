@@ -12,10 +12,9 @@
             <input class="data form-control" type="date" placeholder="DD/MM/AAAAA" v-model="formData.dateOfBirth">
             <label class="pt-3 pb-2">Senha</label>
             <div class="input-group mb-3">
-                <input :type="passwordFieldType" class="form-control" id="confirm-password" placeholder="Digite sua senha novamente" 
-                v-model="formData.confirmPassword"/>
-                <span class="input-group-text" id="basic-addon1" @click="togglePasswordVisibility"><img src="@/assets/svg/eye.svg">
-                </img></span>
+                <input :type="type" class="form-control" id="confirm-password" placeholder="Digite sua senha novamente" 
+                v-model="formData.password"/>
+                <span class="input-group-text" id="basic-addon1" @click="showPassword()"><i :class="eyeType"></i></span>
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
@@ -23,47 +22,44 @@
         </div>
         <div class="d-flex justify-content-center p-4">
             <p>Já tem uma conta ?</p>
-            <p class="Login px-3"><a>Login</a></p>
+            <p class="Login px-3"><router-link to="/login">Login</router-link></p>
         </div>
     </div>
 </template>
 
 <script>
-    import { postUser } from '@/services/HttpService';
-import PasswordRevealing from '@/components/PasswordRevealing.vue';
+import { postUser } from '@/services/HttpService';
 
-    export default {
-    components: { PasswordRevealing },
-        name:"RegisterComponent",
-        data(){
-            return{
-                formData:{
-                    name:'',
-                    phone:'',
-                    email:'',
-                    dateOfBirth:'',
-                    password:''
-                },
-                showPassword: false,
+export default {
+    name:"RegisterComponent",
+    data(){
+        return{
+            formData:{
+                name:'',
+                phone:'',
+                email:'',
+                dateOfBirth:'',
+                password:''
+            },
+            type: 'password',
+            eyeType: 'bi bi-eye-fill'
+        }
+    },
+    methods:{
+        async postFormRegister(){
+            await postUser(this.formData)
+            console.log(postFormRegister);
+        },
+        showPassword() {
+            if(this.type === 'password') {
+                this.type = 'text'
+                this.eyeType = 'bi bi-eye-slash-fill'
+            } else {
+                this.type = 'password'
+                this.eyeType= 'bi bi-eye-fill'
             }
-        },
-        computed: {
-            passwordFieldType() {
-                return this.showPassword ? 'text' : 'password';
-            },
-            eyeIcon() {
-                return this.showPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
-            },
-        },
-        methods:{
-            async postFormRegister(){
-                await postUser(this.formData)
-                console.log(postFormRegister);
-            },
-            togglePasswordVisibility() {
-                this.showPassword = !this.showPassword;
-            },
-    }
+        }
+    },
 }
 </script>
 
@@ -126,5 +122,6 @@ p{
 .Login:hover{
     transition: 0.5s;
     color: #2336C7;
+    font-size: 21px;
 }
 </style>

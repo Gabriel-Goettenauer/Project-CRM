@@ -1,32 +1,25 @@
 <template>
     <div class="Card">
-        <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Login</h1>
-        <div class="Formulario">
+        <h1 class="d-flex justify-content-center mt-5 pb-2">Recuperar Senha</h1>
+        <div class="Formulario mb-4">
             <label class="pt-3 pb-2">E-mail</label>
             <input class="form-control" type="email" placeholder="Digite seu e-mail">
             <label class="pt-3 pb-2">Senha</label>
-            <div class="input-group  mb-3">
+            <div class="input-group mb-3">
                 <input :type="type" class="form-control" id="confirm-password" placeholder="Digite sua senha" 
                 v-model="formData.password"/>
                 <span class="input-group-text" id="basic-addon1" @click="showPassword()"><i :class="eyeType"></i></span>
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button class="btn" type="button">Entrar</button>
-        </div>
-        <div class="d-flex justify-content-center mt-4">
-        <p class="forgotpassword"><router-link to="/reset_password">Esqueceu sua senha ?</router-link></p>
-        </div>
-        <div class="d-flex justify-content-center ">
-            <p>É novo por aqui?</p>
-            <p class="Cadastrese px-3"><router-link to="/register">Cadastra-se</router-link></p>
+            <button class="btn mt-2" type="button">Recuperar Senha</button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name:"LoginComponent",
+        name:"ResetPasswordComponent",
         data(){
             return{
                 formData:{
@@ -56,7 +49,7 @@
     margin: 46px;
     background-color: #F9FAFC;
     width:541px;
-    height: 543px;
+    height: 443px;
     border-radius: 24px;
     border: 1px solid #E1E9F4;
 }
@@ -70,7 +63,7 @@ label{
 }
 h1{
     font-family: 'RandomGrotesqueSpaciousBold';
-    font-size: 40px;
+    font-size: 33px;
     color:#1B1B2B;
 }
 input{
@@ -112,5 +105,6 @@ p{
 .Cadastrese:hover{
     transition: 0.5s;
     font-size:21px;
+    -webkit-transition: font-size   21px;
 }
 </style>
