@@ -29,8 +29,17 @@ Route::get('/logins/{id}', [LoginController::class, 'show'])->name('logins.show'
 Route::get('/logins/{id}/edit', [LoginController::class, 'edit'])->name('logins.edit');
 Route::put('/logins/{id}', [LoginController::class, 'update'])->name('logins.update');
 Route::delete('/logins/{id}', [LoginController::class, 'destroy'])->name('logins.destroy');
+
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('password/reset', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [PasswordController::class, 'reset'])->name('password.update');
+Route::post('password/update', [PasswordController::class, 'update'])->middleware('auth')->name('password.update.authenticated');
