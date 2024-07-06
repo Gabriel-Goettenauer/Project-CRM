@@ -1,57 +1,46 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <main>
-    <RouterView />
-  </main>
+  <div>
+    <router-view/>
+  </div>
 </template>
 
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
+<script setup>
+</script>
+
+<style>
+
+@font-face {
+    font-family: 'CerebriSansProRegular';
+    src: url('@/assets/fonts/CerebriSansPro-Regular.ttf');
+}
+@font-face{
+  font-family: 'CerebriSansProLight';
+  src: url('@/assets/fonts/CerebriSansPro-Light.ttf');
+}
+@font-face{
+  font-family: 'CerebriSansProBold';
+  src: url('@/assets/fonts/CerebriSansPro-Bold.ttf');
 }
 
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
+/* ==================================================== */
+@font-face{
+  font-family: 'RandomGrotesqueSpaciousBold';
+  src: url('@/assets/fonts/RG-SpaciousBold.ttf');
 }
-
-.wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+@font-face{
+  font-family: 'RandomGrotesqueSpaciousLight';
+  src: url('@/assets/fonts/RG-SpaciousLight.ttf');
 }
-
-nav {
-  display: flex;
-  gap: 20px;
+@font-face{
+  font-family: 'RandomGrotesqueSpaciousMedium';
+  src: url('@/assets/fonts/RG-SpaciousMedium.ttf');
 }
-
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  width: 100%;
+@font-face{
+  font-family: 'RandomGrotesqueStandardLight';
+  src: url('@/assets/fonts/RG-StandardLight.ttf');
 }
-
+@font-face{
+  font-family: 'RandomGrotesqueStandardMedium';
+  src: url('@/assets/fonts/RG-StandardMedium.ttf');
+}
 </style>

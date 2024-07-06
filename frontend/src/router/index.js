@@ -1,31 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-      meta: {
-        title: 'Home'
-      }
+      path: '/register',
+      name: 'Cadastro',
+      component: () => import("@/views/Register.vue"),
+      meta: { title: "Registrar-se"},
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-      meta: {
-        title: 'About'
-      }
-    }
+      path: '/login',
+      name: 'Acesso',
+      component: () => import("@/views/Login.vue"),
+      meta: { title: "Acesso" },
+    },
+    {
+      path: '/reset_password',
+      name: 'Recuperar Senha',
+      component: () => import("@/views/ResetPassword.vue"),
+      meta: { title: "Recuperar Senha" },
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: () => import("@/views/Dashboard.vue"),
+      meta: { title: "Dashboard" },
+    },
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title;
+  document.title = to.meta.title || "Vue";
   next();
 });
 
-export default router
+export default router;
