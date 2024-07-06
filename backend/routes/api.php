@@ -20,10 +20,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 use App\Http\Controllers\PersonalAccessTokenController;
 
-Route::get('/personal-access-tokens', [PersonalAccessTokenController::class, 'index'])->name('personalAccessTokens.index');
-Route::get('/personal-access-tokens/create', [PersonalAccessTokenController::class, 'create'])->name('personalAccessTokens.create');
-Route::post('/personal-access-tokens', [PersonalAccessTokenController::class, 'store'])->name('personalAccessTokens.store');
-Route::get('/personal-access-tokens/{id}', [PersonalAccessTokenController::class, 'show'])->name('personalAccessTokens.show');
-Route::get('/personal-access-tokens/{id}/edit', [PersonalAccessTokenController::class, 'edit'])->name('personalAccessTokens.edit');
-Route::put('/personal-access-tokens/{id}', [PersonalAccessTokenController::class, 'update'])->name('personalAccessTokens.update');
-Route::delete('/personal-access-tokens/{id}', [PersonalAccessTokenController::class, 'destroy'])->name('personalAccessTokens.destroy');
+use App\Http\Controllers\LoginController;
+
+Route::get('/logins', [LoginController::class, 'index'])->name('logins.index');
+Route::post('/logins/create', [LoginController::class, 'create'])->name('logins.create');
+Route::post('/register', [LoginController::class, 'store'])->name('logins.store');
+Route::get('/logins/{id}', [LoginController::class, 'show'])->name('logins.show');
+Route::get('/logins/{id}/edit', [LoginController::class, 'edit'])->name('logins.edit');
+Route::put('/logins/{id}', [LoginController::class, 'update'])->name('logins.update');
+Route::delete('/logins/{id}', [LoginController::class, 'destroy'])->name('logins.destroy');
+
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+
+Route::get('password/reset', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [PasswordController::class, 'reset'])->name('password.update');
+Route::post('password/update', [PasswordController::class, 'update'])->middleware('auth')->name('password.update.authenticated');
