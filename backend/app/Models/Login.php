@@ -15,5 +15,6 @@ class Login extends Model
         'dateOfBirth',
         'cpf',
         'email',
+        'password',
     ];
 }

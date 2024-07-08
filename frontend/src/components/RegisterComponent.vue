@@ -1,5 +1,8 @@
 <template>
     <div class="Card">
+        <pre>
+            {{ formData }}
+        </pre>
         <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Cadastro</h1>
         <div class="Formulario">
             <label class="pt-3 pb-2">Nome Completo</label>
@@ -18,7 +21,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button class="btn" type="submit">Registrar</button>
+            <button class="btn" type="submit" @click="postFormRegister()">Registrar</button>
         </div>
         <div class="d-flex justify-content-center p-4">
             <p>Já tem uma conta ?</p>

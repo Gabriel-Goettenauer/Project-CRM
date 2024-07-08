@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PersonalAccessTokenController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,26 +21,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-use App\Http\Controllers\PersonalAccessTokenController;
-
-use App\Http\Controllers\LoginController;
-
-Route::get('/logins', [LoginController::class, 'index'])->name('logins.index');
-Route::post('/logins/create', [LoginController::class, 'create'])->name('logins.create');
-Route::post('/register', [LoginController::class, 'store'])->name('logins.store');
-Route::get('/logins/{id}', [LoginController::class, 'show'])->name('logins.show');
-Route::get('/logins/{id}/edit', [LoginController::class, 'edit'])->name('logins.edit');
-Route::put('/logins/{id}', [LoginController::class, 'update'])->name('logins.update');
-Route::delete('/logins/{id}', [LoginController::class, 'destroy'])->name('logins.destroy');
-
-
+//AuthCrontroller
+Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-
+//PasswordController
 Route::get('password/reset', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
