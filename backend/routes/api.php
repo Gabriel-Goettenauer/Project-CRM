@@ -3,9 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\PersonalAccessTokenController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
