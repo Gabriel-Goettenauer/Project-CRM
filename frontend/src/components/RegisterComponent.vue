@@ -1,8 +1,8 @@
 <template>
-    <div class="Card">
         <pre>
             {{ formData }}
         </pre>
+    <div class="Card">
         <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Cadastro</h1>
         <div class="Formulario">
             <label class="pt-3 pb-2">Nome Completo</label>
@@ -50,19 +50,32 @@ export default {
     },
     methods:{
         async postFormRegister(){
-            await postUser(this.formData)
-            console.log(postFormRegister);
-        },
-        showPassword() {
-            if(this.type === 'password') {
-                this.type = 'text'
-                this.eyeType = 'bi bi-eye-slash-fill'
-            } else {
-                this.type = 'password'
-                this.eyeType= 'bi bi-eye-fill'
+            try {
+                const response = await postUser(this.formData);
+                if (response.status === 201) {
+                    alert('Cadastro feito com Sucesso');
+                    this.formData = {};
+                    this.errors = {};
+                    this.$router.push({ name: 'Login' });  
+                }
+            } catch (error) {
+                if (error.response && error.response.data.errors) {
+                    this.errors = error.response.data.errors;
+                } else {
+                    alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
+                }
             }
+            // showPassword(){
+            //     if (this.type === 'password') {
+            //         this.type = 'text';
+            //         this.eyeType = 'bi bi-eye-slash-fill';
+            //     } else {
+            //         this.type = 'password';
+            //         this.eyeType = 'bi bi-eye-fill';
+            //     }
+            // }
         }
-    },
+    }
 }
 </script>
 

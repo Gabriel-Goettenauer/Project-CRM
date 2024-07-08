@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
-use App\Models\login;
+
+use App\Models\Login;
 
 class AuthController extends Controller
 {
@@ -22,29 +22,20 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
+        $credentials = $request;
+        Auth::attempt($credentials);
         
-        $validator = Validator::make($request->all(), [
-            'name'      => 'required|string|max:255',
-            'email'     => 'required|string|max:255|unique:login',
-            'password'  => 'required|string'
-        ]);
-        
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
 
         $user = Login::create([
             'name'      => $request->name,
             'email'     => $request->email,
+            'phone'     => $request->phone,
+            'dateOfBirth'=>$request->dateOfBirth,
             'password'  => Hash::make($request->password)
         ]);
 
+
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json([
-        'data'          => $user,
-        'access_token'  => $token,
-        'token_type'    => 'Bearer'
-        ]);
 
         $currentDate = now()->toDateTimeString();
         return response()->json([
@@ -55,15 +46,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email'     => 'required|string|max:255',
-            'password'  => 'required|string'
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
         ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
 
-        $credentials    =   $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
         if (! Auth::attempt($credentials)) {
             return response()->json(['message' => 'User not found'], 401);
