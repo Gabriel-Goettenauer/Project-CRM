@@ -7,21 +7,20 @@ use App\Models\Funnel;
 
 class FunnelController extends Controller
 {
-    // List all funnels
+
     public function index()
     {
         $funnels = Funnel::all();
         return response()->json($funnels);
     }
 
-    // Store a new funnel
     public function store(Request $request)
     {
         $funnel = Funnel::create($request->all());
         return response()->json($funnel, 201);
     }
 
-    // Show a specific funnel
+
     public function show($id)
     {
         $funnel = Funnel::findOrFail($id);
