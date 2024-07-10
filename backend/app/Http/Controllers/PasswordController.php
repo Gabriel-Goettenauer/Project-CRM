@@ -10,9 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class PasswordController extends Controller
 {
-    /**
-     * Display the form to request a password reset link.
-     */
+  
     public function showLinkRequestForm()
     {
         return view('auth.passwords.email');

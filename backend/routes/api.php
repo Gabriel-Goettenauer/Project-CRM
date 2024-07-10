@@ -43,3 +43,10 @@ Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])
 Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [PasswordController::class, 'reset'])->name('password.update');
 Route::post('password/update', [PasswordController::class, 'update'])->middleware('auth')->name('password.update.authenticated');
+
+
+Route::get('/funnels', [FunnelController::class, 'index'])->name('funnels.index');
+Route::post('/funnels', [FunnelController::class, 'store'])->name('funnels.store');
+Route::get('/funnels/{id}', [FunnelController::class, 'show'])->name('funnels.show');
+Route::put('/funnels/{id}', [FunnelController::class, 'update'])->name('funnels.update');
+Route::delete('/funnels/{id}', [FunnelController::class, 'destroy'])->name('funnels.destroy');
