@@ -8,32 +8,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\Login;
+use App\Models\User;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        $messages = [
+            'phone.unique' => 'O telefone já está em uso.',
+            'email.unique' => 'O email já está em uso.',
+        ];
+
         $request->validate([
             'name' => 'required|string',
-            'phone' => 'required|numeric',
-            'email' => 'required|email',
+            'phone' => 'required|string|unique:users,phone',
+            'email' => 'required|email|unique:users,email',
             'dateOfBirth' => 'required|date',
             'password' => 'required|string'
-        ]);
-
-        $credentials = $request;
-        Auth::attempt($credentials);
-        
-
-        $user = Login::create([
+        ],$messages);
+    
+        $user = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
             'phone'     => $request->phone,
             'dateOfBirth'=>$request->dateOfBirth,
             'password'  => Hash::make($request->password)
         ]);
-
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -53,11 +53,11 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (! Auth::attempt($credentials)) {
-            return response()->json(['message' => 'User not found'], 401);
+        if (!Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Usuario Não Encontrado'], 401);
         }
 
-        $user   = Login::where('email', $request->email)->firstOrFail();
+        $user   = User::where('email', $request->email)->firstOrFail();
         $token  = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([

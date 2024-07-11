@@ -26,10 +26,3 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
-
-//PasswordController
-Route::get('password/reset', [PasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('password/email', [PasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('password/reset/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('password/reset', [PasswordController::class, 'reset'])->name('password.update');
-Route::post('password/update', [PasswordController::class, 'update'])->middleware('auth')->name('password.update.authenticated');

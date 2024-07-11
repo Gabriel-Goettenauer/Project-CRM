@@ -38,15 +38,18 @@
             }
         },
         methods:{
+            postFormLogin(){
+                
+            },
             showPassword() {
-            if(this.type === 'password') {
-                this.type = 'text'
-                this.eyeType = 'bi bi-eye-slash-fill'
-            } else {
-                this.type = 'password'
-                this.eyeType= 'bi bi-eye-fill'
+                if(this.type === 'password') {
+                    this.type = 'text'
+                    this.eyeType = 'bi bi-eye-slash-fill'
+                } else {
+                    this.type = 'password'
+                    this.eyeType= 'bi bi-eye-fill'
+                }
             }
-        }
         }
     }
 </script>

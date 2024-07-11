@@ -1,8 +1,9 @@
 <template>
-        <pre>
-            {{ formData }}
-        </pre>
+<div>
     <div class="Card">
+        <!-- <pre>
+            {{ formData }}
+        </pre> -->
         <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Cadastro</h1>
         <div class="Formulario">
             <label class="pt-3 pb-2">Nome Completo</label>
@@ -28,6 +29,7 @@
             <p class="Login px-3"><router-link to="/login">Login</router-link></p>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -61,19 +63,31 @@ export default {
             } catch (error) {
                 if (error.response && error.response.data.errors) {
                     this.errors = error.response.data.errors;
+        
+                    let errorMessage = '';
+
+                    if (this.errors.email) {
+                        errorMessage = 'Email já está em uso';
+                    } else if (this.errors.phone) {
+                        errorMessage = 'Telefone já está em uso';
+                    } else {
+                        errorMessage = 'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.';
+                    }
+                
+                    alert(errorMessage);
                 } else {
                     alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');
                 }
             }
-            // showPassword(){
-            //     if (this.type === 'password') {
-            //         this.type = 'text';
-            //         this.eyeType = 'bi bi-eye-slash-fill';
-            //     } else {
-            //         this.type = 'password';
-            //         this.eyeType = 'bi bi-eye-fill';
-            //     }
-            // }
+        },
+        showPassword(){
+            if (this.type === 'password') {
+                this.type = 'text';
+                this.eyeType = 'bi bi-eye-slash-fill';
+            } else {
+                this.type = 'password';
+                this.eyeType = 'bi bi-eye-fill';
+            }
         }
     }
 }
