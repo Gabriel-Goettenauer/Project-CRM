@@ -20,6 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/funnels', [FunnelController::class, 'index'])->name('funnels.index');
+Route::post('/funnels', [FunnelController::class, 'store'])->name('funnels.store');
+Route::get('/funnels/{id}', [FunnelController::class, 'show'])->name('funnels.show');
+Route::put('/funnels/{id}', [FunnelController::class, 'update'])->name('funnels.update');
+Route::delete('/funnels/{id}', [FunnelController::class, 'destroy'])->name('funnels.destroy');
+
 //AuthCrontroller
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
