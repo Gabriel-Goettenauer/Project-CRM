@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FunnelController; // Importar FunnelController
+use App\Http\Controllers\AuthController; 
 
-use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\PasswordController;
 /*
 |--------------------------------------------------------------------------
