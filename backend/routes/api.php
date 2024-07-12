@@ -30,3 +30,4 @@ Route::post('/funnels', [FunnelController::class, 'store'])->name('funnels.store
 Route::get('/funnels/{id}', [FunnelController::class, 'show'])->name('funnels.show');
 Route::put('/funnels/{id}', [FunnelController::class, 'update'])->name('funnels.update');
 Route::delete('/funnels/{id}', [FunnelController::class, 'destroy'])->name('funnels.destroy');
+Route::get('/funnels/{id}/details', [FunnelController::class, 'showFunnelDetails']);

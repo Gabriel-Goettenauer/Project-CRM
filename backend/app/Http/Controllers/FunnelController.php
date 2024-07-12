@@ -7,7 +7,6 @@ use App\Models\Funnel;
 
 class FunnelController extends Controller
 {
-
     public function index()
     {
         $funnels = Funnel::all();
@@ -20,13 +19,11 @@ class FunnelController extends Controller
         return response()->json($funnel, 201);
     }
 
-
     public function show($id)
     {
         $funnel = Funnel::findOrFail($id);
         return response()->json($funnel);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -40,5 +37,12 @@ class FunnelController extends Controller
         $funnel = Funnel::findOrFail($id);
         $funnel->delete();
         return response()->json(null, 204);
+    }
+
+    // Método criado para obter as etapas e contatos de um funil específico(dar commit)
+    public function showFunnelDetails($id)
+    {
+        $funnel = Funnel::with('stages.contacts')->findOrFail($id);
+        return response()->json($funnel);
     }
 }
