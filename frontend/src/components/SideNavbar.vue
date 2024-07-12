@@ -87,7 +87,7 @@ export default {
 
 .img{
     width: auto;
-    background-color: #FFBD00;
+    background-color: #FFFF;
 }
 
 .brand{
