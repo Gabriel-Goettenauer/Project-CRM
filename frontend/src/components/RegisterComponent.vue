@@ -58,7 +58,7 @@ export default {
                     alert('Cadastro feito com Sucesso');
                     this.formData = {};
                     this.errors = {};
-                    this.$router.push({ name: 'Login' });  
+                    // this.$router.push({ name: 'Login' });  
                 }
             } catch (error) {
                 if (error.response && error.response.data.errors) {
