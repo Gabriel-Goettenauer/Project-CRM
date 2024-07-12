@@ -6753,6 +6753,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.27"
             },
             "funding": [
@@ -6769,7 +6770,9 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2024-07-10T11:48:06+00:00"
+
         },
         {
             "name": "sebastian/cli-parser",
