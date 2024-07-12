@@ -26,9 +26,13 @@ Route::get('/funnels/{id}', [FunnelController::class, 'show'])->name('funnels.sh
 Route::put('/funnels/{id}', [FunnelController::class, 'update'])->name('funnels.update');
 Route::delete('/funnels/{id}', [FunnelController::class, 'destroy'])->name('funnels.destroy');
 
+Route::get('/funnels/{id}/details', [FunnelController::class, 'showFunnelDetails']);
+
+
 //AuthCrontroller
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
