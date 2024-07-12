@@ -5,7 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Funnel extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'description'
+    ];
 
     public function stages()
     {
