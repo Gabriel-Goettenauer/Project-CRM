@@ -11,4 +11,7 @@ const HttpService = axios.create({
 export const postUser = async(user) =>{
   return await HttpService.post('register',user)
 }
+export const postLogin = async(user) =>{
+  return await HttpService.post('login',user)
+}
 export default HttpService;
