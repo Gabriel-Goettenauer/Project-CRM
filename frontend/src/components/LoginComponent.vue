@@ -21,9 +21,9 @@
             <p>É novo por aqui?</p>
             <p class="Cadastrese px-3"><router-link to="/register">Cadastra-se</router-link></p>
         </div>
-        <pre>
+        <!-- <pre>
             {{ formData }}
-        </pre>
+        </pre> -->
     </div>
 </template>
 
@@ -49,11 +49,27 @@ import { mapActions } from 'vuex';
             async postFormLogin(){
                 try {
                     const response = await postLogin(this.formData);
-                    const token = response.data.token;
+                    const token = response.data.access_token;
                     this.setToken(token);
+                    localStorage.setItem('token', token);
                     this.$router.push('/dashboard');
                 } catch (error) {
-                    console.error('Login failed:', error);
+                    if (error.response && error.response.data.errors) {
+                        this.errors = error.response.data.errors;
+            
+                        let errorMessage = '';
+
+                        if (this.errors.email) {
+                            errorMessage = 'E-mail Incorreto';
+                        } else if (this.errors.senha) {
+                            errorMessage = 'Senha Incorreta';
+                        } else {
+                            errorMessage = 'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.';
+                        }
+                        alert(errorMessage);
+                } else {
+                    alert('Ocorreu um erro ao tentar realizar o login. Tente novamente.');
+                }
                 }
                 console.log(token);
             },

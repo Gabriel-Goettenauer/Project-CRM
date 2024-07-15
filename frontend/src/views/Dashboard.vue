@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <SideNavbar/>
-        <h1 class="px-5">Dashboard</h1>
+        <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
         <DashboardFunis/>
     </div>
 </template>
