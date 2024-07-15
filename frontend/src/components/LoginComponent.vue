@@ -29,6 +29,7 @@
 
 <script>
 import { postLogin } from '@/services/HttpService';
+import { mapActions } from 'vuex';
 
     export default {
         name:"LoginComponent",
@@ -43,11 +44,18 @@ import { postLogin } from '@/services/HttpService';
             }
         },
         methods:{
+            ...mapActions(['setToken']),
+            
             async postFormLogin(){
-                const response = await postLogin(this.formData);
-                if(response.status === 200){
+                try {
+                    const response = await postLogin(this.formData);
+                    const token = response.data.token;
+                    this.setToken(token);
                     this.$router.push('/dashboard');
+                } catch (error) {
+                    console.error('Login failed:', error);
                 }
+                console.log(token);
             },
             showPassword() {
                 if(this.type === 'password') {
