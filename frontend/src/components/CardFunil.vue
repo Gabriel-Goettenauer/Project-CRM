@@ -21,13 +21,16 @@ export default {
 
     data(){
         return{
-            funnels:{}
+            funnels:{
+            }
         }
     },
     methods:{
         async getInfo(){
             try{
                 const funnels = await getFunnels();
+                // name = response.name;
+                // description = response.description;
                 if (funnels && funnels.length > 0) {
                     this.funnel = funnels[0]; // Supondo que você pegue o primeiro funil da lista
                 }
