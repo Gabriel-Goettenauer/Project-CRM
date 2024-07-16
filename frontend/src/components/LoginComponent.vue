@@ -53,6 +53,7 @@ import { mapActions } from 'vuex';
                     this.setToken(token);
                     localStorage.setItem('token', token);
                     this.$router.push('/dashboard');
+
                 } catch (error) {
                     if (error.response && error.response.data.errors) {
                         this.errors = error.response.data.errors;

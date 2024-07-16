@@ -1,6 +1,7 @@
 <template>
-    <div class="main">
+    <div class="main d-inline-flex flex-wrap justify-content-start m-4">
         <CardFunil/>
+        <button type="button" class="btn btn-lg">Primary</button>
     </div>
 </template>
 
@@ -15,8 +16,5 @@ export default {
 }
 </script>
 
-<style >
-    main{
-        background-color: #05357e;
-    }
+<style scoped>
 </style>
