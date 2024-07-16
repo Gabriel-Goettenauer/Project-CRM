@@ -6,12 +6,16 @@ const HttpService = axios.create({
     "Content-type": "application/json",
   },
 });
-// export const getMostPopular = async () => {
-//   return await HttpService.get('top/anime?limit=5&filter=bypopularity')
 export const postUser = async(user) =>{
   return await HttpService.post('register',user)
 }
 export const postLogin = async(user) =>{
   return await HttpService.post('login',user)
+}
+export const getFunnels = async() =>{
+  return await HttpService.get('funnels')
+}
+export const postFunnels = async(funnel) =>{
+  return await HttpService.post('funnels')
 }
 export default HttpService;
