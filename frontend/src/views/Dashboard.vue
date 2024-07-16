@@ -1,7 +1,9 @@
 <template>
     <div class="main">
         <SideNavbar/>
-        <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
+        <div> 
+            <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
+        </div>
         <DashboardFunis/>
     </div>
 </template>
@@ -24,7 +26,6 @@ export default {
         margin-left: 72px;
         background-color: red;
         /* background-color: #F9FAFC; */
-        height: auto;
     }
 
     h1{
