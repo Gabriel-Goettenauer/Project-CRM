@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main-dash">
         <SideNavbar/>
         <div> 
             <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
@@ -22,10 +22,10 @@ export default {
 </script>
 
 <style scoped>
-    .main{
+    .main-dash{
         margin-left: 72px;
-        background-color: red;
-        /* background-color: #F9FAFC; */
+        height: 100vh;
+        background-color: #F9FAFC;
     }
 
     h1{
