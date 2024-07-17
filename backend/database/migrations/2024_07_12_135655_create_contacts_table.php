@@ -12,6 +12,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
+            $table->string('phone');
+            $table->string('cpf')->unique();
+            $table->date('date_of_birth');
+            $table->decimal('value', 10, 2);
             $table->unsignedBigInteger('stage_id');
             $table->foreign('stage_id')->references('id')->on('stages')->onDelete('cascade');
             $table->timestamps();

@@ -1,14 +1,20 @@
 <?php 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    protected $fillable = ['name', 'email', 'stage_id'];
+    use HasFactory;
 
-    public function stage()
-    {
-        return $this->belongsTo(Stage::class);
-    }
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'cpf',
+        'date_of_birth',
+        'value',
+        'stage_id',
+    ];
 }

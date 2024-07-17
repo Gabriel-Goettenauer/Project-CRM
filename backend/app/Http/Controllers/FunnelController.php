@@ -9,7 +9,8 @@ class FunnelController extends Controller
 {
     public function index()
     {
-        $funnels = Funnel::all();
+        // Paginação de 15 registros por página
+        $funnels = Funnel::paginate(15);
         return response()->json($funnels);
     }
 
@@ -39,10 +40,13 @@ class FunnelController extends Controller
         return response()->json(null, 204);
     }
 
-    // Método criado para obter as etapas e contatos de um funil específico
+
     public function showFunnelDetails($id)
     {
-        $funnel = Funnel::with('stages.contacts')->findOrFail($id);
+        $funnel = Funnel::with(['stages' => function ($query) {
+            $query->paginate(15); // Paginação de 15 registros por página
+        }, 'stages.contacts'])->findOrFail($id);
+
         return response()->json($funnel);
     }
 }
