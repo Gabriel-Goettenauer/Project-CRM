@@ -3,19 +3,42 @@
         <div class="card m-3" style="width: 18rem;">
             <div class="card-body">
                 <div class="d-flex justify-content-between card-info">
-                    <h5 class="card-title">Card title</h5>
-                    <i class="bi bi-trash-fill" @click="s"></i>
+                    <h5 class="card-title">{{ funnel.name }}</h5>
+                    <i class="bi bi-trash-fill"></i>
                 </div>
 
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">{{ funnel.description }}</p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { getFunnels } from '@/services/HttpService';
+
 export default {
     name: 'CardFunil',
+
+    data(){
+        return{
+            funnels:{
+            }
+        }
+    },
+    methods:{
+        async getInfo(){
+            try{
+                const funnels = await getFunnels();
+                // name = response.name;
+                // description = response.description;
+                if (funnels && funnels.length > 0) {
+                    this.funnel = funnels[0]; // Supondo que você pegue o primeiro funil da lista
+                }
+            } catch (error) {
+                console.error('Error fetching funnels:', error);
+            }
+        }
+    }
 }
 </script>
 

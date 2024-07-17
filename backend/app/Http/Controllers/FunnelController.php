@@ -39,7 +39,7 @@ class FunnelController extends Controller
         return response()->json(null, 204);
     }
 
-    // Método criado para obter as etapas e contatos de um funil específico(dar commit)
+    // Método criado para obter as etapas e contatos de um funil específico
     public function showFunnelDetails($id)
     {
         $funnel = Funnel::with('stages.contacts')->findOrFail($id);
