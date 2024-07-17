@@ -8,6 +8,19 @@
 </script>
 
 <style>
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #F9FAFC;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #FFBD00;
+  border-radius: 20px;
+  border: 3px solid #FFFFFF
+}
 
 @font-face {
     font-family: 'CerebriSansProRegular';
