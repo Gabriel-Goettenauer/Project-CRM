@@ -10,27 +10,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Funnels
 Route::get('/funnels', [FunnelController::class, 'index'])->name('funnels.index');
 Route::post('/funnels', [FunnelController::class, 'store'])->name('funnels.store');
 Route::get('/funnels/{id}', [FunnelController::class, 'show'])->name('funnels.show');
 Route::put('/funnels/{id}', [FunnelController::class, 'update'])->name('funnels.update');
 Route::delete('/funnels/{id}', [FunnelController::class, 'destroy'])->name('funnels.destroy');
-
 Route::get('/funnels/{id}/details', [FunnelController::class, 'showFunnelDetails']);
 
 
 //AuthCrontroller
-Route::post('/register',[AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
-
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot-password');
+Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('auth.reset-password');
 
 
+//Contacts
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
