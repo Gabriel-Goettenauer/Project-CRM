@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Services\ContactService;
 
 class ContactController extends Controller
 {
+    protected $contactService;
+
+    public function __construct(ContactService $contactService)
+    {
+        $this->contactService = $contactService;
+    }
+
     public function index()
     {
-        $contacts = Contact::all();
+        $contacts = $this->contactService->getAll();
         return view('contacts.index', compact('contacts'));
     }
 
@@ -30,20 +37,20 @@ class ContactController extends Controller
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        Contact::create($request->all());
+        $this->contactService->create($request->all());
 
         return redirect()->route('contacts.index');
     }
 
     public function show($id)
     {
-        $contact = Contact::findOrFail($id);
+        $contact = $this->contactService->getById($id);
         return view('contacts.show', compact('contact'));
     }
 
     public function edit($id)
     {
-        $contact = Contact::findOrFail($id);
+        $contact = $this->contactService->getById($id);
         return view('contacts.edit', compact('contact'));
     }
 
@@ -59,16 +66,14 @@ class ContactController extends Controller
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $contact = Contact::findOrFail($id);
-        $contact->update($request->all());
+        $this->contactService->update($id, $request->all());
 
         return redirect()->route('contacts.index');
     }
 
     public function destroy($id)
     {
-        $contact = Contact::findOrFail($id);
-        $contact->delete();
+        $this->contactService->delete($id);
 
         return redirect()->route('contacts.index');
     }
