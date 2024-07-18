@@ -21,6 +21,9 @@
                     <div class="modal-body d-flex justify-content-center">
                         <p>Tem certeza que deseja excluir esse funil?</p>
                     </div>
+                    <pre>
+                        {{ this.card.id }}  
+                    </pre>
                     <div class="modal-footer d-flex justify-content-center">
                         <button type="button" class="btn cancel btn-lg" data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn delete btn-lg">Deletar</button>
