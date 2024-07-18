@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('cpf')->unique();
+            $table->string('address');
             $table->date('date_of_birth');
             $table->decimal('value', 10, 2);
             $table->unsignedBigInteger('stage_id');

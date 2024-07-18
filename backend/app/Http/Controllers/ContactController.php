@@ -16,65 +16,53 @@ class ContactController extends Controller
 
     public function index()
     {
-        $contacts = $this->contactService->getAll();
-        return view('contacts.index', compact('contacts'));
-    }
-
-    public function create()
-    {
-        return view('contacts.create');
+        $contacts = $this->contactService->getAllContacts();
+        return response()->json($contacts);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:150',
-            'email' => 'required|string|email|max:150|unique:contacts,email',
-            'phone' => 'required|string|max:15',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:20',
             'cpf' => 'required|string|max:14|unique:contacts,cpf',
             'date_of_birth' => 'required|date',
             'value' => 'required|numeric',
+            'address' => 'required|string|max:255', // Validação do campo de endereço
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $this->contactService->create($request->all());
-
-        return redirect()->route('contacts.index');
+        $contact = $this->contactService->createContact($request->all());
+        return response()->json($contact, 201);
     }
 
     public function show($id)
     {
-        $contact = $this->contactService->getById($id);
-        return view('contacts.show', compact('contact'));
-    }
-
-    public function edit($id)
-    {
-        $contact = $this->contactService->getById($id);
-        return view('contacts.edit', compact('contact'));
+        $contact = $this->contactService->getContactById($id);
+        return response()->json($contact);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:150',
-            'email' => 'required|string|email|max:150|unique:contacts,email,' . $id,
-            'phone' => 'required|string|max:15',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:20',
             'cpf' => 'required|string|max:14|unique:contacts,cpf,' . $id,
             'date_of_birth' => 'required|date',
             'value' => 'required|numeric',
+            'address' => 'required|string|max:255', // Validação do campo de endereço
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $this->contactService->update($id, $request->all());
-
-        return redirect()->route('contacts.index');
+        $contact = $this->contactService->updateContact($id, $request->all());
+        return response()->json($contact);
     }
 
     public function destroy($id)
     {
-        $this->contactService->delete($id);
-
-        return redirect()->route('contacts.index');
+        $this->contactService->deleteContact($id);
+        return response()->json(null, 204);
     }
 }

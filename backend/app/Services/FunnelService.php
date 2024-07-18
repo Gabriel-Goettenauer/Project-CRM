@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\FunnelRepository;
 use App\Models\Funnel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FunnelService
@@ -15,9 +16,9 @@ class FunnelService
         $this->funnelRepository = $funnelRepository;
     }
 
-    public function getAllFunnels($perPage = 15)
+    public function getAllFunnels($perPage = 15): Collection
     {
-        return $this->funnelRepository->getAll($perPage);
+        return $this->funnelRepository->getAll();
     }
 
     public function createFunnel(array $data): Funnel
@@ -43,5 +44,10 @@ class FunnelService
     public function getFunnelDetails($id, $perPage = 15)
     {
         return $this->funnelRepository->getFunnelDetails($id, $perPage);
+    }
+
+    public function searchFunnelsByName($name, $perPage = 15): Collection
+    {
+        return $this->funnelRepository->searchByName($name);
     }
 }

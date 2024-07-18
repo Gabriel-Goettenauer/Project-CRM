@@ -3,32 +3,40 @@
 namespace App\Repositories;
 
 use App\Models\Contact;
+use Illuminate\Database\Eloquent\Collection;
 
 class ContactRepository
 {
-    public function create(array $data)
+    public function getAll(): Collection
+    {
+        return Contact::all();
+    }
+
+    public function create(array $data): Contact
     {
         return Contact::create($data);
     }
 
-    public function update(Contact $contact, array $data)
-    {
-        $contact->update($data);
-        return $contact;
-    }
-
-    public function delete(Contact $contact)
-    {
-        $contact->delete();
-    }
-
-    public function findById($id)
+    public function findById($id): Contact
     {
         return Contact::findOrFail($id);
     }
 
-    public function getAll()
+    public function update($id, array $data): Contact
     {
-        return Contact::all();
+        $contact = $this->findById($id);
+        $contact->update($data);
+        return $contact;
+    }
+
+    public function delete($id): void
+    {
+        $contact = $this->findById($id);
+        $contact->delete();
+    }
+
+    public function searchByName($name): Collection
+    {
+        return Contact::where('name', 'like', "%$name%")->get();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ContactRepository;
+use App\Models\Contact;
 
 class ContactService
 {
@@ -13,30 +14,28 @@ class ContactService
         $this->contactRepository = $contactRepository;
     }
 
-    public function create(array $data)
-    {
-        return $this->contactRepository->create($data);
-    }
-
-    public function update($id, array $data)
-    {
-        $contact = $this->contactRepository->findById($id);
-        return $this->contactRepository->update($contact, $data);
-    }
-
-    public function delete($id)
-    {
-        $contact = $this->contactRepository->findById($id);
-        $this->contactRepository->delete($contact);
-    }
-
-    public function getAll()
+    public function getAllContacts($perPage = 15)
     {
         return $this->contactRepository->getAll();
     }
 
-    public function getById($id)
+    public function createContact(array $data): Contact
+    {
+        return $this->contactRepository->create($data);
+    }
+
+    public function getContactById($id): Contact
     {
         return $this->contactRepository->findById($id);
+    }
+
+    public function updateContact($id, array $data): Contact
+    {
+        return $this->contactRepository->update($id, $data);
+    }
+
+    public function deleteContact($id): void
+    {
+        $this->contactRepository->delete($id);
     }
 }

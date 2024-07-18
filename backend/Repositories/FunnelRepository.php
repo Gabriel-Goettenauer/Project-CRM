@@ -3,12 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Funnel;
+use Illuminate\Database\Eloquent\Collection;
 
 class FunnelRepository
 {
-    public function getAll($perPage = 15)
+    public function getAll(): Collection
     {
-        return Funnel::paginate($perPage);
+        return Funnel::all();
     }
 
     public function create(array $data): Funnel
@@ -34,7 +35,12 @@ class FunnelRepository
         $funnel->delete();
     }
 
-    public function getFunnelDetails($id, $perPage = 15)
+    public function searchByName($name): Collection
+    {
+        return Funnel::where('name', 'like', "%$name%")->get();
+    }
+
+    public function getFunnelDetails($id, $perPage = 15): Funnel
     {
         return Funnel::with(['stages' => function ($query) use ($perPage) {
             $query->paginate($perPage);
