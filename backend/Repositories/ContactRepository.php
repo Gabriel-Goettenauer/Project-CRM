@@ -39,4 +39,9 @@ class ContactRepository
     {
         return Contact::where('name', 'like', "%$name%")->get();
     }
+
+    public function getByStage($stageId): Collection
+    {
+        return Contact::where('stage_id', $stageId)->get();
+    }
 }

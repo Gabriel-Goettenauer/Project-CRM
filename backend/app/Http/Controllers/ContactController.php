@@ -14,9 +14,17 @@ class ContactController extends Controller
         $this->contactService = $contactService;
     }
 
-    public function index()
+    public function indexByStage(Request $request)
     {
-        $contacts = $this->contactService->getAllContacts();
+        $stageId = $request->input('stage_id'); // Obtém o stage_id dos parâmetros da requisição
+
+        if ($stageId) {
+            $contacts = $this->contactService->getContactsByStage($stageId);
+        } else {
+            // Se nenhum stage_id fornecido, retorna todos os contatos
+            $contacts = $this->contactService->getAllContacts();
+        }
+
         return response()->json($contacts);
     }
 

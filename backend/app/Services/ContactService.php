@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\ContactRepository;
 use App\Models\Contact;
+use Illuminate\Database\Eloquent\Collection;
 
 class ContactService
 {
@@ -37,5 +38,10 @@ class ContactService
     public function deleteContact($id): void
     {
         $this->contactRepository->delete($id);
+    }
+
+    public function getContactsByStage($stageId): Collection
+    {
+        return $this->contactRepository->getByStage($stageId);
     }
 }
