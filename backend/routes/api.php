@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FunnelController; 
 use App\Http\Controllers\AuthController; 
 
-use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes

@@ -3,11 +3,13 @@
         <div class="card m-3" style="width: 18rem;">
             <div class="card-body">
                 <div class="d-flex justify-content-between card-info">
-                    <h5 class="card-title">{{ funnel.name }}</h5>
+                    <h5 class="card-title"></h5>
+                                            <!-- {{ funnel.name }} -->
                     <i class="bi bi-trash-fill"></i>
                 </div>
 
-                <p class="card-text">{{ funnel.description }}</p>
+                <p class="card-text"></p>
+                                    <!-- {{ funnel.description }} -->
             </div>
         </div>
     </div>
