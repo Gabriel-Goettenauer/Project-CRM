@@ -3,50 +3,50 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Funnel;
+use App\Services\FunnelService;
 
 class FunnelController extends Controller
 {
+    protected $funnelService;
+
+    public function __construct(FunnelService $funnelService)
+    {
+        $this->funnelService = $funnelService;
+    }
+
     public function index()
     {
-        // Paginação de 15 registros por página
-        $funnels = Funnel::paginate(15);
+        $funnels = $this->funnelService->getAllFunnels();
         return response()->json($funnels);
     }
 
     public function store(Request $request)
     {
-        $funnel = Funnel::create($request->all());
+        $funnel = $this->funnelService->createFunnel($request->all());
         return response()->json($funnel, 201);
     }
 
     public function show($id)
     {
-        $funnel = Funnel::findOrFail($id);
+        $funnel = $this->funnelService->getFunnelById($id);
         return response()->json($funnel);
     }
 
     public function update(Request $request, $id)
     {
-        $funnel = Funnel::findOrFail($id);
-        $funnel->update($request->all());
+        $funnel = $this->funnelService->updateFunnel($id, $request->all());
         return response()->json($funnel);
     }
 
     public function destroy($id)
     {
-        $funnel = Funnel::findOrFail($id);
-        $funnel->delete();
+        $this->funnelService->deleteFunnel($id);
         return response()->json(null, 204);
     }
 
-
     public function showFunnelDetails($id)
     {
-        $funnel = Funnel::with(['stages' => function ($query) {
-            $query->paginate(15); // Paginação de 15 registros por página
-        }, 'stages.contacts'])->findOrFail($id);
-
+        $funnel = $this->funnelService->getFunnelDetails($id);
         return response()->json($funnel);
     }
 }
