@@ -24,16 +24,17 @@
             <div class="offcanvas-body card-body m-2 card">
                 <div class="Formulario"> 
                     <label class="pt-3 pb-2">Nome do Funil</label>
-                    <input class="form-control" type="email" placeholder="Digite o Nome do funil" v-model="formData">
-
+                    <input class="form-control" type="email" placeholder="Digite o Nome do funil" v-model="formData.name">
 
                     <label class="pt-3 pb-2">Descrição</label>
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 300px"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 300px" v-model="formData.description"></textarea>
                 </div>
             </div>
-
+            <pre>
+                {{ this.formData }}
+            </pre>
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-primary" type="button">Button</button>
+                <button class="btn btn-primary" type="button" @click="postFunnel()">Button</button>
             </div>
 
         </div>
@@ -42,7 +43,7 @@
 
 <script>
 import CardFunil from '../components/CardFunil.vue'
-import { getFunnels } from '@/services/HttpService';
+import { getFunnels,postFunnel } from '@/services/HttpService';
 
 export default {
     name: 'DashboardFunis',
@@ -51,7 +52,11 @@ export default {
     },
     data() {
         return {
-            funnels: []
+            funnels: [],
+            formData:{
+                name:'',
+                description:'',
+            }
         }
     },
     methods: {
@@ -62,6 +67,16 @@ export default {
                 console.log(this.funnels);
             } catch (error) {
                 console.error('Error:', error);
+            }
+        },
+        async postFunnel(){
+            try{
+                const response = await postFunnel(this.formData);
+                console.log("Funil criado");
+                window.location.reload(true);
+            }catch (error) {
+                console.error('Falha ao criar funil', error);
+                alert('Falha ao criar o funil');
             }
         }
     },

@@ -5,42 +5,60 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between card-info">
                     <h5 class="card-title">{{ card.name }}</h5>                    
-                    <i class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#deleteModal"></i>
+                    <i class="bi bi-trash-fill" data-bs-toggle="modal" :data-bs-target="'#' + modalId"></i>
                 </div>
                 <p class="card-text overflow-x-auto">{{ card.description }}</p>
             </div>
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" :id="modalId" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                 <div class="modal-content ">
                     <div class="modal-header d-flex justify-content-center">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="bi bi-exclamation-octagon"></i></h1>
+                        <h1 class="modal-title fs-5"><i class="bi bi-exclamation-octagon"></i></h1>
                     </div>
                     <div class="modal-body d-flex justify-content-center">
                         <p>Tem certeza que deseja excluir esse funil?</p>
                     </div>
-                    <pre>
-                        {{ this.card.id }}  
-                    </pre>
                     <div class="modal-footer d-flex justify-content-center">
                         <button type="button" class="btn cancel btn-lg" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn delete btn-lg">Deletar</button>
+                        <button type="button" class="btn delete btn-lg" @click="deleteFunnel(card.id)">Deletar</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        
     </div>
 </template>
 
 <script>
+import { deleteFunnel } from '@/services/HttpService';
+import { useToast } from "vue-toastification";
 
 
 export default {
     name: 'CardFunil',
+    data() {
+        return {
+            modalId: 'deleteModal' + this.card.id 
+        }
+    },
     props:{
         card:{}
+    },
+
+    methods:{
+        async deleteFunnel(id){
+            try {
+                console.log(id);
+                await deleteFunnel(id);
+                alert('Funnel deleted successfully!');
+            } catch (error) {
+                console.error('Failed to delete the funnel:', error);
+                alert('Failed to delete the funnel.');
+            }
+        }
     }
 }
 </script>
@@ -70,10 +88,13 @@ export default {
     transition: 0.5s;
 }
 .modal-header{
-    --bs-modal-header-border-color:0;
+    --bs-modal-header-border-color:#FFFFFF;
 }
 .modal-body{
-    --bs-modal-footer-border-color:0;
+    --bs-modal-footer-border-color:#FFFFFF;
+}
+.modal-footer{
+    --bs-modal-footer-border-color:#FFFFFF
 }
 .bi-exclamation-octagon{
     color: #FF4444;;
@@ -94,4 +115,4 @@ export default {
     background-color: #D2DDEC;
     border: solid 1px #B1C2D9;
 }
-</style>
+</style> esta certo
