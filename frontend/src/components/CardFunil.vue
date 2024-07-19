@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <div class="modal fade" :id="modalId" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" :id="modalId" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
                 <div class="modal-content ">
                     <div class="modal-header d-flex justify-content-center">
@@ -34,8 +34,6 @@
 
 <script>
 import { deleteFunnel } from '@/services/HttpService';
-import { useToast } from "vue-toastification";
-
 
 export default {
     name: 'CardFunil',

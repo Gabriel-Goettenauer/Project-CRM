@@ -2,14 +2,13 @@
     <div class="main d-inline-flex flex-wrap justify-content-start my-4">
 
         <CardFunil v-for="funnel in funnels" :key="funnel.id" :card="funnel"/>
-        <div class="card m-3" id="card-button" style="width: 18rem;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <div class="card m-3" id="card-button" style="width: 18rem;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
             <div class="card-body d-flex justify-content-center align-items-center">
                 <i class="bi bi-plus-lg"></i>
             </div>
         </div>
 
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-
             <div class="offcanvas-header d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <i class="voltar " data-bs-dismiss="offcanvas" aria-label="Close">
