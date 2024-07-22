@@ -4,6 +4,7 @@
         <div class="d-flex justify-content-between align-items-center"> 
             <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
         </div>
+            <InputComponent/>
             <DashboardFunis/>
     </div>
 </template>
@@ -11,10 +12,11 @@
 <script>
 import DashboardFunis from '../components/DashboardFunis.vue'
 import SideNavbar from "../components/SideNavbar.vue"
-
+import InputComponent from "@/components/InputComponent.vue";
 
 export default {
-    components: { 
+    components: {
+      InputComponent,
         SideNavbar,
         DashboardFunis,
     }
