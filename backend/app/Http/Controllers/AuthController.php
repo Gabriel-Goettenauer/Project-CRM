@@ -27,14 +27,15 @@ class AuthController extends Controller
             'phone' => 'required|string|unique:users,phone',
             'email' => 'required|email|unique:users,email',
             'dateOfBirth' => 'required|date',
-            'password' => 'required|string'
+            'password' => 'required|string|min:8'
         ], $messages);
-    
+
         $token = $this->authService->register($request->all());
 
         $currentDate = now()->toDateTimeString();
         return response()->json([
             'message' => 'Cadastro feito com sucesso',
+            'token' => $token, // Inclua o token na resposta
             'date' => $currentDate
         ], 201);
     }
@@ -49,11 +50,11 @@ class AuthController extends Controller
         $token = $this->authService->login($request->only('email', 'password'));
 
         if (!$token) {
-            return response()->json(['message' => 'Usuario Não Encontrado'], 401);
+            return response()->json(['message' => 'Usuário não encontrado'], 401);
         }
 
         return response()->json([
-            'message'       => 'Login success',
+            'message'       => 'Login realizado com sucesso',
             'access_token'  => $token,
             'token_type'    => 'Bearer'
         ]);
@@ -62,7 +63,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $this->authService->logout($request->user());
-        return response()->json(['message' => 'Logged out'], 200);
+        return response()->json(['message' => 'Logout realizado com sucesso'], 200);
     }
 
     public function forgotPassword(Request $request)

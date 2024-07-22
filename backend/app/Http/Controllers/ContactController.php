@@ -74,3 +74,9 @@ class ContactController extends Controller
         return response()->json(null, 204);
     }
 }
+
+
+
+//criar uma verificação de numero de telefone.
+//verificar se o 9 está na frente e se nao tiver por automaticamente no phone. 
+//verificar tambem se é numero fixo de casa e dessa forma não por o 9 na frente
