@@ -16,24 +16,15 @@
                     </i>
                     <label class="px-2">Voltar</label>
                 </div>
-                <!-- class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" -->
                 <h5 class="offcanvas-title" id="offcanvasRightLabel">Novo Funil</h5>
             </div>
 
-            <div class="offcanvas-body card-body m-2 card">
-                <div class="Formulario"> 
-                    <label class="pt-3 pb-2">Nome do Funil</label>
-                    <input class="form-control" type="email" placeholder="Digite o Nome do funil" v-model="formData.name">
-
-                    <label class="pt-3 pb-2">Descrição</label>
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 300px" v-model="formData.description"></textarea>
-                </div>
+            <div class="card p-2 m-2">
+                    <InputComponent Placeholder="Nome do Funil" InputType="Text" class="p-1"/>
+                    <TextAreaComponent class="p-1"/>
             </div>
-            <pre>
-                {{ this.formData }}
-            </pre>
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-primary" type="button" @click="postFunnel()">Button</button>
+                <button class="btn btn-primary" type="button" @click="postFunnel()">Criar Novo Funil</button>
             </div>
 
         </div>
@@ -42,12 +33,16 @@
 
 <script>
 import CardFunil from '../components/CardFunil.vue'
+import InputComponent from '../components/InputComponent.vue';
+import TextAreaComponent from '../components/TextAreaComponent.vue'
 import { getFunnels,postFunnel } from '@/services/HttpService';
 
 export default {
     name: 'DashboardFunis',
     components: {
         CardFunil,
+        InputComponent,
+        TextAreaComponent,
     },
     data() {
         return {

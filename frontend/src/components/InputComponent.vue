@@ -4,10 +4,11 @@
       {{ contactName }}
       <i class="bi bi-pencil pencil-icon"></i>
     </span>
+
     <div v-else class="input-wrapper">
-      <input type="text" v-model="newContactName" class="form-control input-with-icons" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit">
-      <i class="bi bi-check icon check-icon" @click="confirmEdit"></i>
+      <input :type="typeInput" v-model="newContactName" class="form-control input-with-icons" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit">
       <i class="bi bi-x icon cancel-icon" @click="cancelEdit"></i>
+      <i class="bi bi-check icon check-icon" @click="confirmEdit"></i>
     </div>
   </div>
 </template>
@@ -17,9 +18,20 @@ export default {
   data() {
     return {
       isEditing: false,
-      contactName: 'Nome do Contato',
-      newContactName: 'Nome do Contato'
-    };
+      contactName: this.Placeholder,
+      newContactName: this.Placeholder,
+      typeInput: this.InputType
+    }
+  },
+  props: {
+    Placeholder: {
+      type: String,
+      required: true
+    },
+    InputType: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     toggleEdit() {
@@ -38,43 +50,59 @@ export default {
 </script>
 
 <style scoped>
-.editable-span {
-  position: relative;
-  cursor: pointer;
-}
+  .editable-span {
+    cursor: pointer;
+    font-size: 22px;
+    font-family: 'CerebriSansProRegular';
+    color: #1B1B2B;
+    padding: 11px 17px;
+    display: inline-block;
+    box-sizing: border-box;
+  }
 
-.pencil-icon {
-  margin-left: 10px;
-  display: none;
-}
+  .form-control {
+    font-size: 22px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: 'CerebriSansProRegular';
+  }
 
-.editable-span:hover .pencil-icon {
-  display: inline-block;
-}
+  .pencil-icon {
+    margin-left: 10px;
+    display: none;
+    color: #B1C2D9;
+    font-size: 20px;
+  }
 
-.input-wrapper {
-  position: relative;
-  display: inline-block;
-}
+  .editable-span:hover .pencil-icon {
+    display: inline-block;
+  }
 
-.input-with-icons {
-  padding-right: 50px; /* espaço para os ícones */
-}
+  .input-wrapper {
+    position: relative;
+    display: inline-block;
+  }
 
-.icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
+  .input-with-icons {
+    padding-right: 50px;
+  }
 
-.check-icon {
-  right: 30px;
-  color: green;
-}
+  .icon {
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
 
-.cancel-icon {
-  right: 10px;
-  color: red;
-}
+  .check-icon {
+    right: 30px;
+    color: #5CB868;
+  }
+
+  .cancel-icon {
+    right: 10px;
+    color: #677C92;
+  }
 </style>
