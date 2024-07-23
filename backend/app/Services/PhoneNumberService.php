@@ -25,28 +25,26 @@ class PhoneNumberService
     // Regex para validar números de telefone brasileiros (fixos e móveis)
     protected $phonePattern = '/^(?:\+55)?(?:\(?(\d{2})\)?\s?)?(\d{4,5}\-?\d{4})$/';
 
-    public function formatPhoneNumber($phoneNumber)
+    public function formatPhoneNumber($ddd, $phoneNumber)
     {
-        // Remover caracteres não numéricos
+        // Remover caracteres não numéricos do número de telefone
         $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
 
-        // Verificar se o número tem 10 dígitos (fixo) ou 11 dígitos (móvel)
+        // Verificar o comprimento do número de telefone
         if (strlen($phoneNumber) === 10) {
-            // Verificar o prefixo para determinar se é fixo ou móvel
+            // Número fixo (10 dígitos): verificar prefixo
             $prefix = substr($phoneNumber, 2, 1);
-
             if ($prefix >= '2' && $prefix <= '5') {
-                // Número fixo, não adicionar o 9
-                return $phoneNumber;
+                return $ddd . $phoneNumber; // Retorna o número formatado com DDD
             } else {
                 throw new \Exception('Número fixo inválido.');
             }
         }
 
         if (strlen($phoneNumber) === 11) {
-            // Verificar se é um número móvel
+            // Número móvel (11 dígitos): verificar prefixo
             if ($phoneNumber[2] === '9') {
-                return $phoneNumber;
+                return $ddd . $phoneNumber; // Retorna o número formatado com DDD
             } else {
                 throw new \Exception('Número móvel inválido.');
             }
@@ -56,22 +54,21 @@ class PhoneNumberService
         throw new \Exception('Número de telefone inválido.');
     }
 
-    public function validatePhoneNumber($phoneNumber)
+    public function validatePhoneNumber($ddd, $phoneNumber)
     {
-        // Remover caracteres não numéricos
+        // Remover caracteres não numéricos do número de telefone
         $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
 
         // Validar número de telefone com regex
-        if (preg_match($this->phonePattern, $phoneNumber)) {
-            // Extrair DDD e número
-            $ddd = substr($phoneNumber, 0, 2);
-            $length = strlen($phoneNumber);
-            
+        if (preg_match($this->phonePattern, $ddd . $phoneNumber)) {
             // Validar DDD
             if (!array_key_exists($ddd, $this->validDDDs)) {
                 return false;
             }
-            
+
+            // Verificar o comprimento do número de telefone
+            $length = strlen($phoneNumber);
+
             if ($length === 10) {
                 // Verificar se é um número fixo com prefixo válido
                 $prefix = $phoneNumber[2];

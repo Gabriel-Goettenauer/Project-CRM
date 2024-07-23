@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Collection;
 class ContactService
 {
     protected $contactRepository;
+    protected $phoneNumberService;
 
-    public function __construct(ContactRepository $contactRepository)
+    public function __construct(ContactRepository $contactRepository, PhoneNumberService $phoneNumberService)
     {
         $this->contactRepository = $contactRepository;
+        $this->phoneNumberService = $phoneNumberService;
     }
 
     public function getAllContacts($perPage = 15)
@@ -22,6 +24,14 @@ class ContactService
 
     public function createContact(array $data): Contact
     {
+        // Validar o número de telefone
+        if (!$this->phoneNumberService->validatePhoneNumber($data['ddd_location'], $data['phone'])) {
+            throw new \Exception('Número de telefone inválido.');
+        }
+
+        // Formatar o número de telefone
+        $data['phone'] = $this->phoneNumberService->formatPhoneNumber($data['ddd_location'], $data['phone']);
+
         return $this->contactRepository->create($data);
     }
 
@@ -32,6 +42,17 @@ class ContactService
 
     public function updateContact($id, array $data): Contact
     {
+        // Validar o número de telefone
+        if (isset($data['ddd_location']) && isset($data['phone']) &&
+            !$this->phoneNumberService->validatePhoneNumber($data['ddd_location'], $data['phone'])) {
+            throw new \Exception('Número de telefone inválido.');
+        }
+
+        // Formatar o número de telefone
+        if (isset($data['ddd_location']) && isset($data['phone'])) {
+            $data['phone'] = $this->phoneNumberService->formatPhoneNumber($data['ddd_location'], $data['phone']);
+        }
+
         return $this->contactRepository->update($id, $data);
     }
 
