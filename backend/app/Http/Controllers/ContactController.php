@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\ContactService;
+use App\Services\PhoneNumberService;
 
 class ContactController extends Controller
 {
     protected $contactService;
+    protected $phoneNumberService;
 
-    public function __construct(ContactService $contactService)
+    public function __construct(ContactService $contactService, PhoneNumberService $phoneNumberService)
     {
         $this->contactService = $contactService;
+        $this->phoneNumberService = $phoneNumberService;
     }
 
     public function indexByStage(Request $request)
@@ -41,7 +44,23 @@ class ContactController extends Controller
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $contact = $this->contactService->createContact($request->all());
+        $phoneNumber = $request->input('phone');
+
+        // Validar e formatar número de telefone
+        if (!$this->phoneNumberService->validatePhoneNumber($phoneNumber)) {
+            return response()->json(['error' => 'Número de telefone inválido.'], 400);
+        }
+
+        try {
+            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($phoneNumber);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+
+        $contactData = $request->all();
+        $contactData['phone'] = $formattedPhoneNumber;
+
+        $contact = $this->contactService->createContact($contactData);
         return response()->json($contact, 201);
     }
 
@@ -64,7 +83,23 @@ class ContactController extends Controller
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $contact = $this->contactService->updateContact($id, $request->all());
+        $phoneNumber = $request->input('phone');
+
+        // Validar e formatar número de telefone
+        if (!$this->phoneNumberService->validatePhoneNumber($phoneNumber)) {
+            return response()->json(['error' => 'Número de telefone inválido.'], 400);
+        }
+
+        try {
+            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($phoneNumber);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+
+        $contactData = $request->all();
+        $contactData['phone'] = $formattedPhoneNumber;
+
+        $contact = $this->contactService->updateContact($id, $contactData);
         return response()->json($contact);
     }
 
@@ -74,9 +109,3 @@ class ContactController extends Controller
         return response()->json(null, 204);
     }
 }
-
-
-
-//criar uma verificação de numero de telefone.
-//verificar se o 9 está na frente e se nao tiver por automaticamente no phone. 
-//verificar tambem se é numero fixo de casa e dessa forma não por o 9 na frente

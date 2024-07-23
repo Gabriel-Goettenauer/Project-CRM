@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('value', 10, 2);
             $table->unsignedBigInteger('stage_id');
             $table->foreign('stage_id')->references('id')->on('stages')->onDelete('cascade');
+            $table->string('ddd_location')->nullable(); // Adiciona o campo ddd_location
             $table->timestamps();
         });
     }

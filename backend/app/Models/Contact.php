@@ -13,6 +13,7 @@ class Contact extends Model
         'email',
         'phone',
         'cpf',
+        'ddd_location',
         'address',
         'date_of_birth',
         'value',
