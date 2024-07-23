@@ -1,9 +1,9 @@
 <template>
 <div>
     <div class="Card">
-        <!-- <pre>
+        <pre>
             {{ formData }}
-        </pre> -->
+        </pre>
         <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Cadastro</h1>
         <div class="Formulario">
             <label class="pt-3 pb-2">Nome Completo</label>

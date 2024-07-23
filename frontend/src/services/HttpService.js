@@ -18,4 +18,10 @@ export const getFunnels = async() =>{
 export const postFunnels = async(funnel) =>{
   return await HttpService.post('funnels')
 }
+export const deleteFunnel = async(id) =>{
+  return await HttpService.delete(`/funnels/${id}`)
+}
+export const postFunnel = async(funnel) =>{
+  return await HttpService.post('funnels',funnel)
+}
 export default HttpService;
