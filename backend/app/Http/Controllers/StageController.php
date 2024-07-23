@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Stage;
 use Illuminate\Http\Request;
+use App\Services\StageService;
 
 class StageController extends Controller
 {
+    protected $stageService;
+
+    public function __construct(StageService $stageService)
+    {
+        $this->stageService = $stageService;
+    }
+
     public function index()
     {
-        $stages = Stage::all();
+        $stages = $this->stageService->getAllStages();
         return response()->json($stages);
     }
 
@@ -19,13 +26,13 @@ class StageController extends Controller
             'name' => 'required|string|max:255',
             'funnel_id' => 'required|exists:funnels,id',
         ]);
-        $stage = Stage::create($request->all());
+        $stage = $this->stageService->createStage($request->all());
         return response()->json($stage, 201);
     }
 
     public function show($id)
     {
-        $stage = Stage::findOrFail($id);
+        $stage = $this->stageService->getStageById($id);
         return response()->json($stage);
     }
 
@@ -35,15 +42,13 @@ class StageController extends Controller
             'name' => 'required|string|max:255',
             'funnel_id' => 'required|exists:funnels,id',
         ]);
-        $stage = Stage::findOrFail($id);
-        $stage->update($request->all());
+        $stage = $this->stageService->updateStage($id, $request->all());
         return response()->json($stage);
     }
 
     public function destroy($id)
     {
-        $stage = Stage::findOrFail($id);
-        $stage->delete();
+        $this->stageService->deleteStage($id);
         return response()->json(null, 204);
     }
 }

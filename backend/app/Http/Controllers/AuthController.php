@@ -1,17 +1,20 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
+use App\Services\AuthService;
 use Illuminate\Support\Facades\Password;
-use App\Models\User;
 
 class AuthController extends Controller
 {
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function register(Request $request)
     {
         $messages = [
@@ -24,22 +27,15 @@ class AuthController extends Controller
             'phone' => 'required|string|unique:users,phone',
             'email' => 'required|email|unique:users,email',
             'dateOfBirth' => 'required|date',
-            'password' => 'required|string'
-        ],$messages);
-    
-        $user = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'phone'     => $request->phone,
-            'dateOfBirth'=>$request->dateOfBirth,
-            'password'  => Hash::make($request->password)
-        ]);
+            'password' => 'required|string|min:8'
+        ], $messages);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $this->authService->register($request->all());
 
         $currentDate = now()->toDateTimeString();
         return response()->json([
             'message' => 'Cadastro feito com sucesso',
+            'token' => $token, // Inclua o token na resposta
             'date' => $currentDate
         ], 201);
     }
@@ -51,17 +47,14 @@ class AuthController extends Controller
             'password' => 'required|string'
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $token = $this->authService->login($request->only('email', 'password'));
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Usuario Não Encontrado'], 401);
+        if (!$token) {
+            return response()->json(['message' => 'Usuário não encontrado'], 401);
         }
 
-        $user   = User::where('email', $request->email)->firstOrFail();
-        $token  = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
-            'message'       => 'Login success',
+            'message'       => 'Login realizado com sucesso',
             'access_token'  => $token,
             'token_type'    => 'Bearer'
         ]);
@@ -69,18 +62,14 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Logged out'], 200);
+        $this->authService->logout($request->user());
+        return response()->json(['message' => 'Logout realizado com sucesso'], 200);
     }
 
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = $this->authService->sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
                     ? response()->json(['message' => __($status)], 200)
@@ -95,14 +84,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
-            }
-        );
+        $status = $this->authService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
 
         return $status == Password::PASSWORD_RESET
                     ? response()->json(['message' => __($status)], 200)
