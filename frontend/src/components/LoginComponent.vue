@@ -3,7 +3,7 @@
         <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Login</h1>
         <div class="Formulario">
             <label class="pt-3 pb-2">E-mail</label>
-            <input class="form-control" type="email" placeholder="Digite seu e-mail">
+                <input class="form-control" type="email" placeholder="Digite seu e-mail" v-model="formData.email">
             <label class="pt-3 pb-2">Senha</label>
             <div class="input-group  mb-3">
                 <input :type="type" class="form-control" id="confirm-password" placeholder="Digite sua senha" 
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button class="btn" type="button">Entrar</button>
+            <button class="btn" type="button" @click="postFormLogin()">Entrar</button>
         </div>
         <div class="d-flex justify-content-center mt-4">
         <p class="forgotpassword"><router-link to="/reset_password">Esqueceu sua senha ?</router-link></p>
@@ -21,10 +21,16 @@
             <p>É novo por aqui?</p>
             <p class="Cadastrese px-3"><router-link to="/register">Cadastra-se</router-link></p>
         </div>
+        <!-- <pre>
+            {{ formData }}
+        </pre> -->
     </div>
 </template>
 
 <script>
+import { postLogin } from '@/services/HttpService';
+import { mapActions } from 'vuex';
+
     export default {
         name:"LoginComponent",
         data(){
@@ -38,8 +44,35 @@
             }
         },
         methods:{
-            postFormLogin(){
-                
+            ...mapActions(['setToken']),
+            
+            async postFormLogin(){
+                try {
+                    const response = await postLogin(this.formData);
+                    const token = response.data.access_token;
+                    this.setToken(token);
+                    localStorage.setItem('token', token);
+                    this.$router.push('/dashboard');
+
+                } catch (error) {
+                    if (error.response && error.response.data.errors) {
+                        this.errors = error.response.data.errors;
+            
+                        let errorMessage = '';
+
+                        if (this.errors.email) {
+                            errorMessage = 'E-mail Incorreto';
+                        } else if (this.errors.senha) {
+                            errorMessage = 'Senha Incorreta';
+                        } else {
+                            errorMessage = 'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.';
+                        }
+                        alert(errorMessage);
+                } else {
+                    alert('Ocorreu um erro ao tentar realizar o login. Tente novamente.');
+                }
+                }
+                console.log(token);
             },
             showPassword() {
                 if(this.type === 'password') {
