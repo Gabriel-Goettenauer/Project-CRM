@@ -26,35 +26,28 @@ class PhoneNumberService
     protected $phonePattern = '/^(?:\+55)?(?:\(?(\d{2})\)?\s?)?(\d{4,5}\-?\d{4})$/';
 
     public function formatPhoneNumber($phoneNumber)
-    {
-        // Remover caracteres não numéricos
-        $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
+{
+    // Remover caracteres não numéricos
+    $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
 
-        // Verificar se o número tem 10 dígitos (fixo) ou 11 dígitos (móvel)
-        if (strlen($phoneNumber) === 10) {
-            // Verificar o prefixo para determinar se é fixo ou móvel
-            $prefix = substr($phoneNumber, 2, 1);
-
-            if ($prefix >= '2' && $prefix <= '5') {
-                // Número fixo, não adicionar o 9
-                return $phoneNumber;
-            } else {
-                throw new \Exception('Número fixo inválido.');
-            }
-        }
-
-        if (strlen($phoneNumber) === 11) {
-            // Verificar se é um número móvel
-            if ($phoneNumber[2] === '9') {
-                return $phoneNumber;
-            } else {
-                throw new \Exception('Número móvel inválido.');
-            }
-        }
-
-        // Se o número não atender a essas condições, é inválido
-        throw new \Exception('Número de telefone inválido.');
+    // Verificar se o número tem 8 dígitos (fixo) ou 9 dígitos (móvel)
+    if (strlen($phoneNumber) === 8) {
+        // Número fixo, retornar como está
+        return $phoneNumber;
     }
+
+    if (strlen($phoneNumber) === 9) {
+        // Verificar se é um número móvel
+        if ($phoneNumber[0] === '9') {
+            return $phoneNumber;
+        } else {
+            throw new \Exception('Número móvel inválido.');
+        }
+    }
+
+    // Se o número não atender a essas condições, é inválido
+    throw new \Exception('Número de telefone inválido.');
+}
 
     public function validatePhoneNumber($phoneNumber)
     {

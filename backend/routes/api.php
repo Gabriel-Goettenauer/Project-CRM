@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->prefix('stages')->group(function () {
 
 //  funis
 Route::middleware('auth:sanctum')->prefix('funnels')->group(function () {
-    Route::get('/funnels', [FunnelController::class, 'index']);
+    Route::get('/', [FunnelController::class, 'index']);
     Route::post('/', [FunnelController::class, 'store']);
     Route::get('/{id}', [FunnelController::class, 'show']);
     Route::put('/{id}', [FunnelController::class, 'update']);

@@ -35,7 +35,7 @@
 import CardFunil from '../components/CardFunil.vue'
 import InputComponent from '../components/InputComponent.vue';
 import TextAreaComponent from '../components/TextAreaComponent.vue'
-import { getFunnels,postFunnel } from '@/services/HttpService';
+import { getFunnels,postFunnel } from '../services/ApiPrivateService';
 
 export default {
     name: 'DashboardFunis',

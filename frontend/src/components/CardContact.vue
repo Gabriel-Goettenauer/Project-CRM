@@ -3,8 +3,8 @@
         <div  class="card m-3">
             <div class="card-body">
                 <div class="card-info">
-                    <h5 class="card-title my-2">Titulo</h5>                    
-                    <p class="card-text mt-4">R$ 0</p>
+                    <h5 class="card-title my-2">{{ card.name }}</h5>                    
+                    <p class="card-text mt-4">{{ card.value }}</p>
                 </div>
             </div>
         </div>
@@ -14,7 +14,11 @@
 <script>
 export default {
     name:'CardContact',
+    props:{
+        card:{}
+    },
 }
+
 </script>
 
 <style scoped>

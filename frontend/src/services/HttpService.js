@@ -6,22 +6,13 @@ const HttpService = axios.create({
     "Content-type": "application/json",
   },
 });
+
+
 export const postUser = async(user) =>{
   return await HttpService.post('register',user)
 }
 export const postLogin = async(user) =>{
   return await HttpService.post('login',user)
 }
-export const getFunnels = async() =>{
-  return await HttpService.get('funnels')
-}
-export const postFunnels = async(funnel) =>{
-  return await HttpService.post('funnels')
-}
-export const deleteFunnel = async(id) =>{
-  return await HttpService.delete(`/funnels/${id}`)
-}
-export const postFunnel = async(funnel) =>{
-  return await HttpService.post('funnels',funnel)
-}
+
 export default HttpService;

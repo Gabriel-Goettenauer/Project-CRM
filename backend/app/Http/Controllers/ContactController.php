@@ -36,6 +36,7 @@ class ContactController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'ddd_location' => 'required|string|max:2',
             'phone' => 'required|string|max:20',
             'cpf' => 'required|string|max:14|unique:contacts,cpf',
             'date_of_birth' => 'required|date',
@@ -75,6 +76,7 @@ class ContactController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'ddd_location' => 'required|string|max:2',
             'phone' => 'required|string|max:20',
             'cpf' => 'required|string|max:14|unique:contacts,cpf,' . $id,
             'date_of_birth' => 'required|date',
