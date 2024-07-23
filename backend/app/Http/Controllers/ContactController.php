@@ -36,32 +36,29 @@ class ContactController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'ddd_location' => 'required|string|size:2', // Ajustado para ddd_location
             'phone' => 'required|string|max:20',
             'cpf' => 'required|string|max:14|unique:contacts,cpf',
             'date_of_birth' => 'required|date',
             'value' => 'required|numeric',
-            'address' => 'required|string|max:255', // Validação do campo de endereço
+            'address' => 'required|string|max:255',
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $phoneNumber = $request->input('phone');
-
-        // Validar e formatar número de telefone
-        if (!$this->phoneNumberService->validatePhoneNumber($phoneNumber)) {
-            return response()->json(['error' => 'Número de telefone inválido.'], 400);
-        }
-
         try {
-            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($phoneNumber);
+            $formattedPhone = $this->phoneNumberService->formatPhoneNumber(
+                $request->input('ddd_location'),
+                $request->input('phone')
+            );
+            
+            $contactData = $request->all();
+            $contactData['phone'] = $formattedPhone;
+
+            $contact = $this->contactService->createContact($contactData);
+            return response()->json($contact, 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
-
-        $contactData = $request->all();
-        $contactData['phone'] = $formattedPhoneNumber;
-
-        $contact = $this->contactService->createContact($contactData);
-        return response()->json($contact, 201);
     }
 
     public function show($id)
@@ -75,23 +72,25 @@ class ContactController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'ddd_location' => 'required|string|size:2', // Ajustado para ddd_location
             'phone' => 'required|string|max:20',
             'cpf' => 'required|string|max:14|unique:contacts,cpf,' . $id,
             'date_of_birth' => 'required|date',
             'value' => 'required|numeric',
-            'address' => 'required|string|max:255', // Validação do campo de endereço
+            'address' => 'required|string|max:255',
             'stage_id' => 'required|exists:stages,id',
         ]);
 
         $phoneNumber = $request->input('phone');
+        $dddLocation = $request->input('ddd_location');
 
         // Validar e formatar número de telefone
-        if (!$this->phoneNumberService->validatePhoneNumber($phoneNumber)) {
+        if (!$this->phoneNumberService->validatePhoneNumber($dddLocation, $phoneNumber)) {
             return response()->json(['error' => 'Número de telefone inválido.'], 400);
         }
 
         try {
-            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($phoneNumber);
+            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($dddLocation, $phoneNumber);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
