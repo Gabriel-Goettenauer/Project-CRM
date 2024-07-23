@@ -19,42 +19,28 @@ class ContactController extends Controller
 
     public function indexByStage(Request $request)
     {
-        $stageId = $request->input('stage_id'); // Obtém o stage_id dos parâmetros da requisição
-
-        if ($stageId) {
-            $contacts = $this->contactService->getContactsByStage($stageId);
-        } else {
-            // Se nenhum stage_id fornecido, retorna todos os contatos
-            $contacts = $this->contactService->getAllContacts();
-        }
-
+        $stageId = $request->input('stage_id');
+        $contacts = $this->contactService->getContactsByStage($stageId);
         return response()->json($contacts);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'ddd_location' => 'required|string|size:2', // Ajustado para ddd_location
-            'phone' => 'required|string|max:20',
-            'cpf' => 'required|string|max:14|unique:contacts,cpf',
-            'date_of_birth' => 'required|date',
-            'value' => 'required|numeric',
-            'address' => 'required|string|max:255',
-            'stage_id' => 'required|exists:stages,id',
+            'email' => 'required|email|max:255|unique:contacts',
+            'phone' => 'required|string|max:15',
+            'ddd_location' => 'required|string|size:2',
+            'cpf' => 'nullable|string|max:14',
+            'birthdate' => 'nullable|date',
+            'value' => 'nullable|numeric',
+            'address' => 'required',
+            'date_of_birth' => 'required',
+            'stage_id' => 'required'
         ]);
 
         try {
-            $formattedPhone = $this->phoneNumberService->formatPhoneNumber(
-                $request->input('ddd_location'),
-                $request->input('phone')
-            );
-            
-            $contactData = $request->all();
-            $contactData['phone'] = $formattedPhone;
-
-            $contact = $this->contactService->createContact($contactData);
+            $contact = $this->contactService->createContact($validated);
             return response()->json($contact, 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
@@ -69,37 +55,22 @@ class ContactController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'ddd_location' => 'required|string|size:2', // Ajustado para ddd_location
-            'phone' => 'required|string|max:20',
-            'cpf' => 'required|string|max:14|unique:contacts,cpf,' . $id,
-            'date_of_birth' => 'required|date',
-            'value' => 'required|numeric',
-            'address' => 'required|string|max:255',
-            'stage_id' => 'required|exists:stages,id',
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|max:255|unique:contacts,email,' . $id,
+            'phone' => 'sometimes|required|string|max:15',
+            'ddd_location' => 'sometimes|required|string|size:2',
+            'cpf' => 'sometimes|nullable|string|max:14',
+            'birthdate' => 'sometimes|nullable|date',
+            'value' => 'sometimes|nullable|numeric'
         ]);
 
-        $phoneNumber = $request->input('phone');
-        $dddLocation = $request->input('ddd_location');
-
-        // Validar e formatar número de telefone
-        if (!$this->phoneNumberService->validatePhoneNumber($dddLocation, $phoneNumber)) {
-            return response()->json(['error' => 'Número de telefone inválido.'], 400);
-        }
-
         try {
-            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($dddLocation, $phoneNumber);
+            $contact = $this->contactService->updateContact($id, $validated);
+            return response()->json($contact);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
-
-        $contactData = $request->all();
-        $contactData['phone'] = $formattedPhoneNumber;
-
-        $contact = $this->contactService->updateContact($id, $contactData);
-        return response()->json($contact);
     }
 
     public function destroy($id)
