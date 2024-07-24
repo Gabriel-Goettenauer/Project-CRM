@@ -1,6 +1,6 @@
 <template>
     <div class="mainstages d-flex mx-3 overflow-x-auto">
-        <TableContacts v-for="table in tables" :key="table.id" :table="table"/>
+        <TableContacts v-for="table in tables" :key="table.id" :table="table" :stageId="table.id"/>
     </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
             try {
                 const response = await getTables();
                 this.tables = response.data;
-                // console.log(this.tables);
+                console.log(this.tables);
             } catch (error) {
                 console.error('Error:', error);
             }

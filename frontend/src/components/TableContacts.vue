@@ -4,7 +4,7 @@
         <div class="mx-3 my-2">
             <p class="tableTitle">{{table?.name}}</p>
         </div>
-        <CardContact v-for="contact in contacts" :key="contact.id" :card="contact"/>
+        <CardContact v-for="contact in filteredContacts" :key="contact.id" :card="contact"/>
 
     </div>
 </template>
@@ -23,8 +23,15 @@ export default {
             contacts: [],
         }
     },
-    props:{
-        table:{}
+    props: {
+        table: {
+            type: Object,
+            required: true,
+        },
+        stageId: {
+            type: Number,
+            required: true,
+        },
     },
     methods: {
         async getInfo() {
@@ -39,7 +46,14 @@ export default {
     },
     created() {
         this.getInfo();
-    }
+    },
+    computed: {
+        filteredContacts() {
+            const filtered = this.contacts.filter(contact => contact.stage_id === this.stageId);
+            console.log(`Filtered Contacts for stage ${this.stageId}:`, filtered);
+            return filtered;
+        }
+    },
 }
 </script>
 
