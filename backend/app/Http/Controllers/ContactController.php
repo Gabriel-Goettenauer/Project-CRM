@@ -19,21 +19,14 @@ class ContactController extends Controller
 
     public function indexByStage(Request $request)
     {
-        $stageId = $request->input('stage_id'); // Obtém o stage_id dos parâmetros da requisição
-
-        if ($stageId) {
-            $contacts = $this->contactService->getContactsByStage($stageId);
-        } else {
-            // Se nenhum stage_id fornecido, retorna todos os contatos
-            $contacts = $this->contactService->getAllContacts();
-        }
-
+        $stageId = $request->input('stage_id');
+        $contacts = $this->contactService->getContactsByStage($stageId);
         return response()->json($contacts);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'ddd_location' => 'required|string|max:2',
@@ -45,24 +38,12 @@ class ContactController extends Controller
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $phoneNumber = $request->input('phone');
-
-        // Validar e formatar número de telefone
-        if (!$this->phoneNumberService->validatePhoneNumber($phoneNumber)) {
-            return response()->json(['error' => 'Número de telefone inválido.'], 400);
-        }
-
         try {
-            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($phoneNumber);
+            $contact = $this->contactService->createContact($validated);
+            return response()->json($contact, 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
-
-        $contactData = $request->all();
-        $contactData['phone'] = $formattedPhoneNumber;
-
-        $contact = $this->contactService->createContact($contactData);
-        return response()->json($contact, 201);
     }
 
     public function show($id)
@@ -83,26 +64,15 @@ class ContactController extends Controller
             'value' => 'required|numeric',
             'address' => 'required|string|max:255', // Validação do campo de endereço
             'stage_id' => 'required|exists:stages,id',
+
         ]);
 
-        $phoneNumber = $request->input('phone');
-
-        // Validar e formatar número de telefone
-        if (!$this->phoneNumberService->validatePhoneNumber($phoneNumber)) {
-            return response()->json(['error' => 'Número de telefone inválido.'], 400);
-        }
-
         try {
-            $formattedPhoneNumber = $this->phoneNumberService->formatPhoneNumber($phoneNumber);
+            $contact = $this->contactService->updateContact($id, $validated);
+            return response()->json($contact);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
-
-        $contactData = $request->all();
-        $contactData['phone'] = $formattedPhoneNumber;
-
-        $contact = $this->contactService->updateContact($id, $contactData);
-        return response()->json($contact);
     }
 
     public function destroy($id)
