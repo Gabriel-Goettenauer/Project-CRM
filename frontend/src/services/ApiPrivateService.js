@@ -32,7 +32,7 @@ http.interceptors.request.use(config => {
         return await http.post('funnels',funnel)
     }
     export const getContacts = async() =>{
-        return await http.get('contacts')
+        return await http.get('contacts/all')
     }
     export const getTables = async() =>{
         return await http.get('stages')

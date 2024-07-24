@@ -14,7 +14,7 @@ class FunnelRepository
 
     public function create(array $data): Funnel
     {
-        return Funnel::create($data);
+        return Funnel::create($data);   
     }
 
     public function findById($id): Funnel

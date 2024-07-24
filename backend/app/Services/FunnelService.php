@@ -16,7 +16,7 @@ class FunnelService
         $this->funnelRepository = $funnelRepository;
     }
 
-    public function getAllFunnels($perPage = 15): Collection
+    public function getAllFunnels($perPage = 11): Collection
     {
         return $this->funnelRepository->getAll();
     }

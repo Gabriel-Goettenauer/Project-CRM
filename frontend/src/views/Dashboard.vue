@@ -4,8 +4,9 @@
         <div class="d-flex justify-content-between align-items-center"> 
             <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
             <button type="button" class="btn addFunnel mx-5 mt-3 mb-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
-                <i class="bi bi-file-plus px-2">
-                </i>Novo Funil</button>
+                <i class="bi bi-funnel-fill"></i>
+                Novo Funil
+            </button>
         </div>
             <DashboardFunis/>
     </div>
@@ -55,5 +56,13 @@ export default {
     }
     .addFunnel:hover{
     background-color: #2336C7;
+    }
+    button{
+        font-family: 'CerebriSansProBold';
+    }
+    .border{
+        border: solid 2px white;
+        border-radius: 5px;
+        font-weight: bold;
     }
 </style>

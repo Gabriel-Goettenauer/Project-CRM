@@ -17,6 +17,11 @@ class ContactController extends Controller
         $this->phoneNumberService = $phoneNumberService;
     }
 
+    public function index(){
+        return $this->contactService->getContacts();
+
+    }
+
     public function indexByStage(Request $request)
     {
         $stageId = $request->input('stage_id');

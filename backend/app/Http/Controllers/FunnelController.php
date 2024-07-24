@@ -17,9 +17,8 @@ class FunnelController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = $request->query('perPage', 15); // Valor padrão de 15 por página, pode ser alterado na requisição
+        $perPage = $request->query('perPage', 11); // Valor padrão de 11 por página, pode ser alterado na requisição
         $funnels = $this->funnelService->getAllFunnels($perPage);
-
         return response()->json($funnels);
     }
 
