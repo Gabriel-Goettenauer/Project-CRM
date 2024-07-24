@@ -28,15 +28,14 @@ class ContactController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:contacts',
-            'phone' => 'required|string|max:15',
-            'ddd_location' => 'required|string|size:2',
-            'cpf' => 'nullable|string|max:14',
-            'birthdate' => 'nullable|date',
-            'value' => 'nullable|numeric',
-            'address' => 'required',
-            'date_of_birth' => 'required',
-            'stage_id' => 'required'
+            'email' => 'required|string|email|max:255',
+            'ddd_location' => 'required|string|max:2',
+            'phone' => 'required|string|max:20',
+            'cpf' => 'required|string|max:14|unique:contacts,cpf',
+            'date_of_birth' => 'required|date',
+            'value' => 'required|numeric',
+            'address' => 'required|string|max:255', // Validação do campo de endereço
+            'stage_id' => 'required|exists:stages,id',
         ]);
 
         try {
@@ -55,14 +54,17 @@ class ContactController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|max:255|unique:contacts,email,' . $id,
-            'phone' => 'sometimes|required|string|max:15',
-            'ddd_location' => 'sometimes|required|string|size:2',
-            'cpf' => 'sometimes|nullable|string|max:14',
-            'birthdate' => 'sometimes|nullable|date',
-            'value' => 'sometimes|nullable|numeric'
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'ddd_location' => 'required|string|max:2',
+            'phone' => 'required|string|max:20',
+            'cpf' => 'required|string|max:14|unique:contacts,cpf,' . $id,
+            'date_of_birth' => 'required|date',
+            'value' => 'required|numeric',
+            'address' => 'required|string|max:255', // Validação do campo de endereço
+            'stage_id' => 'required|exists:stages,id',
+
         ]);
 
         try {

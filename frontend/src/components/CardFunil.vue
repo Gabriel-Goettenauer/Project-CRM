@@ -27,13 +27,12 @@
                 </div>
             </div>
         </div>
-
         
     </div>
 </template>
 
 <script>
-import { deleteFunnel } from '@/services/HttpService';
+import { deleteFunnel } from '@/services/ApiPrivateService';
 
 export default {
     name: 'CardFunil',
