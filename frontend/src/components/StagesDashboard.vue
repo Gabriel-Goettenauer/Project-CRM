@@ -22,7 +22,7 @@ export default {
             try {
                 const response = await getTables();
                 this.tables = response.data;
-                console.log(this.tables);
+                // console.log(this.tables);
             } catch (error) {
                 console.error('Error:', error);
             }

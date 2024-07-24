@@ -32,7 +32,6 @@ export default {
                 const response = await getContacts();
                 this.contacts = response.data;
                 console.log(this.contacts);
-                console.log(this.table?.name);
             } catch (error) {
                 console.error('Error:', error);
             }
