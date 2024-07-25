@@ -14,6 +14,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // contatos
 Route::middleware('auth:sanctum')->prefix('contacts')->group(function () {
     Route::get('/', [ContactController::class, 'indexByStage'])->name('contacts.index');
+    Route::get('/all', [ContactController::class, 'index'])->name('contacts.indexAll');
     Route::post('/', [ContactController::class, 'store'])->name('contacts.store');
     Route::get('/{id}', [ContactController::class, 'show'])->name('contacts.show');
     Route::put('/{id}', [ContactController::class, 'update'])->name('contacts.update');

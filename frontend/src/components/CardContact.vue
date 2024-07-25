@@ -3,8 +3,8 @@
         <div  class="card m-3">
             <div class="card-body">
                 <div class="card-info">
-                    <h5 class="card-title my-2">{{ card.name }}</h5>                    
-                    <p class="card-text mt-4">{{ card.value }}</p>
+                    <h5 class="card-title my-2 overflow-y-hidden">{{ card.name }}</h5>                    
+                    <p class="card-text mt-2">R$ {{ card.value }}</p>
                 </div>
             </div>
         </div>
@@ -36,6 +36,7 @@ export default {
 .card-title{
     color: #373753;
     font-family: 'CerebriSansProRegular';
+    height: 45px;
 }
 .card-text {
     color: #677C92;

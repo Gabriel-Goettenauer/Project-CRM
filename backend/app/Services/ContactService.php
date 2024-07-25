@@ -65,4 +65,9 @@ class ContactService
     {
         return $this->contactRepository->getByStage($stageId);
     }
+
+    public function getContacts(): Collection
+    {
+        return $this->contactRepository->getAll();
+    }
 }
