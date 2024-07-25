@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Repositories;
 
 use App\Models\Funnel;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FunnelRepository
 {
-    public function getAll(): Collection
+    public function getAll($perPage = 11): LengthAwarePaginator
     {
-        return Funnel::all();
+        return Funnel::paginate($perPage);
     }
 
     public function create(array $data): Funnel
@@ -35,15 +34,14 @@ class FunnelRepository
         $funnel->delete();
     }
 
-    public function searchByName($name): Collection
+    public function searchByName($name, $perPage = 15): LengthAwarePaginator
     {
-        return Funnel::where('name', 'like', "%$name%")->get();
+        return Funnel::where('name', 'like', "%$name%")->paginate($perPage);
     }
 
-    public function getFunnelDetails($id, $perPage = 15): Funnel
+    public function getFunnelDetails($id, $perPage = 15): LengthAwarePaginator
     {
-        return Funnel::with(['stages' => function ($query) use ($perPage) {
-            $query->paginate($perPage);
-        }, 'stages.contacts'])->findOrFail($id);
+        $funnel = Funnel::findOrFail($id);
+        return $funnel->stages()->paginate($perPage);
     }
 }

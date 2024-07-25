@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Services;
 
 use App\Repositories\FunnelRepository;
 use App\Models\Funnel;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FunnelService
 {
@@ -16,9 +14,9 @@ class FunnelService
         $this->funnelRepository = $funnelRepository;
     }
 
-    public function getAllFunnels($perPage = 11): Collection
+    public function getAllFunnels($perPage = 11): LengthAwarePaginator
     {
-        return $this->funnelRepository->getAll();
+        return $this->funnelRepository->getAll($perPage);
     }
 
     public function createFunnel(array $data): Funnel
@@ -41,13 +39,13 @@ class FunnelService
         $this->funnelRepository->delete($id);
     }
 
-    public function getFunnelDetails($id, $perPage = 15)
+    public function getFunnelDetails($id, $perPage = 15): LengthAwarePaginator
     {
         return $this->funnelRepository->getFunnelDetails($id, $perPage);
     }
 
-    public function searchFunnelsByName($name, $perPage = 15): Collection
+    public function searchFunnelsByName($name, $perPage = 15): LengthAwarePaginator
     {
-        return $this->funnelRepository->searchByName($name);
+        return $this->funnelRepository->searchByName($name, $perPage);
     }
 }
