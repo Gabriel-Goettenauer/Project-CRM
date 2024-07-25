@@ -1,11 +1,11 @@
 <template>
     <div>
         <span v-if="!isEditing" @click="toggleEdit" class="editable-span m-2">
-            {{ funnelName }}
+            {{ funnelDescription }}
             <i class="bi bi-pencil pencil-icon"></i>
         </span>
         <div v-else class="input-wrapper m-1">
-            <textarea v-model="newFunnelName" class="form-control input-with-icons" rows="11" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit"></textarea>
+            <textarea v-model="newFunnelDescription" class="form-control input-with-icons" rows="11" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit"></textarea>
             <i class="bi bi-check icon check-icon" @click="confirmEdit"></i>
             <i class="bi bi-x icon cancel-icon" @click="cancelEdit"></i>
         </div>
@@ -17,18 +17,25 @@
         data() {
             return {
                 isEditing: false,
-                funnelName: 'Descrição',
-                newFunnelName: 'Descrição'
+                funnelDescription: this.Placeholder,
+                newFunnelDescription: this.Placeholder
             };
+        },
+        props: {
+            Placeholder: {
+                type: String,
+                required: true
+            },
         },
         methods: {
             toggleEdit() {
-                this.newFunnelName = this.funnelName;
+                this.newFunnelDescription = this.funnelDescription;
                 this.isEditing = true;
             },
             confirmEdit() {
-                this.funnelName = this.newFunnelName;
+                this.funnelDescription = this.newFunnelDescription;
                 this.isEditing = false;
+                this.$emit('textarea-confirmed', this.newFunnelDescription);
             },
             cancelEdit() {
                 this.isEditing = false;

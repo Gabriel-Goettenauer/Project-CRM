@@ -51,6 +51,7 @@ export default {
                 console.log(id);
                 await deleteFunnel(id);
                 alert('Funnel deleted successfully!');
+                window.location.reload(true);
             } catch (error) {
                 console.error('Failed to delete the funnel:', error);
                 alert('Failed to delete the funnel.');

@@ -1,12 +1,12 @@
 <template>
   <div>
     <span v-if="!isEditing" @click="toggleEdit" class="editable-span">
-      {{ contactName }}
+      {{ Name }}
       <i class="bi bi-pencil pencil-icon"></i>
     </span>
 
     <div v-else class="input-wrapper">
-      <input :type="typeInput" v-model="newContactName" class="form-control input-with-icons" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit">
+      <input :type="typeInput" v-model="newName" class="form-control input-with-icons" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit">
       <i class="bi bi-x icon cancel-icon" @click="cancelEdit"></i>
       <i class="bi bi-check icon check-icon" @click="confirmEdit"></i>
     </div>
@@ -18,8 +18,8 @@ export default {
   data() {
     return {
       isEditing: false,
-      contactName: this.Placeholder,
-      newContactName: this.Placeholder,
+      Name: this.Placeholder,
+      newName: this.Placeholder,
       typeInput: this.InputType
     }
   },
@@ -35,12 +35,13 @@ export default {
   },
   methods: {
     toggleEdit() {
-      this.newContactName = this.contactName;
+      this.newName = this.Name;
       this.isEditing = true;
     },
     confirmEdit() {
-      this.contactName = this.newContactName;
+      this.Name = this.newName;
       this.isEditing = false;
+      this.$emit('input-confirmed', this.newName);
     },
     cancelEdit() {
       this.isEditing = false;

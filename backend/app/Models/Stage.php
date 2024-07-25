@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stage extends Model
 {
-    protected $fillable = ['name', 'funnel_id'];
+    protected $fillable = ['name', 'funnel_id','user_color'];
 
     public function contacts()
     {
