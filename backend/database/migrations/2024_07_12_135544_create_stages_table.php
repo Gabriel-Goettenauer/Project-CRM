@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('funnel_id');
+            $table->string('user_color');
             $table->foreign('funnel_id')->references('id')->on('funnels')->onDelete('cascade');
             $table->timestamps();
         });

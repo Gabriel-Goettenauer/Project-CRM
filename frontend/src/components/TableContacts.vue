@@ -1,6 +1,7 @@
 <template>
     <div class="mainTable m-2">
-        <div class="line"></div>
+        <div class="line" :style="{ backgroundColor: table.user_color }"></div>
+
         <div class="mx-3 my-2">
             <p class="tableTitle">{{table?.name}}</p>
         </div>
@@ -38,7 +39,7 @@ export default {
             try {
                 const response = await getContacts();
                 this.contacts = response.data;
-                console.log(this.contacts);
+                console.log(this.colorUser);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -67,7 +68,7 @@ export default {
         background-color: #F0F4FA;
     }
     .line{
-        background-color: #D2DDEC;
+        background-color: ;
         border-radius: 21px;
         width:256px;
         height: 8px;

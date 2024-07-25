@@ -25,6 +25,7 @@ class StageController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'funnel_id' => 'required|exists:funnels,id',
+            'user_color' => 'required|string'
         ]);
         $stage = $this->stageService->createStage($request->all());
         return response()->json($stage, 201);
@@ -41,6 +42,7 @@ class StageController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'funnel_id' => 'required|exists:funnels,id',
+            'user_color' => 'required|string'
         ]);
         $stage = $this->stageService->updateStage($id, $request->all());
         return response()->json($stage);
