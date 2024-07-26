@@ -54,7 +54,7 @@ export default {
     methods:{
         async getInfo(){
             try {
-                const response = await getTables();
+                const response = await getTables(funnel.id);
                 this.tables = response.data;
                 console.log(this.tables);
             } catch (error) {

@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       isEditing: false,
-      Name: this.Placeholder,
+      Name: this.Placeholder, 
       newName: this.Placeholder,
       typeInput: this.InputType
     }

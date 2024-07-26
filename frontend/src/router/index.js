@@ -28,7 +28,7 @@ const router = createRouter({
       meta: { title: "Dashboard" },
     },
     {
-      path: '/stage',
+      path: '/stage:id',
       name: 'Etapas',
       component: () => import("@/views/Stages.vue"),
       meta: { title: "Etapas" },
