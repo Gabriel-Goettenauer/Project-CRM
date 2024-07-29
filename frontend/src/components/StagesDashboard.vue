@@ -48,13 +48,14 @@ export default {
             formData:{
                 name:'',
                 user_color:'',
-            }
+            },
+            funnelID: this.$route.params.id
         }
     },
     methods:{
         async getInfo(){
             try {
-                const response = await getTables();
+                const response = await getTables(this.funnelID);
                 this.tables = response.data;
                 console.log(this.tables);
             } catch (error) {
@@ -63,12 +64,12 @@ export default {
         },
         async postStage(){
             try {
-              await postStage(this.formData);
-              alert('Etapa criada com sucesso');
-              window.location.reload(true);
+                await postStage(this.formData);
+                alert('Etapa criada com sucesso');
+                window.location.reload(true);
             } catch (error) {
-              console.error('ERRO', error);
-              alert('Falha ao criar etapa');
+                console.error('ERRO', error);
+                alert('Falha ao criar etapa');
             }
         },
         updateStageName(newName) {

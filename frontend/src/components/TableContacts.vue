@@ -83,6 +83,7 @@ export default {
         return {
             contacts: [],
             isRotated: false,
+            funnel_id : '',
         }
     },
     props: {

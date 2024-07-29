@@ -27,18 +27,18 @@ const router = createRouter({
       component: () => import("@/views/Dashboard.vue"),
       meta: { title: "Dashboard" },
     },
-    // {
-    //   path: '/stage/:id',
-    //   name: 'Etapas',
-    //   component: () => import("../views/Stages.vue"),
-    //   meta: { title: "Etapas" },
-    // },
     {
-    path: '/stage/',
-    name: 'Etapas',
-    component: () => import("../views/Stages.vue"),
-    meta: { title: "Etapas" },
+      path: '/stage/:id',
+      name: 'Etapas',
+      component: () => import("../views/Stages.vue"),
+      meta: { title: "Etapas" },
     },
+    // {
+    // path: '/stage/',
+    // name: 'Etapas',
+    // component: () => import("../views/Stages.vue"),
+    // meta: { title: "Etapas" },
+    // },
   ]
 })
 

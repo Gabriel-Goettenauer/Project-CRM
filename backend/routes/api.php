@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->prefix('contacts')->group(function () {
 
 // etapas
 Route::middleware('auth:sanctum')->prefix('stages')->group(function () {
-    Route::get('/', [StageController::class, 'index']);
+    Route::get('/{id}/all', [StageController::class, 'index']);
     Route::post('/', [StageController::class, 'store']);
     Route::get('/{id}', [StageController::class, 'show']);
     Route::put('/{id}', [StageController::class, 'update']);
