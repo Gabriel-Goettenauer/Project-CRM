@@ -15,7 +15,7 @@
         </div>
 
         <div class="card p-3 m-2">
-            <InputComponent Placeholder="Nome da Etapa" InputType="text" class="p-1" @input-confirmed="updateFunnelName"/>
+            <InputComponent Placeholder="Nome da Etapa" InputType="text" class="p-1" @input-confirmed="updateStageName"/>
             <div class="px-3 py-3 d-flex justify-content-start align-items-center">
                 <span class="px-1">Selecione uma cor :</span>
                 <input type="color" name="cor" id="cor" class="cor" value="#D2DDEC" v-model="formData.user_color">
@@ -25,14 +25,14 @@
             {{ this.formData }}
         </pre>
         <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-primary" type="button" @click="postFunnel()" @input-confirmed="updateFunnelName">Criar Etapa</button>
+            <button class="btn btn-primary" type="button" @click="postStage()" @input-confirmed="updateStageName">Criar Etapa</button>
         </div>
     </div>
 </template>
 
 <script>
 import TableContacts from './TableContacts.vue'
-import { getTables} from '@/services/ApiPrivateService';
+import {getTables, postStage,} from '@/services/ApiPrivateService';
 import InputComponent from "../components/InputComponent.vue";
 
 export default {
@@ -54,14 +54,24 @@ export default {
     methods:{
         async getInfo(){
             try {
-                const response = await getTables(funnel.id);
+                const response = await getTables();
                 this.tables = response.data;
                 console.log(this.tables);
             } catch (error) {
                 console.error('Error:', error);
             }
         },
-        updateFunnelName(newName) {
+        async postStage(){
+            try {
+              await postStage(this.formData);
+              alert('Etapa criada com sucesso');
+              window.location.reload(true);
+            } catch (error) {
+              console.error('ERRO', error);
+              alert('Falha ao criar etapa');
+            }
+        },
+        updateStageName(newName) {
         this.formData.name = newName;
         },
     },
