@@ -18,6 +18,11 @@ class StageService
         return $this->stageRepository->getAll();
     }
 
+    public function getStagesByFunnel($funnelId)
+    {
+        return $this->stageRepository->getByFunnel($funnelId);
+    }
+
     public function createStage(array $data)
     {
         return $this->stageRepository->create($data);

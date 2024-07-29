@@ -11,6 +11,11 @@ class StageRepository
         return Stage::all();
     }
 
+    public function getByFunnel($funnelId)
+    {
+        return Stage::where('funnel_id', $funnelId)->get();
+    }
+
     public function create(array $data)
     {
         return Stage::create($data);
