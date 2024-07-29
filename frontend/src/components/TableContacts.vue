@@ -25,12 +25,39 @@
     </div>
 
     <div class="card p-3 m-2">
-      <span>
-        <i :class="{'bi-chevron-down': !isRotated, 'bi-chevron-up': isRotated}" @click="toggleRotation" data-bs-toggle="collapse" data-bs-target="#contact"></i>
+      <span class="d-flex align-items-center px-2">
+        <i :class="{'bi-chevron-down': !isRotated, 'bi-chevron-up': isRotated}" @click="toggleRotation" data-bs-toggle="collapse" data-bs-target="#contact" class="p-2"></i>
+        <h4 class="m-0">Contato</h4>
       </span>
       <div class="collapse" id="contact">
         <div class="card card-body">
-          Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+          <div class="d-flex align-items-center px-2">
+            <h5>Telefone:</h5>
+            <InputComponent Placeholder="Adicionar número" InputType="text" ></InputComponent>
+          </div>
+          <div class="d-flex align-items-center px-2">
+            <h5>E-mail:</h5>
+            <InputComponent Placeholder="Adicionar e-mail" InputType="text" ></InputComponent>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-3 m-2">
+      <span class="d-flex align-items-center px-2">
+        <i :class="{'bi-chevron-down': !isRotated, 'bi-chevron-up': isRotated}" @click="toggleRotation" data-bs-toggle="collapse" data-bs-target="#data" class="p-2"></i>
+        <h4 class="m-0">Dados</h4>
+      </span>
+      <div class="collapse" id="data">
+        <div class="card card-body">
+          <div class="d-flex align-items-center px-2">
+            <h5>Telefone:</h5>
+            <InputComponent Placeholder="Adicionar número" InputType="text" ></InputComponent>
+          </div>
+          <div class="d-flex align-items-center px-2">
+            <h5>E-mail:</h5>
+            <InputComponent Placeholder="Adicionar e-mail" InputType="text" ></InputComponent>
+          </div>
         </div>
       </div>
     </div>
