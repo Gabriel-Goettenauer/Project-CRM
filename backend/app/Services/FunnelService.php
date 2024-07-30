@@ -48,4 +48,10 @@ class FunnelService
     {
         return $this->funnelRepository->searchByName($name, $perPage);
     }
+
+    // Novo método para buscar funis por user_id
+    public function getFunnelsByUserId($userId, $perPage = 11): LengthAwarePaginator
+    {
+        return $this->funnelRepository->getByUserId($userId, $perPage);
+    }
 }
