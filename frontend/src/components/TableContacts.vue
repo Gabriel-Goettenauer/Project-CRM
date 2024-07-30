@@ -21,7 +21,7 @@
     </div>
 
     <div class="card p-3 m-2">
-      <InputComponent Placeholder="Nome do Contato" InputType="text" class="p-1" @input-confirmed="updateStageName"/>
+      <InputComponent Placeholder="Nome do Contato" InputType="text" class="p-1" @input-confirmed="updateContactName"/>
     </div>
 
     <div class="card p-3 m-2">
@@ -30,38 +30,46 @@
         <h4 class="m-0">Contato</h4>
       </span>
       <div class="collapse" id="contact">
-        <div class="card card-body">
+        <hr>
           <div class="d-flex align-items-center px-2">
-            <h5>Telefone:</h5>
+            <h5 class="mx-2">Telefone:</h5>
             <InputComponent Placeholder="Adicionar número" InputType="text" ></InputComponent>
           </div>
           <div class="d-flex align-items-center px-2">
-            <h5>E-mail:</h5>
+            <h5 class="mx-2">E-mail:</h5>
             <InputComponent Placeholder="Adicionar e-mail" InputType="text" ></InputComponent>
           </div>
-        </div>
       </div>
     </div>
 
     <div class="card p-3 m-2">
-      <span class="d-flex align-items-center px-2">
+      <span class="d-flex align-items-center px-2 ">
         <i :class="{'bi-chevron-down': !isRotated, 'bi-chevron-up': isRotated}" @click="toggleRotation" data-bs-toggle="collapse" data-bs-target="#data" class="p-2"></i>
         <h4 class="m-0">Dados</h4>
       </span>
       <div class="collapse" id="data">
-        <div class="card card-body">
+          <hr>
           <div class="d-flex align-items-center px-2">
-            <h5>Telefone:</h5>
-            <InputComponent Placeholder="Adicionar número" InputType="text" ></InputComponent>
+            <h5 class="mx-2">CPF:</h5>
+            <InputComponent Placeholder="000.000.000-00" InputType="number" ></InputComponent>
           </div>
           <div class="d-flex align-items-center px-2">
-            <h5>E-mail:</h5>
-            <InputComponent Placeholder="Adicionar e-mail" InputType="text" ></InputComponent>
+            <h5 class="mx-2">Data de nascimento:</h5>
+            <InputComponent Placeholder="DD/MM/AAAA" InputType="date" ></InputComponent>
           </div>
-        </div>
+          <div class="d-flex align-items-center px-2">
+            <h5 class="mx-2">Endereço:</h5>
+            <InputComponent Placeholder="-" InputType="string" ></InputComponent>
+          </div>
+          <div class="d-flex align-items-center px-2">
+            <h5 class="mx-2">Valor:</h5>
+            <InputComponent Placeholder="R$ 0,00" InputType="number" ></InputComponent>
+          </div>
       </div>
     </div>
-
+    <pre>
+            {{ this.formData }}
+        </pre>
     <div class="d-grid gap-2 col-6 mx-auto">
       <button class="btn btn-primary" type="button" @click="" @input-confirmed="updateStageName">Criar Contato</button>
     </div>
@@ -84,6 +92,16 @@ export default {
             contacts: [],
             isRotated: false,
             funnel_id : '',
+            formData:{
+                name: '',
+                email:'',
+                phone_number:'',
+                cpf:'',
+                date_of_birth:'',
+                value:'',
+                address:'',
+                stage_id:this.stageId,
+            }
         }
     },
     props: {
@@ -105,6 +123,9 @@ export default {
             } catch (error) {
                 console.error('Error:', error);
             }
+        },
+        updateContactName(newName) {
+          this.formData.name = newName;
         },
     },
     created() {
@@ -133,7 +154,6 @@ export default {
         background-color: #F0F4FA;
     }
     .line{
-        background-color: ;
         border-radius: 21px;
         width:256px;
         height: 8px;
