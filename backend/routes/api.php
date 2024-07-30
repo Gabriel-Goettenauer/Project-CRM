@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->prefix('contacts')->group(function () {
     Route::post('/', [ContactController::class, 'store'])->name('contacts.store');
     Route::get('/{id}', [ContactController::class, 'show'])->name('contacts.show');
     Route::put('/{id}', [ContactController::class, 'update'])->name('contacts.update');
+    Route::put('/StageUpdate/{id}', [ContactController::class, 'updateStage'])->name('contacts.updateStage');
     Route::delete('/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     Route::get('/by-stage', [ContactController::class, 'indexByStage'])->name('contacts.indexByStage');
 });

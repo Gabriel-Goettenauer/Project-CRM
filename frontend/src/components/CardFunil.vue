@@ -109,7 +109,7 @@ export default {
             this.formData.description = newDescription;
         },
         goToStage() {
-          this.$router.push({ path: `/stage/${this.card.id}` });
+            this.$router.push({ path: `/stage/${this.card.id}` });
         }
     }
 }

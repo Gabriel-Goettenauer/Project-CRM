@@ -5,6 +5,7 @@
                 <div class="card-info">
                     <h5 class="card-title my-2 overflow-y-hidden">{{ card.name }}</h5>                    
                     <p class="card-text mt-2">R$ {{ card.value }}</p>
+                    <p>{{ card.id }}</p>
                 </div>
             </div>
         </div>

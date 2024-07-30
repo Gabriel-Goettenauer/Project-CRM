@@ -70,4 +70,9 @@ class ContactService
     {
         return $this->contactRepository->getAll();
     }
+
+    public function updateStage($contactId, $stageId)
+    {
+        $this->contactRepository->updateStage($contactId, $stageId);
+    }
 }

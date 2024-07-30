@@ -1,15 +1,23 @@
 <template>
     <div class="mainTable m-2">
+        <p>{{ this.stage_id }}</p>
         <div class="line" :style="{ backgroundColor: table.user_color }"></div>
         <div class="mx-3 my-2 d-flex align-items-center justify-content-between">
             <p class="tableTitle">{{table?.name}}</p>
-            <span class="newContact d-flex align-items-center justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasContact">
+            <span class="newContact d-flex align-items-center justify-content-center" 
+              data-bs-toggle="offcanvas" :data-bs-target="'#'+offcanvasContact">
               <i class="bi bi-plus-lg mt-1"></i>
             </span>
         </div>
-        <CardContact v-for="contact in filteredContacts" :key="contact.id" :card="contact"/>
+        <draggable v-model="filteredContacts" group="contacts" @change="UpdateStageCard" item-key="id">
+          <template #item={element}>
+            <CardContact :card="element" :key="element.id"/>    
+          </template>
+        </draggable>
+        <!-- <CardContact v-for="contact in filteredContacts" :key="contact.id" :card="contact"/> -->
     </div>
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContact" aria-labelledby="offcanvasRightLabel">
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" :id="offcanvasContact">
     <div class="offcanvas-header d-flex justify-content-between align-items-center">
       <div class="d-flex justify-content-between align-items-center">
         <i class="voltar " data-bs-dismiss="offcanvas" aria-label="Close">
@@ -17,7 +25,7 @@
         </i>
         <label class="px-2">Voltar</label>
       </div>
-      <h5 class="offcanvas-title" id="offcanvasRightLabel">Novo Contato</h5>
+      <h5 class="offcanvas-title">Novo Contato</h5>
     </div>
 
     <div class="card p-3 m-2">
@@ -71,7 +79,7 @@
             {{ this.formData }}
         </pre>
     <div class="d-grid gap-2 col-6 mx-auto">
-      <button class="btn btn-primary" type="button" @click="" @input-confirmed="updateStageName">Criar Contato</button>
+      <button class="btn btn-primary" type="button" @click="CreateContact()" @input-confirmed="updateStageName">Criar Contato</button>
     </div>
   </div>
 </template>
@@ -80,12 +88,14 @@
 import CardContact from './CardContact.vue'
 import { getContacts } from '../services/ApiPrivateService';
 import InputComponent from "@/components/InputComponent.vue";
+import draggable from 'vuedraggable';
 
 export default {
     name:'TableContacts',
     components: {
       InputComponent,
-        CardContact 
+        CardContact,
+        draggable
     },
     data() {
         return {
@@ -101,7 +111,10 @@ export default {
                 value:'',
                 address:'',
                 stage_id:this.stageId,
-            }
+            },
+            card_id: '',
+            stage_id:this.table.id,
+            offcanvasContact: '' + this.table.id
         }
     },
     props: {
@@ -116,16 +129,35 @@ export default {
     },
     methods: {
         async getInfo() {
-            try {
-                const response = await getContacts();
-                this.contacts = response.data;
-                console.log(this.colorUser);
+          try {
+              const response = await getContacts();
+              this.contacts = response.data;
             } catch (error) {
                 console.error('Error:', error);
             }
         },
+        async CreateContact(){  
+
+        },
+        async UpdateStageCard(){
+          try{
+            console.log(event)
+            console.log(this.formData.stage_id);
+            await updateContactStage(this.formData.stageId);
+            window.location.reload(true);
+            console('trocou');
+          }catch (error) {
+                console.error('ERRO', error);
+            }
+        },
         updateContactName(newName) {
           this.formData.name = newName;
+        },
+        onDragEnd(event) {
+          console.log('Drag ended', event);
+        },
+        toggleRotation() {
+          this.isRotated = !this.isRotated;
         },
     },
     created() {
@@ -134,12 +166,8 @@ export default {
     computed: {
         filteredContacts() {
             const filtered = this.contacts.filter(contact => contact.stage_id === this.stageId);
-            console.log(`Filtered Contacts for stage ${this.stageId}:`, filtered);
             return filtered;
         },
-        toggleRotation() {
-          this.isRotated = !this.isRotated;
-        }
     },
 }
 </script>

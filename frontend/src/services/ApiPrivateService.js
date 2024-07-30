@@ -10,7 +10,6 @@ const http = axios.create({
 
 http.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
@@ -40,5 +39,7 @@ http.interceptors.request.use(config => {
     export const postStage = async() =>{
         return await http.post('stages',stage)
     }
-    
+    export const updateContactStage = async(id,card) =>{
+        return await http.put(`/StageUpdate/${id}`,card)
+    }
 export default http;
