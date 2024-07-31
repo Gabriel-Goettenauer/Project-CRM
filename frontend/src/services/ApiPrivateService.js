@@ -40,6 +40,6 @@ http.interceptors.request.use(config => {
         return await http.post('stages',stage)
     }
     export const updateContactStage = async(id,card) =>{
-        return await http.put(`/StageUpdate/${id}`,card)
+        return await http.put(`contacts/StageUpdate/${id}`,card)
     }
 export default http;
