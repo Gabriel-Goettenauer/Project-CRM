@@ -88,6 +88,7 @@ class ContactController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
+    
     public function updateStage(Request $request, $id)
     {
         $validated = $request->validate([
@@ -98,6 +99,7 @@ class ContactController extends Controller
 
         return response()->json(['message' => 'Stage updated successfully']);
     }
+
     public function destroy($id)
     {
         try {

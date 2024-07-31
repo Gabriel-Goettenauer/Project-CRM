@@ -53,8 +53,9 @@
         formData: {
             name: '',
             user_color: '',
+            funnel_id: this.$route.params.id,
         },
-        funnelID: this.$route.params.id
+        funnelID: this.$route.params.id,
         }
     },
     methods: {
@@ -68,9 +69,9 @@
         },
         async postStage() {
         try {
-            await postStage(this.formData);
+            const response = await postStage(this.formData);
             alert('Etapa criada com sucesso');
-            window.location.reload(true);
+            this.getInfo();
         } catch (error) {
             console.error('ERRO', error);
             alert('Falha ao criar etapa');

@@ -1,6 +1,5 @@
 <template>
   <div class="mainTable m-2">
-    <p>{{ stage_id }}</p>
     <div class="line" :style="{ backgroundColor: table.user_color }"></div>
     <div class="mx-3 my-2 d-flex align-items-center justify-content-between">
       <p class="tableTitle">{{ table?.name }}</p>
@@ -9,7 +8,7 @@
         <i class="bi bi-plus-lg mt-1"></i>
       </span>
     </div>
-    <draggable v-model="filteredContacts" group="contacts" @change="updateStage" item-key="id">
+    <draggable v-model="filteredContactsList" group="contacts" @change="updateStage" item-key="id" :animation="300" ghost-class="hidden-ghost"  >
       <template #item="{ element }">
         <CardContact :card="element" :key="element.id" @card-clicked="setCardId"/>
       </template>
@@ -78,14 +77,14 @@
     </div>
     <pre>{{ formData }}</pre>
     <div class="d-grid gap-2 col-6 mx-auto">
-      <button class="btn btn-primary" type="button" @click="CreateContact">Criar Contato</button>
+      <button class="btn btn-primary" type="button" @click="postContact">Criar Contato</button>
     </div>
   </div>
 </template>
 
 <script>
 import CardContact from './CardContact.vue';
-import { getContacts, updateContactStage } from '../services/ApiPrivateService';
+import { getContacts, postContact, updateContactStage } from '../services/ApiPrivateService';
 import InputComponent from "@/components/InputComponent.vue";
 import draggable from 'vuedraggable';
 
@@ -99,6 +98,7 @@ export default {
   data() {
     return {
       contacts: [],
+      filteredContactsList: [],
       isRotated: false,
       funnel_id: '',
       formData: {
@@ -112,8 +112,8 @@ export default {
         stage_id: this.stageId,
       },
       card_id: '',
-      stage_id: this.table.id,
-      offcanvasContact: 'offcanvas-' + this.table.id,
+      stage_id: this.stageId,
+      offcanvasContact: 'offcanvas-' + this.stageId,
     };
   },
   props: {
@@ -131,22 +131,29 @@ export default {
       try {
         const response = await getContacts();
         this.contacts = response.data;
+        this.updateFilteredContacts();
       } catch (error) {
         console.error('Error:', error);
       }
     },
-    async CreateContact() {
-      // Lógica para criar contato
+    async postContact() {
+      try{
+        const response = await postContact(this.formData);
+        console.log("criado");
+      }catch(error){
+        console.error('Falha ao criar contato', error);
+      }
     },
-    async updateStage() {
+    async updateStage(evt) {
       try {
-        console.log(this.card_id);
-        console.log(this.formData.stage_id);
-        await updateContactStage(this.card_id, this.formData.stage_id);
-        window.location.reload(true);
-        console.log('Stage updated');
+        // console.log(added);
+        const contact = evt.added.element;
+        contact.stage_id = this.stageId;
+        await updateContactStage(contact.id, { stage_id: contact.stage_id });
+        this.updateFilteredContacts();
+        this.getInfo();
       } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
       }
     },
     updateContactName(newName) {
@@ -158,15 +165,18 @@ export default {
     setCardId(cardId) {
       this.card_id = cardId;
       console.log('Card ID:', cardId);
-    }
+    },
+    updateFilteredContacts() {
+      this.filteredContactsList = this.contacts.filter(contact => contact.stage_id === this.stageId);
+    },
   },
   created() {
     this.getInfo();
   },
-  computed: {
-    filteredContacts() {
-      return this.contacts.filter(contact => contact.stage_id === this.stageId);
-    },
+  watch: {
+    contacts() {
+      this.updateFilteredContacts();
+    }
   },
 };
 </script>
@@ -233,5 +243,8 @@ svg {
 .bi-chevron-up {
   transform: rotate(180deg);
   transition: transform 0.5s;
+}
+.hidden-ghost {
+  opacity: 0.3;
 }
 </style>
