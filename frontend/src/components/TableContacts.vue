@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-    <pre>{{ formData }}</pre>
+<!--    <pre>{{ formData }}</pre>-->
     <div class="d-grid gap-2 col-6 mx-auto">
       <button class="btn btn-primary" type="button" @click="postContact">Criar Contato</button>
     </div>
