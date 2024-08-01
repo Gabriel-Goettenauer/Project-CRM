@@ -39,8 +39,8 @@
             </div>
             <div class="modal-body">
               <div class="card p-2 m-2">
-                <InputComponent :Placeholder="card.name" InputType="text" class="p-1" @input-confirmed="updateFunnelName"/>
-                <TextAreaComponent class="p-1" :Placeholder="card.description" @textarea-confirmed="updateFunnelDescription"/>
+                <InputComponent :Placeholder="card.name" InputType="text" sizeInput="425px" class="p-1" @input-confirmed="updateFunnelName"/>
+                <TextAreaComponent class="p-1 overflow-auto" :Placeholder="card.description" @textarea-confirmed="updateFunnelDescription" sizeInput="400px"/>
               </div>
               <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btn-primary" type="button" @click="updateFunnel(card.id)">Atualizar Funil</button>
