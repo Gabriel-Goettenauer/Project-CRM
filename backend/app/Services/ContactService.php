@@ -26,7 +26,7 @@ class ContactService
     public function createContact(array $data)
     {
         $this->updatePositionsOnCreate(); // Atualiza as posições antes de criar um novo contato
-        $data['position'] = 1; // Define a posição inicial do novo contato
+        $data['position'] = 0; // Define a posição inicial do novo contato
         return $this->contactRepository->create($data);
     }
 

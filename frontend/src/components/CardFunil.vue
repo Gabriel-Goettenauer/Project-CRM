@@ -3,6 +3,7 @@
         <div  class="card m-3" style="width: 18rem;" @click="goToStage()">
             <div class="card-body">
                 <div class="d-flex justify-content-between card-info">
+                    <p>{{card.id}}</p>
                     <h5 class="card-title">{{ card.name }}</h5>
                     <div class="icon-container">
                       <i class="bi bi-pencil-fill px-3" data-bs-toggle="modal" :data-bs-target="'#' + modaleditID" @click.stop></i>
@@ -95,6 +96,7 @@ export default {
             try {
                 console.log(id);
                 await updateFunnel(id,this.formData);
+                await 
                 alert('Funil atualizado com sucesso');
                 window.location.reload(true);
             } catch (error) {

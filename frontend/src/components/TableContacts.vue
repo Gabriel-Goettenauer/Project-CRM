@@ -84,7 +84,7 @@
 
 <script>
 import CardContact from './CardContact.vue';
-import { getContacts, postContact, updateContactStage } from '../services/ApiPrivateService';
+import { getContacts, postContact, updateContactPosition, updateContactStage } from '../services/ApiPrivateService';
 import InputComponent from "@/components/InputComponent.vue";
 import draggable from 'vuedraggable';
 
@@ -131,7 +131,7 @@ export default {
       try {
         const response = await getContacts();
         this.contacts = response.data;
-        this.updateFilteredContacts();
+        this.updateFilteredContacts();  
       } catch (error) {
         console.error('Error:', error);
       }
@@ -146,12 +146,19 @@ export default {
     },
     async updateStage(evt) {
       try {
-        // console.log(added);
-        const contact = evt.added.element;
-        contact.stage_id = this.stageId;
-        await updateContactStage(contact.id, { stage_id: contact.stage_id });
-        this.updateFilteredContacts();
-        this.getInfo();
+        if (evt.added) {
+          const contact = evt.added.element;
+          contact.stage_id = this.stageId;
+          await updateContactStage(contact.id, { stage_id: contact.stage_id });
+          await updateContactPosition(contact.id, { position: evt.added.newIndex });
+          this.updateFilteredContacts();
+          this.getInfo();
+        } else if (evt.moved) {
+          const contact = evt.moved.element;
+          await updateContactPosition(contact.id, { position: evt.moved.newIndex});
+          this.updateFilteredContacts();
+          this.getInfo();
+        }
       } catch (error) {
         // console.error('Error:', error);
       }

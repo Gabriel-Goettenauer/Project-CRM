@@ -21,6 +21,7 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $contacts = $this->contactService->getContacts();
+
         return response()->json($contacts);
     }
 
