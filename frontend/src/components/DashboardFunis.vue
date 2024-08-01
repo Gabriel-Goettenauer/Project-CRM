@@ -1,27 +1,29 @@
 <template>
     <div class="main d-inline-flex flex-wrap justify-content-start my-4">
-    <CardFunil v-for="funnel in funnels" :key="funnel.id" :card="funnel"/>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header d-flex justify-content-between align-items-center">
-            <div class="d-flex justify-content-between align-items-center">
-                <i class="voltar" data-bs-dismiss="offcanvas" aria-label="Close">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#373753">
-                        <path d="M524-480 394-350l42 43 173-173-173-173-42 43 130 130ZM480-80q-83 0-156-31.5t-127-86Q143-252 111.5-325T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 155.5 31.5t127 85.5q54.5 54 86 127T880-480q0 82-31.5 155t-86 127.5q-54.5 54.5-127 86T480-80Zm0-60q141 0 240.5-99.5T820-480q0-142-99.5-241T480-820q-142 0-241 99t-99 241q0 141 99 240.5T480-140Zm0-340Z"/>
-                    </svg>
-                </i>
-                <label class="px-2">Voltar</label>
-            </div>
-            <h5 class="offcanvas-title" id="offcanvasRightLabel">Novo Funil</h5>
-        </div>
+        <CardFunil v-for="funnel in funnels" :key="funnel.id" :card="funnel"/>
+      <div class="modal fade" tabindex="-1" id="modalRight">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+              <h5 class="modal-title" id="modalRightLabel">Novo Funil</h5>
+              <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
 
-            <div class="card p-2 m-2">
-            <InputComponent Placeholder="Nome do Funil" InputType="text" class="p-1" @input-confirmed="updateFunnelName"/>
-            <TextAreaComponent class="p-1" Placeholder="Descrição" @textarea-confirmed="updateFunnelDescription"/>
             </div>
-            <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="modal-body">
+              <div class="card p-2 m-2">
+                <InputComponent Placeholder="Nome do Funil" InputType="text" class="p-1" @input-confirmed="CreateFunnelName"/>
+                <TextAreaComponent class="p-1" Placeholder="Descrição" @textarea-confirmed="CreateFunnelDescription"/>
+              </div>
+              <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btn-primary" type="button" @click="postFunnel()">Criar Novo Funil</button>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
     </div>
 </template>
 
@@ -43,7 +45,7 @@ export default {
             funnels: [],
             formData: {
                 name: '',
-                description: '',
+                description: ''
             }
         }
     },
@@ -51,7 +53,7 @@ export default {
     async getInfo() {
         try {
             const response = await getFunnels();
-            this.funnels = response.data;
+            this.funnels = response.data.data;
         } catch (error) {
             console.error('Error:', error);
         }
@@ -66,10 +68,10 @@ export default {
             alert('Falha ao criar o funil');
         }
     },
-    updateFunnelName(newName) {
+    CreateFunnelName(newName) {
         this.formData.name = newName;
     },
-    updateFunnelDescription(newDescription) {
+    CreateFunnelDescription(newDescription) {
         this.formData.description = newDescription;
     }
     },
@@ -80,7 +82,7 @@ export default {
 </script>
 
 <style scoped>
-    .offcanvas{
+    .modal-content{
         background-color:#F9FAFC;
     }
     .card{
@@ -98,7 +100,7 @@ export default {
     }
     .bi{
         font-size: 40px;
-        
+
     }
     .card:hover{
         cursor: pointer;

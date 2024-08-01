@@ -3,23 +3,34 @@
         <SideNavbar/>
         <div class="d-flex justify-content-between align-items-center"> 
             <h1 class="px-5 pt-3 pb-2">Etapas</h1>
+<!--            <h1 class="px-5 pt-3 pb-2">{{ funnel.name }}</h1>-->
             <button type="button" class="btn addStage mx-5 mt-3 mb-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
                 <i class="bi bi-file-plus-fill px-2"></i>
                 Nova Etapa</button>
         </div>
         <StagesDashboard/>
-    </div>
+    </div> 
 </template>
 
 <script>
 import SideNavbar from "../components/SideNavbar.vue"
 import StagesDashboard from '../components/StagesDashboard.vue'
 
+
 export default {
+    name: 'Stages',
     components: { 
         SideNavbar,
         StagesDashboard,
     },
+    computed: {
+      id() {
+        return this.$route.params.id;
+      }
+    },
+    created() {
+      console.log('ID da rota:', this.id);
+    }
 }
 </script>
 
@@ -46,11 +57,5 @@ export default {
     svg{
         background-color: #F9FAFC;
         transform: rotate(180deg)
-    }
-    .offcanvas{
-        background-color:#F9FAFC;
-    }
-    .voltar:hover{
-        cursor: pointer;
     }
 </style>

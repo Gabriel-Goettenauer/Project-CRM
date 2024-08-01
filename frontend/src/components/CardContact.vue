@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div  class="card m-3">
+    <div @click="emitCardId">
+        <div  class="card m-3" >
             <div class="card-body">
                 <div class="card-info">
                     <h5 class="card-title my-2 overflow-y-hidden">{{ card.name }}</h5>                    
@@ -17,6 +17,11 @@ export default {
     props:{
         card:{}
     },
+    methods: {
+        mitCardId() {
+            this.$emit('card-clicked', this.card.id);
+        },
+    }
 }
 
 </script>

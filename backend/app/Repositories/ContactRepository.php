@@ -86,4 +86,11 @@ class ContactRepository
     {
         return Contact::where('stage_id', $stageId)->get();
     }
+    
+    public function updateStage($contactId, $stageId)
+    {
+        $contact = Contact::findOrFail($contactId);
+        $contact->stage_id = $stageId;
+        $contact->save();
+    }
 }

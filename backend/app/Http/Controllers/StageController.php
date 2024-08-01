@@ -14,11 +14,10 @@ class StageController extends Controller
         $this->stageService = $stageService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
-        $funnelId = $request->input('funnel_id');
-        $stages = $this->stageService->getStagesByFunnel($funnelId);
-        return response()->json($stages);
+    $stages = $this->stageService->getStagesByFunnel($id);
+    return response()->json($stages);
     }
 
     public function store(Request $request)

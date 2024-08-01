@@ -20,7 +20,7 @@ class StageService
 
     public function getStagesByFunnel($funnelId)
     {
-        return $this->stageRepository->getByFunnel($funnelId);
+    return $this->stageRepository->getByFunnelId($funnelId); // Corrigido para usar "->"
     }
 
     public function createStage(array $data)

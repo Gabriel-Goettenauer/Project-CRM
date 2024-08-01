@@ -88,6 +88,17 @@ class ContactController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
+    
+    public function updateStage(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'stage_id' => 'required|exists:stages,id',
+        ]);
+
+        $this->contactService->updateStage($id, $validated['stage_id']);
+
+        return response()->json(['message' => 'Stage updated successfully']);
+    }
 
     public function destroy($id)
     {
