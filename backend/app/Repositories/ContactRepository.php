@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Collection;
 class ContactRepository
 {
     /**
-     * Obtém todos os contatos.
+     * Obtém todos os contatos ordenados por posição.
      *
      * @return Collection
      */
     public function getAll(): Collection
     {
-        return Contact::all();
+        return Contact::orderBy('position')->get(); // Ordena os contatos por posição diretamente na consulta
     }
 
     /**
@@ -86,11 +86,32 @@ class ContactRepository
     {
         return Contact::where('stage_id', $stageId)->get();
     }
-    
-    public function updateStage($contactId, $stageId)
+
+    /**
+     * Atualiza o estágio de um contato.
+     *
+     * @param int $contactId
+     * @param int $stageId
+     * @return void
+     */
+    public function updateStage($contactId, $stageId): void
     {
-        $contact = Contact::findOrFail($contactId);
+        $contact = $this->findById($contactId);
         $contact->stage_id = $stageId;
+        $contact->save();
+    }
+
+    /**
+     * Atualiza a posição de um contato.
+     *
+     * @param int $contactId
+     * @param int $position
+     * @return void
+     */
+    public function updatePosition($contactId, $position): void
+    {
+        $contact = $this->findById($contactId);
+        $contact->position = $position;
         $contact->save();
     }
 }
