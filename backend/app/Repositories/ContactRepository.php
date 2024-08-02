@@ -108,10 +108,15 @@ class ContactRepository
      * @param int $position
      * @return void
      */
-    public function updatePosition($contactId, $position): void
+    // public function updatePosition($contactId, $position): void
+    // {
+    //     $contact = $this->findById($contactId);
+    //     $contact->position = $position;
+    //     $contact->save();
+    // }
+    public function updatePosition($start, $end, $increment)
     {
-        $contact = $this->findById($contactId);
-        $contact->position = $position;
-        $contact->save();
+        Contact::whereBetween('position', [$start, $end])
+            ->update(['position' => \DB::raw("position $increment")]);
     }
 }

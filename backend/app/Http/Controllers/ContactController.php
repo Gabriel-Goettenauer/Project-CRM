@@ -113,20 +113,27 @@ class ContactController extends Controller
         }
     }
 
-    public function updatePosition(Request $request, $id)
+    // public function updatePosition(Request $request, $id)
+    // {
+    //     $validated = $request->validate([
+    //         'position' => 'required|integer',
+    //     ]);
+
+    //     try {
+    //         $this->contactService->updatePosition($id, $validated['position']);
+    //         return response()->json(['message' => 'Position updated successfully']);
+    //     } catch (ModelNotFoundException $e) {
+    //         return response()->json(['error' => 'Contact not found'], 404);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => $e->getMessage()], 400);
+    //     }
+    // }
+    public function updatePosition(Request $request, $stage_id)
     {
-        $validated = $request->validate([
-            'position' => 'required|integer',
+        $request->validate([
+            'position' => 'required|integer'
         ]);
 
-        try {
-            $this->contactService->updatePosition($id, $validated['position']);
-            return response()->json(['message' => 'Position updated successfully']);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Contact not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
+        return $this->contactService->swap($stage_id, $request->position);
     }
-
 }

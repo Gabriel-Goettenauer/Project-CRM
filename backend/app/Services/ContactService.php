@@ -46,17 +46,40 @@ class ContactService
         $this->reorderPositions(); // Reordena posições após excluir um contato
     }
 
-    public function updateStage($contactId, $stageId)
-    {
-        $this->contactRepository->updateStage($contactId, $stageId);
-    }
+    // public function updateStage($contactId, $stageId)
+    // {
+    //     $this->contactRepository->updateStage($contactId, $stageId);
+    // }
 
-    public function updatePosition($contactId, $position): void
+    // public function updatePosition($contactId, $position): void
+    // {
+    //     $this->contactRepository->updatePosition($contactId, $position);
+    //     $this->reorderPositions(); // Reordena posições após atualizar uma posição
+    // }
+    public function updatePosition($stage_id, $new_position)
     {
-        $this->contactRepository->updatePosition($contactId, $position);
-        $this->reorderPositions(); // Reordena posições após atualizar uma posição
-    }
+        $contato = $this->contactRepository->findByStageId($stage_id);
+        if (!$contato) {
+            return response()->json(['error' => 'Contato não encontrado.'], 404);
+        }
 
+        $current_position = $contato->position;
+
+        if ($new_position == $current_position) {
+            return response()->json(['message' => 'A nova posição é igual à posição atual.'], 200);
+        }
+
+        if ($new_position > $current_position) {
+            $this->contactRepository->updatePositions($current_position + 1, $new_position, '- 1');
+        } elseif ($new_position < $current_position) {
+            $this->contactRepository->updatePositions($new_position, $current_position - 1, '+ 1');
+        }
+
+        $contato->position = $new_position;
+        $contato->save();
+
+        return response()->json($contato, 200);
+    }
     protected function updatePositionsOnCreate(): void
     {
         $contacts = $this->contactRepository->getAll();
