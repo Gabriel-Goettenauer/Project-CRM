@@ -1,6 +1,7 @@
 <template>
     <div class="main d-inline-flex flex-wrap justify-content-start my-4">
         <CardFunil v-for="funnel in funnels" :key="funnel.id" :card="funnel"/>
+
       <div class="modal fade" tabindex="-1" id="modalRight">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -14,7 +15,7 @@
             <div class="modal-body">
               <div class="card p-2 m-2">
                 <InputComponent Placeholder="Nome do Funil" InputType="text" class="p-1" @input-confirmed="CreateFunnelName"/>
-                <TextAreaComponent class="p-1" Placeholder="Descrição" @textarea-confirmed="CreateFunnelDescription"/>
+                <TextAreaComponent class="p-1 " Placeholder="Descrição" @textarea-confirmed="CreateFunnelDescription"/>
               </div>
               <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btn-primary" type="button" @click="postFunnel()">Criar Novo Funil</button>
@@ -23,7 +24,6 @@
           </div>
         </div>
       </div>
-
     </div>
 </template>
 

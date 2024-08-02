@@ -18,7 +18,7 @@ class ContactController extends Controller
         $this->phoneNumberService = $phoneNumberService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $contacts = $this->contactService->getContacts();
         return response()->json($contacts);
@@ -75,7 +75,8 @@ class ContactController extends Controller
             'value' => 'required|numeric',
             'address' => 'required|string|max:255',
             'stage_id' => 'required|exists:stages,id',
-            'position' => 'nullable|integer', // Permitir atualização de posição
+            'position' => 'nullable|integer',
+
         ]);
 
         try {
@@ -97,9 +98,14 @@ class ContactController extends Controller
             'stage_id' => 'required|exists:stages,id',
         ]);
 
-        $this->contactService->updateStage($id, $validated['stage_id']);
-
-        return response()->json(['message' => 'Stage updated successfully']);
+        try {
+            $this->contactService->updateStage($id, $validated['stage_id']);
+            return response()->json(['message' => 'Stage updated successfully']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Contact not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     public function destroy($id)
@@ -112,14 +118,14 @@ class ContactController extends Controller
         }
     }
 
-    public function updatePosition(Request $request, $id)
+    public function updatePosition(Request $request, $stage_id)
     {
         $validated = $request->validate([
             'position' => 'required|integer',
         ]);
 
         try {
-            $this->contactService->updatePosition($id, $validated['position']);
+            $this->contactService->updatePosition($stage_id, $validated['position']);
             return response()->json(['message' => 'Position updated successfully']);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Contact not found'], 404);
@@ -127,5 +133,4 @@ class ContactController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
-
 }

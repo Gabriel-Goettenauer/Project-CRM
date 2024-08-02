@@ -5,7 +5,8 @@
             <i class="bi bi-pencil pencil-icon"></i>
         </span>
         <div v-else class="input-wrapper m-1">
-            <textarea v-model="newFunnelDescription" class="form-control input-with-icons" rows="11" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit"></textarea>
+            <textarea v-model="newFunnelDescription" class="form-control input-with-icons" rows="11" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit"
+            :style="{ width: inputSize }"></textarea>
             <i class="bi bi-check icon check-icon" @click="confirmEdit"></i>
             <i class="bi bi-x icon cancel-icon" @click="cancelEdit"></i>
         </div>
@@ -18,7 +19,8 @@
             return {
                 isEditing: false,
                 funnelDescription: this.Placeholder,
-                newFunnelDescription: this.Placeholder
+                newFunnelDescription: this.Placeholder,
+                inputSize : this.sizeInput
             };
         },
         props: {
@@ -26,6 +28,10 @@
                 type: String,
                 required: true
             },
+            sizeInput:{
+            type: String,
+            required:true
+            }
         },
         methods: {
             toggleEdit() {
@@ -52,15 +58,14 @@
         color: #1B1B2B;
         padding: 10px;
         display: inline-block;
-        box-sizing: border-box; /* To ensure padding is included in the element's width */
-        width: 340px; /* Adjust as needed to match the textarea width */
+        box-sizing: border-box;
+        width: 340px;
     }
 
     .form-control {
         font-size: 18px;
         padding: 10px;
-        box-sizing: border-box; /* To ensure padding is included in the element's width */
-        width: 100%; /* Ensure it takes the full width of the container */
+        box-sizing: border-box; 
         font-family: 'CerebriSansProRegular';
     }
 

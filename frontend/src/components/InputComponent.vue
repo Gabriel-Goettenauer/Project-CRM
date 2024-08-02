@@ -6,7 +6,11 @@
     </span>
 
     <div v-else class="input-wrapper">
-      <input :type="typeInput" v-model="newName" class="form-control input-with-icons" @keyup.enter="confirmEdit" @keyup.esc="cancelEdit">
+      <input :type="typeInput" v-model="newName" 
+      class="form-control input-with-icons" 
+      @keyup.enter="confirmEdit" 
+      @keyup.esc="cancelEdit"
+      :style="{ width: inputSize }">
       <i class="bi bi-x icon cancel-icon" @click="cancelEdit"></i>
       <i class="bi bi-check icon check-icon" @click="confirmEdit"></i>
     </div>
@@ -20,7 +24,8 @@ export default {
       isEditing: false,
       Name: this.Placeholder, 
       newName: this.Placeholder,
-      typeInput: this.InputType
+      typeInput: this.InputType,
+      inputSize: this.sizeInput
     }
   },
   props: {
@@ -32,6 +37,10 @@ export default {
       type: String,
       required: true,
     },
+    sizeInput:{
+      type: String,
+      required:true
+    }
   },
   methods: {
     toggleEdit() {
@@ -65,7 +74,6 @@ export default {
     font-size: 22px;
     padding: 10px 16px;
     box-sizing: border-box;
-    width: 100%;
     font-family: 'CerebriSansProRegular';
   }
 

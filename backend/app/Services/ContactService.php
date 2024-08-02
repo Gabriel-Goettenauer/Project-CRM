@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ContactRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ContactService
 {
@@ -25,8 +26,8 @@ class ContactService
 
     public function createContact(array $data)
     {
-        $this->updatePositionsOnCreate(); // Atualiza as posições antes de criar um novo contato
-        $data['position'] = 1; // Define a posição inicial do novo contato
+        $this->updatePositionsOnCreate();
+        $data['position'] = 0;
         return $this->contactRepository->create($data);
     }
 
@@ -43,7 +44,7 @@ class ContactService
     public function deleteContact($id)
     {
         $this->contactRepository->delete($id);
-        $this->reorderPositions(); // Reordena posições após excluir um contato
+        $this->reorderPositions();
     }
 
     public function updateStage($contactId, $stageId)
@@ -51,10 +52,27 @@ class ContactService
         $this->contactRepository->updateStage($contactId, $stageId);
     }
 
-    public function updatePosition($contactId, $position): void
+    public function updatePosition($stage_id, $new_position)
     {
-        $this->contactRepository->updatePosition($contactId, $position);
-        $this->reorderPositions(); // Reordena posições após atualizar uma posição
+        $contato = $this->contactRepository->findById($stage_id);
+        if (!$contato) {
+            throw new ModelNotFoundException('Contato não encontrado.');
+        }
+
+        $current_position = $contato->position;
+
+        if ($new_position == $current_position) {
+            return;
+        }
+
+        if ($new_position > $current_position) {
+            $this->contactRepository->updatePosition($current_position + 1, $new_position, '- 1');
+        } else {
+            $this->contactRepository->updatePosition($new_position, $current_position - 1, '+ 1');
+        }
+
+        $contato->position = $new_position;
+        $contato->save();
     }
 
     protected function updatePositionsOnCreate(): void
