@@ -52,7 +52,7 @@ class ContactRepository
         $contact->stage_id = $stageId;
         $contact->save();
     }
-
+  
     public function updatePosition($start, $end, $increment): void
     {
         Contact::whereBetween('position', [$start, $end])

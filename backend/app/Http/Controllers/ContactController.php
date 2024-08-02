@@ -76,6 +76,7 @@ class ContactController extends Controller
             'address' => 'required|string|max:255',
             'stage_id' => 'required|exists:stages,id',
             'position' => 'nullable|integer',
+
         ]);
 
         try {
