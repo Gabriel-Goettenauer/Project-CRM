@@ -1,5 +1,4 @@
 <?php
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FunnelController;
 use App\Http\Controllers\AuthController;
@@ -17,6 +16,7 @@ Route::middleware('auth:sanctum')->prefix('contacts')->group(function () {
     Route::get('/{id}', [ContactController::class, 'show'])->name('contacts.show');
     Route::put('/{id}', [ContactController::class, 'update'])->name('contacts.update');
     Route::put('/StageUpdate/{id}', [ContactController::class, 'updateStage'])->name('contacts.updateStage');
+    Route::put('/PositionUpdate/{id}', [ContactController::class, 'updatePosition'])->name('contacts.updatePosition');
     Route::delete('/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     Route::get('/by-stage', [ContactController::class, 'indexByStage'])->name('contacts.indexByStage');
 });

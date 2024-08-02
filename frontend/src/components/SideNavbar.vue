@@ -15,37 +15,36 @@
       <router-link :class="{'active-link': isActive('/')}" class="mt-2" to="">
         <i class="bi bi-telephone-outbound material-icons"></i>
         <span class="icon-text">Discadora</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/')}" class="mt-2" to="">
         <i class="bi bi-telephone-inbound material-icons"></i>
         <span class="icon-text">Receptivo</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/')}" to="">
         <i class="bi bi-chat-left material-icons"></i>
         <span class="icon-text">SMS</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/')}" to="">
         <i class="bi bi-globe material-icons"></i>
         <span class="icon-text">3C Voice</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/dashboard',`/stage/:id`)}" to="/dashboard">
         <i class="bi bi-bar-chart-steps material-icons"></i>
         <span class="icon-text">CRM</span>
-      </router-link><br>
-
+      </router-link>
       <div class="bottom-link">
         <router-link :class="{'active-link': isActive('/')}" to="/">
           <i class="bi bi-clipboard-data material-icons"></i>
           <span class="icon-text">Relatórios</span>
-        </router-link><br>
+        </router-link>
         <router-link :class="{'active-link': isActive('/')}" to="/">
           <i class="bi bi-gear-wide material-icons"></i>
           <span class="icon-text">Configurações</span>
-        </router-link><br>
+        </router-link>
         <router-link :class="{'active-link': isActive('/')}" to="/">
           <i class="bi bi-person-fill material-icons"></i>
-          <span class="icon-text">Usuario</span>
-        </router-link><br>
+          <span class="icon-text">{{ this.usuario }}</span>
+        </router-link>
       </div>
     </nav>
   </div>
@@ -53,14 +52,25 @@
 
 
 <script>
+import { getUser } from '@/services/ApiPrivateService'; 
+
 export default {
   name: 'SideNavbar',
   data() {
     return {
-      mini: true
+      mini: true,
+      usuario:''
     };
   },
   methods: {
+    async getInfo() {
+      try {
+        const userData = await getUser(this.userId);
+        console.log('User data:', userData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    },
     toggleSidebar() {
       const sidebar = document.getElementById("mySidebar");
       const main = document.getElementById("main");
@@ -82,7 +92,17 @@ export default {
     isActive(route) {
       return this.$route.path === route;
     }
-  }
+  },
+  computed: {
+    userId() {
+      return this.$store.state.userId;
+    },
+  },
+  created() {
+    if (this.userId) {
+      this.fetchUserData();
+    }
+  },
 }
 </script>
 
