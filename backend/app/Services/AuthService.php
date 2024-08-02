@@ -29,7 +29,7 @@ class AuthService
             return null;
         }
         
-        $user = $this->userRepository->findOrFailByEmail($credentials['email']);
+        $user = $this->userRepository->findByEmail($credentials['email']);
         return $user->createToken('auth_token')->plainTextToken;
     }
 

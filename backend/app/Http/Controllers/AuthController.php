@@ -90,4 +90,9 @@ class AuthController extends Controller
                     ? response()->json(['message' => __($status)], 200)
                     : response()->json(['error' => __($status)], 400);
     }
+
+    public function getUser(Request $request)
+    {
+        return response()->json($request->user());
+    }
 }

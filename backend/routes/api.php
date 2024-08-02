@@ -7,20 +7,18 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\StageController;
 
 // usuário autenticado
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'getUser'])->name('auth.user');
 
 // contatos
 Route::middleware('auth:sanctum')->prefix('contacts')->group(function () {
-    Route::get('/all', [ContactController::class, 'index'])->name('contacts.index');
-    Route::get('/', [ContactController::class, 'indexByStage'])->name('contacts.indexByStage'); // Ajustado para listar por estágio
+    Route::get('/', [ContactController::class, 'indexByStage'])->name('contacts.index');
+    Route::get('/all', [ContactController::class, 'index'])->name('contacts.indexAll');
     Route::post('/', [ContactController::class, 'store'])->name('contacts.store');
     Route::get('/{id}', [ContactController::class, 'show'])->name('contacts.show');
     Route::put('/{id}', [ContactController::class, 'update'])->name('contacts.update');
-    Route::put('/stage/{id}', [ContactController::class, 'updateStage'])->name('contacts.updateStage');
-    Route::put('/position/{id}', [ContactController::class, 'updatePosition'])->name('contacts.updatePosition'); // Nova rota para atualizar posição
+    Route::put('/StageUpdate/{id}', [ContactController::class, 'updateStage'])->name('contacts.updateStage');
     Route::delete('/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::get('/by-stage', [ContactController::class, 'indexByStage'])->name('contacts.indexByStage');
 });
 
 // etapas
@@ -32,7 +30,7 @@ Route::middleware('auth:sanctum')->prefix('stages')->group(function () {
     Route::delete('/{id}', [StageController::class, 'destroy']);
 });
 
-//  funis
+// funis
 Route::middleware('auth:sanctum')->prefix('funnels')->group(function () {
     Route::get('/', [FunnelController::class, 'index']);
     Route::post('/', [FunnelController::class, 'store']);
@@ -42,7 +40,7 @@ Route::middleware('auth:sanctum')->prefix('funnels')->group(function () {
     Route::get('/{id}/details', [FunnelController::class, 'showFunnelDetails']);
 });
 
-// autenticação 
+// autenticação
 Route::post('register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
