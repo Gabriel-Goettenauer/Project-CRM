@@ -20,15 +20,14 @@ class ContactController extends Controller
 
     public function index(Request $request)
     {
-        $perPage = $request->query('perPage', 15);
         $contacts = $this->contactService->getContacts();
+
         return response()->json($contacts);
     }
 
     public function indexByStage(Request $request)
     {
         $stageId = $request->input('stage_id');
-        $perPage = $request->query('perPage', 15);
         $contacts = $this->contactService->getContactsByStage($stageId);
         return response()->json($contacts);
     }
@@ -77,10 +76,14 @@ class ContactController extends Controller
             'value' => 'required|numeric',
             'address' => 'required|string|max:255',
             'stage_id' => 'required|exists:stages,id',
+            'position' => 'nullable|integer', // Permitir atualização de posição
         ]);
 
         try {
             $contact = $this->contactService->updateContact($id, $validated);
+            if (isset($validated['position'])) {
+                $this->contactService->updatePosition($id, $validated['position']);
+            }
             return response()->json($contact);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Contact not found'], 404);
@@ -88,7 +91,7 @@ class ContactController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
-    
+
     public function updateStage(Request $request, $id)
     {
         $validated = $request->validate([
@@ -109,4 +112,21 @@ class ContactController extends Controller
             return response()->json(['error' => 'Contact not found'], 404);
         }
     }
+
+    public function updatePosition(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'position' => 'required|integer',
+        ]);
+
+        try {
+            $this->contactService->updatePosition($id, $validated['position']);
+            return response()->json(['message' => 'Position updated successfully']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Contact not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
 }

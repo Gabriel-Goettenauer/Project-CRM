@@ -17,8 +17,17 @@ class FunnelController extends Controller
 
     public function index(Request $request)
     {
+        $userId = $request->query('user_id'); // Pega o user_id da query string
         $perPage = $request->query('perPage', 11); // Valor padrão de 11 por página, pode ser alterado na requisição
-        $funnels = $this->funnelService->getAllFunnels($perPage);
+
+        if ($userId) {
+            // Se user_id for fornecido, busca funis por user_id
+            $funnels = $this->funnelService->getFunnelsByUserId($userId, $perPage);
+        } else {
+            // Caso contrário, retorna todos os funis
+            $funnels = $this->funnelService->getAllFunnels($perPage);
+        }
+
         return response()->json($funnels);
     }
 
@@ -26,6 +35,7 @@ class FunnelController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'user_id' => 'required|exists:users,id', // Validação para user_id
         ]);
 
         $funnel = $this->funnelService->createFunnel($request->all());
@@ -47,6 +57,7 @@ class FunnelController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
+                'user_id' => 'sometimes|required|exists:users,id', // Validação opcional para user_id
             ]);
 
             $funnel = $this->funnelService->updateFunnel($id, $request->all());

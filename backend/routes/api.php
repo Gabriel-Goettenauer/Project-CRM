@@ -13,14 +13,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // contatos
 Route::middleware('auth:sanctum')->prefix('contacts')->group(function () {
-    Route::get('/', [ContactController::class, 'indexByStage'])->name('contacts.index');
-    Route::get('/all', [ContactController::class, 'index'])->name('contacts.indexAll');
+    Route::get('/all', [ContactController::class, 'index'])->name('contacts.index');
+    Route::get('/', [ContactController::class, 'indexByStage'])->name('contacts.indexByStage'); // Ajustado para listar por estágio
     Route::post('/', [ContactController::class, 'store'])->name('contacts.store');
     Route::get('/{id}', [ContactController::class, 'show'])->name('contacts.show');
     Route::put('/{id}', [ContactController::class, 'update'])->name('contacts.update');
-    Route::put('/StageUpdate/{id}', [ContactController::class, 'updateStage'])->name('contacts.updateStage');
+    Route::put('/stage/{id}', [ContactController::class, 'updateStage'])->name('contacts.updateStage');
+    Route::put('/position/{id}', [ContactController::class, 'updatePosition'])->name('contacts.updatePosition'); // Nova rota para atualizar posição
     Route::delete('/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
-    Route::get('/by-stage', [ContactController::class, 'indexByStage'])->name('contacts.indexByStage');
 });
 
 // etapas

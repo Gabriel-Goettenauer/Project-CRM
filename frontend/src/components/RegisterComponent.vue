@@ -28,6 +28,9 @@
             <p>Já tem uma conta ?</p>
             <p class="Login px-3"><router-link to="/login">Login</router-link></p>
         </div>
+        <!-- <pre>
+            {{ this.formData }}
+        </pre> -->
     </div>
 </div>
 </template>

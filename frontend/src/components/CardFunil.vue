@@ -3,6 +3,7 @@
         <div  class="card m-3" style="width: 18rem;" @click="goToStage()">
             <div class="card-body">
                 <div class="d-flex justify-content-between card-info">
+                    <p>{{card.id}}</p>
                     <h5 class="card-title">{{ card.name }}</h5>
                     <div class="icon-container">
                       <i class="bi bi-pencil-fill px-3" data-bs-toggle="modal" :data-bs-target="'#' + modaleditID" @click.stop></i>
@@ -39,8 +40,8 @@
             </div>
             <div class="modal-body">
               <div class="card p-2 m-2">
-                <InputComponent :Placeholder="card.name" InputType="text" class="p-1" @input-confirmed="updateFunnelName"/>
-                <TextAreaComponent class="p-1" :Placeholder="card.description" @textarea-confirmed="updateFunnelDescription"/>
+                <InputComponent :Placeholder="card.name" InputType="text" sizeInput="425px" class="p-1" @input-confirmed="updateFunnelName"/>
+                <TextAreaComponent class="p-1 overflow-auto" :Placeholder="card.description" @textarea-confirmed="updateFunnelDescription" sizeInput="400px"/>
               </div>
               <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btn-primary" type="button" @click="updateFunnel(card.id)">Atualizar Funil</button>
@@ -95,6 +96,7 @@ export default {
             try {
                 console.log(id);
                 await updateFunnel(id,this.formData);
+                await 
                 alert('Funil atualizado com sucesso');
                 window.location.reload(true);
             } catch (error) {

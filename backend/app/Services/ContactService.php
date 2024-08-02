@@ -3,76 +3,76 @@
 namespace App\Services;
 
 use App\Repositories\ContactRepository;
-use App\Models\Contact;
-use Illuminate\Database\Eloquent\Collection;
 
 class ContactService
 {
     protected $contactRepository;
-    protected $phoneNumberService;
 
-    public function __construct(ContactRepository $contactRepository, PhoneNumberService $phoneNumberService)
+    public function __construct(ContactRepository $contactRepository)
     {
         $this->contactRepository = $contactRepository;
-        $this->phoneNumberService = $phoneNumberService;
     }
 
-    public function getAllContacts($perPage = 15)
+    public function getContacts()
     {
         return $this->contactRepository->getAll();
     }
 
-    public function createContact(array $data): Contact
-    {
-        // Validar o número de telefone
-        if (!$this->phoneNumberService->validatePhoneNumber($data['ddd_location'], $data['phone'])) {
-            throw new \Exception('Número de telefone inválido.');
-        }
-
-        // Formatar o número de telefone
-        $data['phone'] = $this->phoneNumberService->formatPhoneNumber($data['ddd_location'], $data['phone']);
-
-        return $this->contactRepository->create($data);
-    }
-
-    public function getContactById($id): Contact
-    {
-        return $this->contactRepository->findById($id);
-    }
-
-    public function updateContact($id, array $data): Contact
-    {
-        // Validar o número de telefone
-        if (isset($data['ddd_location']) && isset($data['phone']) &&
-            !$this->phoneNumberService->validatePhoneNumber($data['ddd_location'], $data['phone'])) {
-            throw new \Exception('Número de telefone inválido.');
-        }
-
-        // Formatar o número de telefone
-        if (isset($data['ddd_location']) && isset($data['phone'])) {
-            $data['phone'] = $this->phoneNumberService->formatPhoneNumber($data['ddd_location'], $data['phone']);
-        }
-
-        return $this->contactRepository->update($id, $data);
-    }
-
-    public function deleteContact($id): void
-    {
-        $this->contactRepository->delete($id);
-    }
-
-    public function getContactsByStage($stageId): Collection
+    public function getContactsByStage($stageId)
     {
         return $this->contactRepository->getByStage($stageId);
     }
 
-    public function getContacts(): Collection
+    public function createContact(array $data)
     {
-        return $this->contactRepository->getAll();
+        $this->updatePositionsOnCreate(); // Atualiza as posições antes de criar um novo contato
+        $data['position'] = 0; // Define a posição inicial do novo contato
+        return $this->contactRepository->create($data);
+    }
+
+    public function getContactById($id)
+    {
+        return $this->contactRepository->findById($id);
+    }
+
+    public function updateContact($id, array $data)
+    {
+        return $this->contactRepository->update($id, $data);
+    }
+
+    public function deleteContact($id)
+    {
+        $this->contactRepository->delete($id);
+        $this->reorderPositions(); // Reordena posições após excluir um contato
     }
 
     public function updateStage($contactId, $stageId)
     {
         $this->contactRepository->updateStage($contactId, $stageId);
+    }
+
+    public function updatePosition($contactId, $position): void
+    {
+        $this->contactRepository->updatePosition($contactId, $position);
+        $this->reorderPositions(); // Reordena posições após atualizar uma posição
+    }
+
+    protected function updatePositionsOnCreate(): void
+    {
+        $contacts = $this->contactRepository->getAll();
+        foreach ($contacts as $contact) {
+            $contact->position++;
+            $contact->save();
+        }
+    }
+
+    protected function reorderPositions(): void
+    {
+        $contacts = $this->contactRepository->getAll()->sortBy('position');
+        $position = 1;
+        foreach ($contacts as $contact) {
+            $contact->position = $position++;
+            $contact->save();
+        }
     }
 }
