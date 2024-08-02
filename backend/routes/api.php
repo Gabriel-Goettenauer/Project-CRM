@@ -46,3 +46,6 @@ Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot-password');
 Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('auth.reset-password');
+
+// adicionar rota para obter informações do usuário logado
+Route::middleware('auth:sanctum')->get('/user', [AuthController::class, 'getUser'])->name('auth.getUser');
