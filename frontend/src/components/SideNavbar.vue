@@ -28,7 +28,7 @@
         <i class="bi bi-globe material-icons"></i>
         <span class="icon-text">3C Voice</span>
       </router-link><br>
-      <router-link :class="{'active-link': isActive('/dashboard','/stage/:id')}" to="/dashboard">
+      <router-link :class="{'active-link': isActive('/dashboard',`/stage/:id`)}" to="/dashboard">
         <i class="bi bi-bar-chart-steps material-icons"></i>
         <span class="icon-text">CRM</span>
       </router-link><br>
