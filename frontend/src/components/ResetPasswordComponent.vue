@@ -4,12 +4,6 @@
         <div class="Formulario mb-4">
             <label class="pt-3 pb-2">E-mail</label>
             <input class="form-control" type="email" placeholder="Digite seu e-mail">
-            <label class="pt-3 pb-2">Senha</label>
-            <div class="input-group mb-3">
-                <input :type="type" class="form-control" id="confirm-password" placeholder="Digite sua senha" 
-                v-model="formData.password"/>
-                <span class="input-group-text" id="basic-addon1" @click="showPassword()"><i :class="eyeType"></i></span>
-            </div>
         </div>
         <div class="d-flex justify-content-center mt-4">
             <button class="btn mt-2" type="button">Recuperar Senha</button>
