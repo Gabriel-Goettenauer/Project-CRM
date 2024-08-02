@@ -91,8 +91,14 @@ class AuthController extends Controller
                     : response()->json(['error' => __($status)], 400);
     }
 
-    public function getUser(Request $request)
+    public function getUser($id)
     {
-        return response()->json($request->user());
+        $user = $this->authService->findById($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        return response()->json($user);
     }
 }
