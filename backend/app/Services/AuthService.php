@@ -2,24 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepository;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class AuthService
 {
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     public function register(array $data)
     {
         $data['password'] = Hash::make($data['password']);
-        $user = $this->userRepository->create($data);
+        $user = User::create($data);
         return $user->createToken('auth_token')->plainTextToken;
     }
 
@@ -29,7 +22,7 @@ class AuthService
             return null;
         }
         
-        $user = $this->userRepository->findByEmail($credentials['email']);
+        $user = User::where('email', $credentials['email'])->firstOrFail();
         return $user->createToken('auth_token')->plainTextToken;
     }
 
@@ -53,5 +46,10 @@ class AuthService
                 ])->save();
             }
         );
+    }
+
+    public function findById($id)
+    {
+        return User::find($id);
     }
 }
