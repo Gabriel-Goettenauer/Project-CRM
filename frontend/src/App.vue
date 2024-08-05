@@ -1,11 +1,10 @@
 <template>
   <div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style>
 *::-webkit-scrollbar {
@@ -14,47 +13,47 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #F9FAFC;
+  background: #f9fafc;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #FFBD00;
+  background-color: #ffbd00;
   border-radius: 20px;
-  border: 3px solid #FFFFFF
+  border: 3px solid #ffffff;
 }
 
 @font-face {
-    font-family: 'CerebriSansProRegular';
-    src: url('@/assets/fonts/CerebriSansPro-Regular.ttf');
+  font-family: "CerebriSansProRegular";
+  src: url("@/assets/fonts/CerebriSansPro-Regular.ttf");
 }
-@font-face{
-  font-family: 'CerebriSansProLight';
-  src: url('@/assets/fonts/CerebriSansPro-Light.ttf');
+@font-face {
+  font-family: "CerebriSansProLight";
+  src: url("@/assets/fonts/CerebriSansPro-Light.ttf");
 }
-@font-face{
-  font-family: 'CerebriSansProBold';
-  src: url('@/assets/fonts/CerebriSansPro-Bold.ttf');
+@font-face {
+  font-family: "CerebriSansProBold";
+  src: url("@/assets/fonts/CerebriSansPro-Bold.ttf");
 }
 
 /* ==================================================== */
-@font-face{
-  font-family: 'RandomGrotesqueSpaciousBold';
-  src: url('@/assets/fonts/RG-SpaciousBold.ttf');
+@font-face {
+  font-family: "RandomGrotesqueSpaciousBold";
+  src: url("@/assets/fonts/RG-SpaciousBold.ttf");
 }
-@font-face{
-  font-family: 'RandomGrotesqueSpaciousLight';
-  src: url('@/assets/fonts/RG-SpaciousLight.ttf');
+@font-face {
+  font-family: "RandomGrotesqueSpaciousLight";
+  src: url("@/assets/fonts/RG-SpaciousLight.ttf");
 }
-@font-face{
-  font-family: 'RandomGrotesqueSpaciousMedium';
-  src: url('@/assets/fonts/RG-SpaciousMedium.ttf');
+@font-face {
+  font-family: "RandomGrotesqueSpaciousMedium";
+  src: url("@/assets/fonts/RG-SpaciousMedium.ttf");
 }
-@font-face{
-  font-family: 'RandomGrotesqueStandardLight';
-  src: url('@/assets/fonts/RG-StandardLight.ttf');
+@font-face {
+  font-family: "RandomGrotesqueStandardLight";
+  src: url("@/assets/fonts/RG-StandardLight.ttf");
 }
-@font-face{
-  font-family: 'RandomGrotesqueStandardMedium';
-  src: url('@/assets/fonts/RG-StandardMedium.ttf');
+@font-face {
+  font-family: "RandomGrotesqueStandardMedium";
+  src: url("@/assets/fonts/RG-StandardMedium.ttf");
 }
 </style>

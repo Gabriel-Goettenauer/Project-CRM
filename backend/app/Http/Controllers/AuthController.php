@@ -39,7 +39,7 @@ class AuthController extends Controller
         $currentDate = now()->toDateTimeString();
         return response()->json([
             'message' => 'Cadastro feito com sucesso',
-            'token' => $token, // Inclua o token na resposta
+            'token' => $token,
             'date' => $currentDate
         ], 201);
     }
@@ -64,14 +64,14 @@ class AuthController extends Controller
             'tokenable_id'  => $result['user']->id
         ]);
     }
-    
+
     public function logout(Request $request)
     {
         $this->authService->logout($request->user());
         return response()->json(['message' => 'Logout realizado com sucesso'], 200);
     }
 
-    
+
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);

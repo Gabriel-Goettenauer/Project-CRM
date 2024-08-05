@@ -16,8 +16,8 @@ class StageController extends Controller
 
     public function index(Request $request, $id)
     {
-    $stages = $this->stageService->getStagesByFunnel($id);
-    return response()->json($stages);
+        $stages = $this->stageService->getStagesByFunnel($id);
+        return response()->json($stages);
     }
 
     public function store(Request $request)
