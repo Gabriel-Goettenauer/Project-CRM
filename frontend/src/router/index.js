@@ -1,3 +1,4 @@
+// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -22,29 +23,45 @@ const router = createRouter({
       meta: { title: "Recuperar Senha" },
     },
     {
-      path: '/dashboard',
+      path: '/dashboard/:id',
       name: 'Dashboard',
       component: () => import("@/views/Dashboard.vue"),
-      meta: { title: "Dashboard" },
+      meta: { title: "Dashboard", requiresAuth: true },
     },
     {
       path: '/stage/:id',
       name: 'Etapas',
       component: () => import("../views/Stages.vue"),
-      meta: { title: "Etapas" },
+      meta: { title: "Etapas", requiresAuth: true },
     },
-    // {
-    // path: '/stage/',
-    // name: 'Etapas',
-    // component: () => import("../views/Stages.vue"),
-    // meta: { title: "Etapas" },
-    // },
+    {
+      path: '/home',
+      name: 'Home',
+      component:() => import("../views/Home.vue"),
+      meta: {title: "Home"},
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('../views/NotFound.vue'),
+      meta: { title: "404 - Page Not Found" },
+    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || "Vue";
-  next();
+  
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      next({ name: 'NotFound' })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 });
 
 export default router;

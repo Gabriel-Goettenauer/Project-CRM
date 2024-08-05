@@ -3,10 +3,6 @@
         <SideNavbar/>
         <div class="d-flex justify-content-between align-items-center"> 
             <h1 class="px-5 pt-3 pb-2">Dashboard</h1>
-<!--            <button type="button" class="btn addFunnel mx-5 mt-3 mb-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">-->
-<!--                <i class="bi bi-funnel-fill"></i>   -->
-<!--                Novo Funil-->
-<!--            </button>-->
           <button type="button" class="btn addFunnel mx-5 mt-3 mb-2" data-bs-toggle="modal" data-bs-target="#modalRight">
             <i class="bi bi-funnel-fill"></i>
             Novo Funil
@@ -26,7 +22,12 @@ export default {
         InputComponent,
         SideNavbar,
         DashboardFunis,
-    }
+    },
+    computed: {
+      id() {
+        return this.$route.params.id;
+      }
+    },
 }
 </script>
 

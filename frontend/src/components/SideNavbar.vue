@@ -15,49 +15,61 @@
       <router-link :class="{'active-link': isActive('/')}" class="mt-2" to="">
         <i class="bi bi-telephone-outbound material-icons"></i>
         <span class="icon-text">Discadora</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/')}" class="mt-2" to="">
         <i class="bi bi-telephone-inbound material-icons"></i>
         <span class="icon-text">Receptivo</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/')}" to="">
         <i class="bi bi-chat-left material-icons"></i>
         <span class="icon-text">SMS</span>
-      </router-link><br>
+      </router-link>
       <router-link :class="{'active-link': isActive('/')}" to="">
         <i class="bi bi-globe material-icons"></i>
         <span class="icon-text">3C Voice</span>
-      </router-link><br>
-      <router-link :class="{'active-link': isActive('/dashboard',`/stage/:id`)}" to="/dashboard">
+      </router-link>
+      <router-link :class="{'active-link': isActive(`/dashboard/${tokenableID}`)}" :to="`/dashboard/${tokenableID}`">
         <i class="bi bi-bar-chart-steps material-icons"></i>
         <span class="icon-text">CRM</span>
-      </router-link><br>
-
+      </router-link>
       <div class="bottom-link">
-        <router-link :class="{'active-link': isActive('/')}" to="/">
+        <router-link :class="{'active-link': isActive('/')}" to="">
           <i class="bi bi-clipboard-data material-icons"></i>
           <span class="icon-text">Relatórios</span>
-        </router-link><br>
-        <router-link :class="{'active-link': isActive('/')}" to="/">
+        </router-link>
+        <router-link :class="{'active-link': isActive('/')}" to="">
           <i class="bi bi-gear-wide material-icons"></i>
           <span class="icon-text">Configurações</span>
-        </router-link><br>
-        <router-link :class="{'active-link': isActive('/')}" to="/">
+        </router-link>
+        <router-link :class="{'active-link': isActive('/')}" to="" data-bs-toggle="dropdown">
           <i class="bi bi-person-fill material-icons"></i>
-          <span class="icon-text">Usuario</span>
-        </router-link><br>
-      </div>
+          <span class="icon-text">{{ user.name }}</span>
+        </router-link>
+        <router-link :class="{'active-link': isActive('/')}" to="" data-bs-toggle="dropdown">
+          <i class="bi bi-box-arrow-left material-icons"></i>
+          <span class="icon-text">Sair</span>
+        </router-link>
+      </div> 
     </nav>
   </div>
 </template>
 
-
 <script>
+import {getUser} from "@/services/ApiPrivateService.js";
+
 export default {
   name: 'SideNavbar',
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      mini: true
+      user:{},
+      mini: true,
+      tokenableID: localStorage.getItem('tokenableID')
     };
   },
   methods: {
@@ -81,9 +93,17 @@ export default {
     },
     isActive(route) {
       return this.$route.path === route;
-    }
-  }
-}
+    },
+    async getInfo() {
+      try {
+        const response = await getUser(this.getTokenableId);
+        this.user = response.data;
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    },
+  },
+};
 </script>
 
 <style>
@@ -149,6 +169,10 @@ span {
 
 .bottom-link {
   margin-top: auto;
+}
+
+.bi-box-arrow-left{
+  color: #FF4444;
 }
 </style>
 

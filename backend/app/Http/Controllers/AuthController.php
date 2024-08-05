@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+
+use App\Models\User;
+
 
 class AuthController extends Controller
 {
@@ -42,53 +46,64 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
         ]);
 
-        $token = $this->authService->login($request->only('email', 'password'));
+        $result = $this->authService->login($credentials);
 
-        if (!$token) {
+        if ($result === null) {
             return response()->json(['message' => 'Usuário não encontrado'], 401);
         }
 
         return response()->json([
             'message'       => 'Login realizado com sucesso',
-            'access_token'  => $token,
-            'token_type'    => 'Bearer'
+            'access_token'  => $result['token'],
+            'token_type'    => 'Bearer',
+            'tokenable_id'  => $result['user']->id
         ]);
     }
-
+    
     public function logout(Request $request)
     {
         $this->authService->logout($request->user());
         return response()->json(['message' => 'Logout realizado com sucesso'], 200);
     }
 
+    
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-        $status = $this->authService->sendResetLink($request->only('email'));
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
         return $status === Password::RESET_LINK_SENT
-                    ? response()->json(['message' => __($status)], 200)
-                    : response()->json(['error' => __($status)], 400);
+            ? response()->json(['message' => __($status)])
+            : response()->json(['message' => __($status)], 400);
     }
 
-    public function resetPassword(Request $request)
+    public function reset(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
             'token' => 'required|string',
-            'password' => 'required|string|confirmed|min:8',
+            'email' => 'required|email',
+            'password' => 'required|string|confirmed',
         ]);
 
-        $status = $this->authService->resetPassword($request->only('email', 'password', 'password_confirmation', 'token'));
 
-        return $status == Password::PASSWORD_RESET
-                    ? response()->json(['message' => __($status)], 200)
-                    : response()->json(['error' => __($status)], 400);
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado.'], 404);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Senha atualizada com sucesso.']);
     }
 
     public function getUser($id)

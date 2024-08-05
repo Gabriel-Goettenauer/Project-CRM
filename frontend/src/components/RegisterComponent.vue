@@ -28,9 +28,6 @@
             <p>Já tem uma conta ?</p>
             <p class="Login px-3"><router-link to="/login">Login</router-link></p>
         </div>
-        <!-- <pre>
-            {{ this.formData }}
-        </pre> -->
     </div>
 </div>
 </template>
@@ -61,7 +58,7 @@ export default {
                     alert('Cadastro feito com Sucesso');
                     this.formData = {};
                     this.errors = {};
-                    // this.$router.push({ name: 'Login' });  
+                    this.$router.push('/login');
                 }
             } catch (error) {
                 if (error.response && error.response.data.errors) {
@@ -76,7 +73,6 @@ export default {
                     } else {
                         errorMessage = 'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.';
                     }
-                
                     alert(errorMessage);
                 } else {
                     alert('Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.');

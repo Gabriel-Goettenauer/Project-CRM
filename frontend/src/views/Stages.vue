@@ -3,12 +3,11 @@
         <SideNavbar/>
         <div class="d-flex justify-content-between align-items-center"> 
             <h1 class="px-5 pt-3 pb-2">Etapas</h1>
-<!--            <h1 class="px-5 pt-3 pb-2">{{ funnel.name }}</h1>-->
-          <button type="button" class="btn addStage mx-5 mt-3 mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <!-- <h1 class="px-5 pt-3 pb-2">{{ funnel.name }}</h1> -->
+          <button type="button" class="btn addStage mx-5 mt-3 mb-2" data-bs-toggle="modal" data-bs-target="#modalNewStage">
             <i class="bi bi-file-plus-fill px-2"></i>
             Nova Etapa
           </button>
-
         </div>
         <StagesDashboard/>
     </div> 
@@ -25,15 +24,12 @@ export default {
         SideNavbar,
         StagesDashboard,
     },
-    computed: {
-      id() {
-        return this.$route.params.id;
+    data(){
+      return {
+        funnel:{},
       }
     },
-    created() {
-      console.log('ID da rota:', this.id);
-    }
-}
+  }
 </script>
 
 <style scoped>
@@ -52,6 +48,9 @@ export default {
     border-radius: 10px;
     width: 261px;
     height: 40px;
+    }
+    .btn{
+      font-weight: bold;
     }
     .addStage:hover{
     background-color: #2336C7;

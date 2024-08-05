@@ -3,11 +3,10 @@
         <h1 class="d-flex justify-content-center mt-5 mb-3 pb-2">Login</h1>
         <div class="Formulario">
             <label class="pt-3 pb-2">E-mail</label>
-                <input class="form-control" type="email" placeholder="Digite seu e-mail" v-model="formData.email">
+            <input class="form-control" type="email" placeholder="Digite seu e-mail" v-model="formData.email">
             <label class="pt-3 pb-2">Senha</label>
             <div class="input-group  mb-3">
-                <input :type="type" class="form-control" id="confirm-password" placeholder="Digite sua senha" 
-                v-model="formData.password"/>
+                <input :type="type" class="form-control" id="confirm-password" placeholder="Digite sua senha" v-model="formData.password"/>
                 <span class="input-group-text" id="basic-addon1" @click="showPassword()"><i :class="eyeType"></i></span>
             </div>
         </div>
@@ -15,7 +14,7 @@
             <button class="btn" type="button" @click="postFormLogin()">Entrar</button>
         </div>
         <div class="d-flex justify-content-center mt-4">
-        <p class="forgotpassword"><router-link to="/reset_password">Esqueceu sua senha ?</router-link></p>
+            <p class="forgotpassword"><router-link to="/reset_password">Esqueceu sua senha ?</router-link></p>
         </div>
         <div class="d-flex justify-content-center ">
             <p>É novo por aqui?</p>
@@ -31,94 +30,99 @@
 import { postLogin } from '@/services/HttpService';
 import { mapActions } from 'vuex';
 
-    export default {
-        name:"LoginComponent",
-        data(){
-            return{
-                formData:{
-                email:'',
-                password:''
+export default {
+    name: "LoginComponent",
+    data() {
+        return {
+            formData: {
+                email: '',
+                password: ''
             },
-                type: 'password',
-                eyeType: 'bi bi-eye-fill'
-            }
-        },
-        methods:{
-            ...mapActions(['setToken']),
-            
-            async postFormLogin(){
-                try {
-                    const response = await postLogin(this.formData);
-                    const token = response.data.access_token;
-                    this.setToken(token);
-                    localStorage.setItem('token', token);
-                    this.$router.push('/dashboard');
-                } catch (error) {
-                    if (error.response && error.response.data.errors) {
-                        this.errors = error.response.data.errors;
-            
-                        let errorMessage = '';
+            type: 'password',
+            eyeType: 'bi bi-eye-fill'
+        };
+    },
+    methods: {
+        ...mapActions(['setToken', 'setTokenableId']),
+        
+        async postFormLogin() {
+            try {
+                const response = await postLogin(this.formData);
+                const token = response.data.access_token;
+                const tokenableId = response.data.tokenable_id;
 
-                        if (this.errors.email) {
-                            errorMessage = 'E-mail Incorreto';
-                        } else if (this.errors.senha) {
-                            errorMessage = 'Senha Incorreta';
-                        } else {
-                            errorMessage = 'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.';
-                        }
-                        alert(errorMessage);
+                this.setToken(token);
+                this.setTokenableId(tokenableId);
+
+                localStorage.setItem('token', token);
+                localStorage.setItem('tokenableID',tokenableId)
+                
+                this.$router.push('/home');
+            } catch (error) {
+                if (error.response && error.response.data.errors) {
+                    this.errors = error.response.data.errors;
+
+                    let errorMessage = '';
+
+                    if (this.errors.email) {
+                        errorMessage = 'E-mail Incorreto';
+                    } else if (this.errors.senha) {
+                        errorMessage = 'Senha Incorreta';
+                    } else {
+                        errorMessage = 'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente.';
+                    }
+                    alert(errorMessage);
                 } else {
                     alert('Ocorreu um erro ao tentar realizar o login. Tente novamente.');
                 }
-                }
-                console.log(token);
-            },
-            showPassword() {
-                if(this.type === 'password') {
-                    this.type = 'text'
-                    this.eyeType = 'bi bi-eye-slash-fill'
-                } else {
-                    this.type = 'password'
-                    this.eyeType= 'bi bi-eye-fill'
-                }
+            }
+        },
+        showPassword() {
+            if (this.type === 'password') {
+                this.type = 'text';
+                this.eyeType = 'bi bi-eye-slash-fill';
+            } else {
+                this.type = 'password';
+                this.eyeType = 'bi bi-eye-fill';
             }
         }
     }
+};
 </script>
 
 <style scoped>
-.Card{
+.Card {
     margin: 46px;
     background-color: #F9FAFC;
-    width:541px;
+    width: 541px;
     height: 543px;
     border-radius: 24px;
     border: 1px solid #E1E9F4;
 }
-.Formulario{
+.Formulario {
     padding: 0 106px;
 }
-label{
+label {
     color: #373753;
     font-size: 16px;
     font-family: 'CerebriSansProRegular';
 }
-h1{
+h1 {
     font-family: 'RandomGrotesqueSpaciousBold';
     font-size: 40px;
-    color:#1B1B2B;
+    color: #1B1B2B;
 }
-input{
+input {
     font-family: 'CerebriSansProRegular';
     --bs-body-color: #72777A;
 }
-input::placeholder{
+input::placeholder {
     font-family: 'CerebriSansProLight';
     font-size: 16px;
-    color:#72777A;
+    color: #72777A;
     --bs-body-color: #72777A;
 }
-button{
+button {
     background-color: #3333FF;
     color: #FFFFFF;
     font-family: 'CerebriSansProBold';
@@ -126,26 +130,26 @@ button{
     width: 327px;
     height: 48px;
 }
-button:hover{
+button:hover {
     background-color: #2336C7;
     color: #FFFFFF;
 }
-p{
+p {
     font-family: 'RandomGrotesqueStandardLight';
     color: #000000;
     font-size: 20px;
 }
-.forgotpassword{
+.forgotpassword {
     font-family: 'CerebriSansProLight';
     font-size: 14px;
     color: #3333FF;
 }
-.Cadastrese{
+.Cadastrese {
     font-family: 'RandomGrotesqueStandardMedium';
     color: #000000;
 }
-.Cadastrese:hover{
+.Cadastrese:hover {
     transition: 0.5s;
-    font-size:21px;
+    font-size: 21px;
 }
 </style>

@@ -3,16 +3,24 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class AuthService
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function register(array $data)
     {
         $data['password'] = Hash::make($data['password']);
-        $user = User::create($data);
+        $user = $this->userRepository->create($data);
         return $user->createToken('auth_token')->plainTextToken;
     }
 
@@ -21,9 +29,14 @@ class AuthService
         if (!Auth::attempt($credentials)) {
             return null;
         }
-        
-        $user = User::where('email', $credentials['email'])->firstOrFail();
-        return $user->createToken('auth_token')->plainTextToken;
+
+        $user = $this->userRepository->findOrFailByEmail($credentials['email']);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return [
+            'token' => $token,
+            'user' => $user
+        ];
     }
 
     public function logout($user)
@@ -33,12 +46,12 @@ class AuthService
 
     public function sendResetLink(array $data)
     {
-        return Password::sendResetLink($data);
+        return User::sendResetLink($data);
     }
 
     public function resetPassword(array $data)
     {
-        return Password::reset(
+        return User::reset(
             $data,
             function ($user, $password) {
                 $user->forceFill([
@@ -50,6 +63,6 @@ class AuthService
 
     public function findById($id)
     {
-        return User::find($id);
+        return $this->userRepository->findById($id);
     }
 }

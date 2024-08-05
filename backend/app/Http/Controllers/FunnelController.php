@@ -15,16 +15,13 @@ class FunnelController extends Controller
         $this->funnelService = $funnelService;
     }
 
-    public function index(Request $request)
+    public function index($userId, Request $request)
     {
-        $userId = $request->query('user_id'); // Pega o user_id da query string
-        $perPage = $request->query('perPage', 11); // Valor padrão de 11 por página, pode ser alterado na requisição
+        $perPage = 11; 
 
         if ($userId) {
-            // Se user_id for fornecido, busca funis por user_id
             $funnels = $this->funnelService->getFunnelsByUserId($userId, $perPage);
         } else {
-            // Caso contrário, retorna todos os funis
             $funnels = $this->funnelService->getAllFunnels($perPage);
         }
 
