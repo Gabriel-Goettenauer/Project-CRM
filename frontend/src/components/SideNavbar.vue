@@ -28,49 +28,51 @@
         <i class="bi bi-globe material-icons"></i>
         <span class="icon-text">3C Voice</span>
       </router-link>
-      <router-link :class="{'active-link': isActive('/dashboard',`/stage/:id`)}" to="/dashboard">
+      <router-link :class="{'active-link': isActive(`/dashboard/${tokenableID}`)}" :to="`/dashboard/${tokenableID}`">
         <i class="bi bi-bar-chart-steps material-icons"></i>
         <span class="icon-text">CRM</span>
       </router-link>
       <div class="bottom-link">
-        <router-link :class="{'active-link': isActive('/')}" to="/">
+        <router-link :class="{'active-link': isActive('/')}" to="">
           <i class="bi bi-clipboard-data material-icons"></i>
           <span class="icon-text">Relatórios</span>
         </router-link>
-        <router-link :class="{'active-link': isActive('/')}" to="/">
+        <router-link :class="{'active-link': isActive('/')}" to="">
           <i class="bi bi-gear-wide material-icons"></i>
           <span class="icon-text">Configurações</span>
         </router-link>
-        <router-link :class="{'active-link': isActive('/')}" to="/">
+        <router-link :class="{'active-link': isActive('/')}" to="" data-bs-toggle="dropdown">
           <i class="bi bi-person-fill material-icons"></i>
-          <span class="icon-text">{{ this.usuario }}</span>
+          <span class="icon-text">{{ user.name }}</span>
         </router-link>
-      </div>
+        <router-link :class="{'active-link': isActive('/')}" to="" data-bs-toggle="dropdown">
+          <i class="bi bi-box-arrow-left material-icons"></i>
+          <span class="icon-text">Sair</span>
+        </router-link>
+      </div> 
     </nav>
   </div>
 </template>
 
-
 <script>
-import { getUser } from '@/services/ApiPrivateService'; 
+import {getUser} from "@/services/ApiPrivateService.js";
 
 export default {
   name: 'SideNavbar',
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
+      user:{},
       mini: true,
-      usuario:''
+      tokenableID: localStorage.getItem('tokenableID')
     };
   },
   methods: {
-    async getInfo() {
-      try {
-        const userData = await getUser(this.userId);
-        console.log('User data:', userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    },
     toggleSidebar() {
       const sidebar = document.getElementById("mySidebar");
       const main = document.getElementById("main");
@@ -91,19 +93,17 @@ export default {
     },
     isActive(route) {
       return this.$route.path === route;
-    }
-  },
-  computed: {
-    userId() {
-      return this.$store.state.userId;
+    },
+    async getInfo() {
+      try {
+        const response = await getUser(this.getTokenableId);
+        this.user = response.data;
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     },
   },
-  created() {
-    if (this.userId) {
-      this.fetchUserData();
-    }
-  },
-}
+};
 </script>
 
 <style>
@@ -169,6 +169,10 @@ span {
 
 .bottom-link {
   margin-top: auto;
+}
+
+.bi-box-arrow-left{
+  color: #FF4444;
 }
 </style>
 

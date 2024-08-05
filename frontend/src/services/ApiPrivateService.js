@@ -17,9 +17,11 @@ http.interceptors.request.use(config => {
     }, error => {
     return Promise.reject(error);
 });
-
-    export const getFunnels = async() =>{
-        return await http.get('funnels')
+    export const getFunnelsShow =async(id)=>{
+        return await http.get(`funnels/${id}/show`)
+    }
+    export const getFunnels = async(id) =>{
+        return await http.get(`funnels/${id}`,id)
     }
     export const deleteFunnel = async(id) =>{
         return await http.delete(`/funnels/${id}`)
@@ -49,6 +51,6 @@ http.interceptors.request.use(config => {
         return await http.post ('contacts',card)
     }
     export const getUser = async(id) =>{
-        return await http.post(`user/${id}`)
+        return await http.get(`user/${id}`)
     }
 export default http;

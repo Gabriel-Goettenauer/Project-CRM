@@ -32,20 +32,24 @@ Route::middleware('auth:sanctum')->prefix('stages')->group(function () {
 
 // funis
 Route::middleware('auth:sanctum')->prefix('funnels')->group(function () {
-    Route::get('/', [FunnelController::class, 'index']);
+    Route::get('/{id}', [FunnelController::class, 'index']);
     Route::post('/', [FunnelController::class, 'store']);
-    Route::get('/{id}', [FunnelController::class, 'show']);
+    Route::get('/{id}/show', [FunnelController::class, 'show']);
     Route::put('/{id}', [FunnelController::class, 'update']);
     Route::delete('/{id}', [FunnelController::class, 'destroy']);
     Route::get('/{id}/details', [FunnelController::class, 'showFunnelDetails']);
 });
 
 // autenticação
-Route::post('register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot-password');
-Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('auth.reset-password');
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/resetPasswordEmail/{token}', [AuthController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/resetPassword', [AuthController::class, 'reset'])->name('auth.resetPassword');
+Route::post('/forgotPassword', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
+
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
+Route::post('/reset-password', [AuthController::class, 'reset'])->name('password.reset');
 
 // adicionar rota para obter informações do usuário logado
 Route::middleware('auth:sanctum')->get('/user/{id}', [AuthController::class, 'getUser'])->name('auth.getUser');

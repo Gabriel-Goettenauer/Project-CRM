@@ -14,9 +14,9 @@ class FunnelService
         $this->funnelRepository = $funnelRepository;
     }
 
-    public function getAllFunnels($perPage = 11): LengthAwarePaginator
+    public function getAllFunnels($perPage = 11)
     {
-        return $this->funnelRepository->getAll($perPage);
+        return $this->funnelRepository->findAll($perPage);
     }
 
     public function createFunnel(array $data): Funnel
@@ -24,7 +24,7 @@ class FunnelService
         return $this->funnelRepository->create($data);
     }
 
-    public function getFunnelById($id): Funnel
+    public function getFunnelById($id,$perPage = 11): Funnel
     {
         return $this->funnelRepository->findById($id);
     }
@@ -49,9 +49,8 @@ class FunnelService
         return $this->funnelRepository->searchByName($name, $perPage);
     }
 
-    // Novo método para buscar funis por user_id
-    public function getFunnelsByUserId($userId, $perPage = 11): LengthAwarePaginator
+    public function getFunnelsByUserId($userId, $perPage = 11)
     {
-        return $this->funnelRepository->getByUserId($userId, $perPage);
+        return $this->funnelRepository->findByUserId($userId, $perPage);
     }
 }

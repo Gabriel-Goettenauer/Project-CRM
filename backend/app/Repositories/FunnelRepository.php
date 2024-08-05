@@ -44,9 +44,12 @@ class FunnelRepository
         $funnel = Funnel::findOrFail($id);
         return $funnel->stages()->paginate($perPage);
     }
-
-    // Novo método para buscar funis por user_id
-    public function getByUserId($userId, $perPage = 11): LengthAwarePaginator
+    
+    public function findAll($perPage = 11)
+    {
+        return Funnel::paginate($perPage);
+    }
+    public function findByUserId($userId, $perPage = 11)
     {
         return Funnel::where('user_id', $userId)->paginate($perPage);
     }

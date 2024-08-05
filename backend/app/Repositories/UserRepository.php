@@ -20,14 +20,9 @@ class UserRepository
     {
         return User::where('email', $email)->firstOrFail();
     }
+
+    public function findById($id)
+    {
+        return User::find($id);
+    }
 }
-
-
-/**
- * Lembrar dos Padroes de Projeto das aulas da Faculdade. 
- * MVC
- * Controller sem lógica, Repósitory parte de banco, Services para a parte lógica da aplicação.
- * Prática comum em arquitetura de software,
- * especialmente quando se utiliza o padrão de projeto Repository.
- * 
- */

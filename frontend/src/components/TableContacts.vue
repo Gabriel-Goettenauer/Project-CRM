@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="mainTable m-2">
     <div class="line" :style="{ backgroundColor: table.user_color }"></div>
     <div class="mx-3 my-2 d-flex align-items-center justify-content-between">
@@ -79,6 +80,7 @@
       <button class="btn btn-primary" type="button" @click="postContact">Criar Contato</button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -161,7 +163,7 @@ export default {
           this.getInfo();
         }
       } catch (error) {
-        // console.error('Error:', error);
+        console.error('Error:', error);
       }
     },
     updateContactName(newName) {

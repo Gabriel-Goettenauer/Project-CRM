@@ -3,10 +3,11 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     token: '',
-    userID:'',
+    tokenableId: '',
   },
   getters: {
     getToken: (state) => state.token,
+    getTokenableId: (state) => state.tokenableId, 
   },
   mutations: {
     setToken(state, token) {
@@ -15,8 +16,8 @@ export default createStore({
     clearToken(state) {
       state.token = null;
     },
-    setUserId(state, userId) {
-      state.userId = userId;
+    setTokenableId(state, tokenableId) { 
+      state.tokenableId = tokenableId;
     },
   },
   actions: {
@@ -26,11 +27,8 @@ export default createStore({
     clearToken({ commit }) {
       commit('clearToken');
     },
-    login({ commit }, userData) {
-      return loginUser(userData).then(response => {
-        commit('setUserId', response.data.id);
-        return response;
-      });
+    setTokenableId({ commit }, tokenableId) {
+      commit('setTokenableId', tokenableId);
     },
   },
   modules: {},
