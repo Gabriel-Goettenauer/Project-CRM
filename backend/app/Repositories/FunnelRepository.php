@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Funnel;
@@ -13,7 +14,7 @@ class FunnelRepository
 
     public function create(array $data): Funnel
     {
-        return Funnel::create($data);   
+        return Funnel::create($data);
     }
 
     public function findById($id): Funnel
@@ -44,7 +45,7 @@ class FunnelRepository
         $funnel = Funnel::findOrFail($id);
         return $funnel->stages()->paginate($perPage);
     }
-    
+
     public function findAll($perPage = 11)
     {
         return Funnel::paginate($perPage);

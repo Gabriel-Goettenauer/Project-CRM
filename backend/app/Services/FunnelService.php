@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Repositories\FunnelRepository;
@@ -24,7 +25,7 @@ class FunnelService
         return $this->funnelRepository->create($data);
     }
 
-    public function getFunnelById($id,$perPage = 11): Funnel
+    public function getFunnelById($id, $perPage = 11): Funnel
     {
         return $this->funnelRepository->findById($id);
     }

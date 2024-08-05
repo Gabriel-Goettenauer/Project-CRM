@@ -17,7 +17,7 @@ class FunnelController extends Controller
 
     public function index($userId, Request $request)
     {
-        $perPage = 11; 
+        $perPage = 11;
 
         if ($userId) {
             $funnels = $this->funnelService->getFunnelsByUserId($userId, $perPage);
@@ -32,7 +32,7 @@ class FunnelController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id', // Validação para user_id
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $funnel = $this->funnelService->createFunnel($request->all());
@@ -54,7 +54,7 @@ class FunnelController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
-                'user_id' => 'sometimes|required|exists:users,id', // Validação opcional para user_id
+                'user_id' => 'sometimes|required|exists:users,id',
             ]);
 
             $funnel = $this->funnelService->updateFunnel($id, $request->all());
@@ -76,7 +76,7 @@ class FunnelController extends Controller
 
     public function showFunnelDetails($id, Request $request)
     {
-        $perPage = $request->query('perPage', 15); // Valor padrão de 15 por página, pode ser alterado na requisição
+        $perPage = $request->query('perPage', 15);
         try {
             $funnelDetails = $this->funnelService->getFunnelDetails($id, $perPage);
             return response()->json($funnelDetails);
@@ -92,8 +92,7 @@ class FunnelController extends Controller
         ]);
 
         $name = $request->input('name');
-        $perPage = $request->query('perPage', 15); // Valor padrão de 15 por página, pode ser alterado na requisição
-
+        $perPage = $request->query('perPage', 15);
         $funnels = $this->funnelService->searchFunnelsByName($name, $perPage);
         return response()->json($funnels);
     }

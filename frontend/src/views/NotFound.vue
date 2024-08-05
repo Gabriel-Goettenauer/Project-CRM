@@ -7,8 +7,7 @@
   </div>
 </template>
 
-<script>
-</script> 
+<script></script>
 
 <style scoped>
 .main-notFound {
@@ -16,7 +15,7 @@
   background-size: cover;
   background-position: center center;
   height: 100vh;
-  font-family: 'RandomGrotesqueSpaciousBold';
+  font-family: "RandomGrotesqueSpaciousBold";
   font-size: 50px;
 }
 </style>
